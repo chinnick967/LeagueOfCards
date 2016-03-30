@@ -1,6 +1,29 @@
 #GameCanvas {
 
-width: 1000px;
-height: 600px;
+position: absolute;
 
+}
+
+#GameBackground {
+	
+position: absolute;
+	
+}
+
+#GameContainer {
+	
+position: absolute;
+left: 0px;
+top: 0px;
+	
+}
+
+#djsona {
+	
+position: absolute;
+top: 530px;
+left: 8px;
+width: 30px;
+height: 30px;
+	
 }
