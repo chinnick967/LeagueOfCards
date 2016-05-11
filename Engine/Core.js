@@ -4,3 +4,608 @@ General Engine Functions
 
 
 */
+
+function drawcard(core, card, width, left, top, rotation, hover) {
+
+	var canvas = document.getElementById('GameCanvas');
+	var ctx = canvas.getContext("2d");
+	
+	if (typeof(card) != 'undefined' && card != '') {
+	
+		var asset = card.asset;
+		var type = card.type;
+		
+		// set the card height based off the width
+		var height = width * 2.66;
+		// 2.75377054728
+		// save the canvas before rotating
+		ctx.save();
+		// hover effect for drawn card
+		if (core.information.xoffset >= left && core.information.xoffset <= left + width && core.information.yoffset >= top && core.information.yoffset <= top + height && hover != 0) {
+		
+			ctx.shadowColor = 'white';
+			ctx.shadowBlur = 15;
+		
+		}
+		
+		// translate to the center of the card
+		ctx.translate(core.information.pwidth * (left + width/2), core.information.pheight * (top + height/2));
+		
+		// rotate the canvas for the card
+		ctx.rotate(rotation * Math.PI/180);
+	
+		// translate back
+		ctx.translate(-core.information.pwidth * (left + width/2), -core.information.pheight * (top + height/2));
+		
+		//
+		ctx.fillRect(core.information.pwidth * (left + .5), core.information.pheight * (top + .5), core.information.pwidth * (width - 1), core.information.pheight * (height - 1));
+		ctx.fillRect(core.information.pwidth * (left + .5), core.information.pheight * (top + .5), core.information.pwidth * (width - 1), core.information.pheight * (height - 1));
+		
+		// draw the card
+		ctx.drawImage(asset, core.information.pwidth * left, core.information.pheight * top, core.information.pwidth * width, core.information.pheight * height);
+		
+			// draw the card values
+			ctx.fillStyle = 'white';
+			
+			ctx.font = core.information.pwidth * width / 8.333 + "px myFont";
+			
+		if (type != 'Spell') {
+			// card cost
+			if (card.cost < 10) {
+				ctx.fillText(card.cost, core.information.pwidth * (left + (width * .84)), core.information.pheight * (top + (height * .114)));
+			} else {
+				ctx.fillText(card.cost, core.information.pwidth * (left + (width * .8)), core.information.pheight * (top + (height * .114)));
+			}
+		} else {
+			if (card.cost < 10) {
+				ctx.fillText(card.cost, core.information.pwidth * (left + (width * .86)), core.information.pheight * (top + (height * .945)));
+			} else {
+				ctx.fillText(card.cost, core.information.pwidth * (left + (width * .82)), core.information.pheight * (top + (height * .945)));
+			}
+		}
+			
+		if (type != 'Spell') {
+		
+			// card attack
+			ctx.font= core.information.pwidth * width / 9.375 + "px myFont";
+			if (card.attack < 10) {
+				ctx.fillText(card.attack, core.information.pwidth * (left + (width * .76)), core.information.pheight * (top + (height * .483)));
+			} else {
+				ctx.fillText(card.attack, core.information.pwidth * (left + (width * .72)), core.information.pheight * (top + (height * .483)));
+			}
+			
+			// card defense
+			ctx.font= core.information.pwidth * width / 9.375 + "px myFont";
+			if (card.defense < 10) {
+				ctx.fillText(card.defense, core.information.pwidth * (left + (width * .165)), core.information.pheight * (top + (height * .483)));
+			} else {
+				ctx.fillText(card.defense, core.information.pwidth * (left + (width * .126)), core.information.pheight * (top + (height * .483)));
+			}
+			
+			// card armor
+			ctx.font= core.information.pwidth * width / 12.5 + "px myFont";
+			if (card.armor < 10) {
+				ctx.fillText(card.armor, core.information.pwidth * (left + (width * .125)), core.information.pheight * (top + (height * .184)));
+			} else {
+				ctx.fillText(card.armor, core.information.pwidth * (left + (width * .1)), core.information.pheight * (top + (height * .184)));
+			}
+			
+			// card magic resist
+			ctx.font= core.information.pwidth * width / 12.5 + "px myFont";
+			if (card.magicresist < 10) {
+				ctx.fillText(card.magicresist, core.information.pwidth * (left + (width * .125)), core.information.pheight * (top + (height * .289)));
+			} else {
+				ctx.fillText(card.magicresist, core.information.pwidth * (left + (width * .1)), core.information.pheight * (top + (height * .289)));
+			}
+		}
+		
+		// restore the canvas after rotating	
+		ctx.restore();
+	
+	}
+
+}
+
+function drawhand(core) {
+
+	// hover area to bring up hand
+	if (core.information.xoffset >= 46 && core.information.xoffset <= 53 && core.information.yoffset >= 90 && core.information.yoffset <= 100) {
+	
+		core.information.focus = 'hand';
+	
+	} else if (core.information.focus == 'hand' && core.information.xoffset >= 15.5 && core.information.xoffset <= 80 && core.information.yoffset >= 56 && core.information.yoffset <= 100) {
+	
+		core.information.focus = 'hand';
+	
+	} else if (core.information.focus == 'hand') {
+	
+		core.information.focus = 'board';
+	
+	}
+	// animations
+	handanimations(core);
+	
+	if (core.information.focus == 'hand') {
+	
+		if (core.information.player == 1) {
+			
+			drawcard(core, core.player1.hand[0], 15, 21 + core.animation.h1left, 70 + core.animation.handtop + core.animation.h1top, -35, core.animation.h1hover); // 1
+			drawcard(core, core.player1.hand[1], 15, 28 + core.animation.h2left, 63 + core.animation.handtop + core.animation.h2top, -25, core.animation.h2hover); // 2
+			drawcard(core, core.player1.hand[2], 15, 35 + core.animation.h3left, 59 + core.animation.handtop + core.animation.h3top, -15, core.animation.h3hover); // 3
+			drawcard(core, core.player1.hand[3], 15, 42 + core.animation.h4left, 59 + core.animation.handtop + core.animation.h4top, 0, core.animation.h4hover); // 4
+			drawcard(core, core.player1.hand[4], 15, 49 + core.animation.h5left, 61.5 + core.animation.handtop + core.animation.h5top, 15, core.animation.h5hover); // 5
+			drawcard(core, core.player1.hand[5], 15, 55 + core.animation.h6left, 66 + core.animation.handtop + core.animation.h6top, 25, core.animation.h6hover); // 6
+			drawcard(core, core.player1.hand[6], 15, 60 + core.animation.h7left, 73 + core.animation.handtop + core.animation.h7top, 35, core.animation.h7hover); // 7
+		
+		} else {
+		
+			drawcard(core, core.player2.hand[0], 15, 21 + core.animation.h1left, 70 + core.animation.handtop + core.animation.h1top, -35, core.animation.h1hover); // 1
+			drawcard(core, core.player2.hand[1], 15, 28 + core.animation.h2left, 63 + core.animation.handtop + core.animation.h2top, -25, core.animation.h2hover); // 2
+			drawcard(core, core.player2.hand[2], 15, 35 + core.animation.h3left, 59 + core.animation.handtop + core.animation.h3top, -15, core.animation.h3hover); // 3
+			drawcard(core, core.player2.hand[3], 15, 42 + core.animation.h4left, 59 + core.animation.handtop + core.animation.h4top, 0, core.animation.h4hover); // 4
+			drawcard(core, core.player2.hand[4], 15, 49 + core.animation.h5left, 61.5 + core.animation.handtop + core.animation.h5top, 15, core.animation.h5hover); // 5
+			drawcard(core, core.player2.hand[5], 15, 55 + core.animation.h6left, 66 + core.animation.handtop + core.animation.h6top, 25, core.animation.h6hover); // 6
+			drawcard(core, core.player2.hand[6], 15, 60 + core.animation.h7left, 73 + core.animation.handtop + core.animation.h7top, 35, core.animation.h7hover); // 7
+		
+		}
+	
+	}
+
+}
+
+function handanimations(core) {
+
+	//set all hand animation vars first time around and reset vars when hand isnt open
+	if (typeof(core.animation.handcounter) == 'undefined' || core.information.focus != 'hand') {
+		core.animation.handcounter = 0;
+		core.animation.handtop = 15;
+		
+		core.animation.h1top = 0;
+		core.animation.h1left = 0;
+		core.animation.h1hover = 0;
+		core.animation.h2top = 0;
+		core.animation.h2left = 0;
+		core.animation.h2hover = 0;
+		core.animation.h3top = 0;
+		core.animation.h3left = 0;
+		core.animation.h3hover = 0;
+		core.animation.h4top = 0;
+		core.animation.h4left = 0;
+		core.animation.h4hover = 0;
+		core.animation.h5top = 0;
+		core.animation.h5left = 0;
+		core.animation.h5hover = 0;
+		core.animation.h6top = 0;
+		core.animation.h6left = 0;
+		core.animation.h6hover = 0;
+		core.animation.h7top = 0;
+		core.animation.h7left = 0;
+		core.animation.h7hover = 0;
+	}
+	
+	// check how many cards are in your hand
+	var amount;
+	
+	if (core.information.player == 1) {
+			amount = core.player1.hand.length;
+		} else {
+			amount = core.player2.hand.length;
+		}
+		
+	var h1left = 27.3;
+	var h2left = 34;
+	var h3left = 41.7;
+	var h4left = 48.6;
+	var h5left = 55.8;
+	var h6left = 62.6;
+
+        var handlength = gethandlength(core);
+        
+        if (handlength == 1) {
+		h1left += 10;
+        } else if (handlength == 2) {
+        	h2left += 10;
+        } else if (handlength == 3) {
+                h3left += 7;
+        } else if (handlength == 4) {
+        	h4left += 8;
+        } else if (handlength == 5) {
+        	h5left += 9;
+        } else if (handlength == 6) {
+        	h6left += 10;
+        }
+	
+	// top adjustment for hand animation
+	if (core.information.focus == 'hand' && core.animation.handcounter <= 8) {
+		core.animation.handcounter += 1;
+		core.animation.handtop -= 2;
+	} else if (core.information.focus == 'hand' && core.animation.handcounter > 8 && core.animation.handcounter < 13) {
+		core.animation.handcounter += 1;
+		core.animation.handtop += 1;
+	}
+	
+	// variable to prevent higher card selection
+	var selected = 0;
+	
+	// animation for raising hovered cards
+	if (core.information.xoffset >= 18 && core.information.xoffset <= h1left && core.information.yoffset >= 56 && core.information.yoffset <= 100 && core.information.focus == 'hand' && selected == 0) {
+		core.animation.h1top = -5;
+		core.animation.h1left = -2;
+		core.animation.h1hover = 1;
+		selected = 1;
+		
+			if (core.information.player == 1) {
+				core.information.cardfocus = core.player1.hand[0];
+				previewcard(core, core.player1.hand[0]);
+			} else {
+				core.information.cardfocus = core.player2.hand[0];
+				previewcard(core, core.player2.hand[0]);
+			}
+		
+			core.information.currenthandselection = 0;
+		
+	} else {
+		core.animation.h1top = 0;
+		core.animation.h1left = 0;
+		core.animation.h1hover = 0;
+	}
+	
+	if (core.information.xoffset > 27.3 && core.information.xoffset <= h2left && core.information.yoffset >= 56 && core.information.yoffset <= 100 && core.information.focus == 'hand' && selected == 0) {
+		core.animation.h2top = -5;
+		core.animation.h2left = -2;
+		core.animation.h2hover = 1;
+		selected = 1;
+		
+			
+			if (core.information.player == 1) {
+				core.information.cardfocus = core.player1.hand[1];
+				previewcard(core, core.player1.hand[1]);
+			} else {
+				core.information.cardfocus = core.player2.hand[1];
+				previewcard(core, core.player2.hand[1]);
+			}
+		
+			core.information.currenthandselection = 1;
+		
+	} else {
+		core.animation.h2top = 0;
+		core.animation.h2left = 0;
+		core.animation.h2hover = 0;
+	}
+	
+	if (core.information.xoffset > 34 && core.information.xoffset <= h3left && core.information.yoffset >= 56 && core.information.yoffset <= 100 && core.information.focus == 'hand' && selected == 0) {
+		core.animation.h3top = -5;
+		core.animation.h3left = -1;
+		core.animation.h3hover = 1;
+		selected = 1;
+		
+			
+			if (core.information.player == 1) {
+				core.information.cardfocus = core.player1.hand[2];
+				previewcard(core, core.player1.hand[2]);
+			} else {
+				core.information.cardfocus = core.player2.hand[2];
+				previewcard(core, core.player2.hand[2]);
+			}
+		
+			core.information.currenthandselection = 2;
+		
+	} else {
+		core.animation.h3top = 0;
+		core.animation.h3left = 0;
+		core.animation.h3hover = 0;
+	}
+	
+	if (core.information.xoffset > 41.7 && core.information.xoffset <= h4left && core.information.yoffset >= 56 && core.information.yoffset <= 100 && core.information.focus == 'hand' && selected == 0) {
+		core.animation.h4top = -5;
+		core.animation.h4left = 0;
+		core.animation.h4hover = 1;
+		selected = 1;
+		
+			
+			if (core.information.player == 1) {
+				core.information.cardfocus = core.player1.hand[3];
+				previewcard(core, core.player1.hand[3]);
+			} else {
+				core.information.cardfocus = core.player2.hand[3];
+				previewcard(core, core.player2.hand[3]);
+			}
+		
+			core.information.currenthandselection = 3;
+		
+	} else {
+		core.animation.h4top = 0;
+		core.animation.h4left = 0;
+		core.animation.h4hover = 0;
+	}
+	
+	if (core.information.xoffset > 48.6 && core.information.xoffset <= h5left && core.information.yoffset >= 56 && core.information.yoffset <= 100 && core.information.focus == 'hand' && selected == 0) {
+		core.animation.h5top = -5;
+		core.animation.h5left = 1;
+		core.animation.h5hover = 1;
+		selected = 1;
+		
+			
+			if (core.information.player == 1) {
+				core.information.cardfocus = core.player1.hand[4];
+				previewcard(core, core.player1.hand[4]);
+			} else {
+				core.information.cardfocus = core.player2.hand[4];
+				previewcard(core, core.player2.hand[4]);
+			}
+		
+			core.information.currenthandselection = 4;
+		
+	} else {
+		core.animation.h5top = 0;
+		core.animation.h5left = 0;
+		core.animation.h5hover = 0;
+	}
+	
+	if (core.information.xoffset > 55.8 && core.information.xoffset <= h6left && core.information.yoffset >= 56 && core.information.yoffset <= 100 && core.information.focus == 'hand' && selected == 0) {
+		core.animation.h6top = -5;
+		core.animation.h6left = 2;
+		core.animation.h6hover = 1;
+		selected = 1;
+		
+			
+			if (core.information.player == 1) {
+				core.information.cardfocus = core.player1.hand[5];
+				previewcard(core, core.player1.hand[5]);
+			} else {
+				core.information.cardfocus = core.player2.hand[5];
+				previewcard(core, core.player2.hand[5]);
+			}
+
+			core.information.currenthandselection = 5;
+		
+	} else {
+		core.animation.h6top = 0;
+		core.animation.h6left = 0;
+		core.animation.h6hover = 0;
+	}
+	
+	if (core.information.xoffset > 62.6 && core.information.xoffset <= 79 && core.information.yoffset >= 56 && core.information.yoffset <= 100 && core.information.focus == 'hand' && selected == 0) {
+		core.animation.h7top = -5;
+		core.animation.h7left = 2;
+		core.animation.h7hover = 1;
+		selected = 1;
+		
+			
+			if (core.information.player == 1) {
+				core.information.cardfocus = core.player1.hand[6];
+				previewcard(core, core.player1.hand[6]);
+			} else {
+				core.information.cardfocus = core.player2.hand[6];
+				previewcard(core, core.player2.hand[6]);
+			}
+		
+			core.information.currenthandselection = 6;
+		
+	} else {
+		core.animation.h7top = 0;
+		core.animation.h7left = 0;
+		core.animation.h7hover = 0;
+	}
+	
+	dragcard(core);
+
+}
+
+function previewcard(core, card) {
+
+	if (card != '' && typeof(card) != 'undefined') {
+		drawcard(core, card, 20, 40, 1, 0, 0);
+	}
+}
+
+function dragcard(core) {
+
+	var canvas = document.getElementById('GameCanvas');
+	var ctx = canvas.getContext("2d");
+	
+	if (core.information.focus == 'hand' && core.information.mousedown == 1 && (core.information.dragcard == '' || typeof(core.information.dragcard) == 'undefined')) {
+	
+		core.information.dragcard = core.information.cardfocus;
+		core.information.focus = 'board';
+	
+	} else if (core.information.mousedown == 0 && core.information.dragcard != '' && typeof(core.information.dragcard) != 'undefined') {
+	
+		playcard(core, core.information.dragcard);
+		core.information.dragcard = '';
+		
+	}
+
+	if (core.information.dragcard != '' && typeof(core.information.dragcard) != 'undefined') {
+	
+		ctx.save();
+		ctx.globalAlpha = 0.5;
+		drawcard(core, core.information.dragcard, 8, core.information.xoffset - 4, core.information.yoffset - (8 * 2.66 / 2), 0, 0);
+		ctx.restore();
+		
+	}
+	
+}
+
+function playcard(core, card) {
+	// need to add check for gold
+	if (core.information.player == 1 && core.information.currentslothover >= 6 && core.information.currentslothover <= 10 && card.type != 'Spell') {
+	
+		// remove card from hand
+		removecardfromhand(core);
+		// add card to position on board
+                addtoboard(core, card);
+	
+		console.log(card.name + ' has been played in slot ' + core.information.currentslothover);
+	
+	} else if (core.information.player == 2 && core.information.currentslothover >= 16 && core.information.currentslothover <= 20 && card.type != 'Spell') {
+	
+		// remove card from hand
+		removecardfromhand(core);
+		// add card to position on board
+                addtoboard(core, card);
+	
+		console.log(card.name + ' has been played in slot ' + core.information.currentslothover);
+	
+	}
+
+}
+
+function addtoboard (core, card) {
+
+     switch(core.information.currentslothover) {
+          case 1:
+             core.board.s1 = card;
+             break;
+          case 2:
+             core.board.s2 = card;
+             break;
+          case 3:
+             core.board.s3 = card;
+             break;
+          case 4:
+             core.board.s4 = card;
+             break;
+          case 5:
+             core.board.s5 = card;
+             break;
+          case 6:
+             core.board.s6 = card;
+             break;
+          case 7:
+             core.board.s7 = card;
+             break;
+          case 8:
+             core.board.s8 = card;
+             break;
+          case 9:
+             core.board.s9 = card;
+             break;
+          case 10:
+             core.board.s10 = card;
+             break;
+          case 11:
+             core.board.s11 = card;
+             break;
+          case 12:
+             core.board.s12 = card;
+             break;
+          case 13:
+             core.board.s13 = card;
+             break;
+          case 14:
+             core.board.s14 = card;
+             break;
+          case 15:
+             core.board.s15 = card;
+             break;
+          case 16:
+             core.board.s16 = card;
+             break;
+          case 17:
+             core.board.s17 = card;
+             break;
+          case 18:
+             core.board.s18 = card;
+             break;
+          case 19:
+             core.board.s19 = card;
+             break;
+          case 20:
+             core.board.s20 = card;
+             break;
+          default:
+             // nothing
+          }
+
+}
+
+function gethandlength(core) {
+
+     if (core.information.player == 1) {
+          return core.player1.hand.length;
+     } else {
+          return core.player2.hand.length;
+      }
+
+}
+
+function removecardfromhand(core) {
+
+	if (core.information.player == 1) {
+		core.player1.hand[core.information.currenthandselection] = '';
+	} else {
+		core.player2.hand[core.information.currenthandselection] = '';
+	}
+
+}
+
+function previewboardcard(core) {
+
+	switch(core.information.currentslothover) {
+          case 1:
+             previewcard(core, core.board.s1);
+             break;
+          case 2:
+             previewcard(core, core.board.s2);
+             break;
+          case 3:
+             previewcard(core, core.board.s3);
+             break;
+          case 4:
+             previewcard(core, core.board.s4);
+             break;
+          case 5:
+             previewcard(core, core.board.s5);
+             break;
+          case 6:
+             previewcard(core, core.board.s6);
+             console.log('test');
+             break;
+          case 7:
+             previewcard(core, core.board.s7);
+             break;
+          case 8:
+             previewcard(core, core.board.s8);
+             break;
+          case 9:
+             previewcard(core, core.board.s9);
+             break;
+          case 10:
+             previewcard(core, core.board.s10);
+             break;
+          case 11:
+             previewcard(core, core.board.s11);
+             break;
+          case 12:
+             previewcard(core, core.board.s12);
+             break;
+          case 13:
+             previewcard(core, core.board.s13);
+             break;
+          case 14:
+             previewcard(core, core.board.s14);
+             break;
+          case 15:
+             previewcard(core, core.board.s15);
+             break;
+          case 16:
+             previewcard(core, core.board.s16);
+             break;
+          case 17:
+             previewcard(core, core.board.s17);
+             break;
+          case 18:
+             previewcard(core, core.board.s18);
+             break;
+          case 19:
+             previewcard(core, core.board.s19);
+             break;
+          case 20:
+             previewcard(core, core.board.s20);
+             break;
+          default:
+             // nothing
+          }
+
+}

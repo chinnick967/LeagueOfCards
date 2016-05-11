@@ -1,3 +1,16 @@
+@font-face {
+	
+font-family: myFont;
+src: url(Assets/trebuchet_ms.ttf);
+	
+}
+
+body {
+	
+background-image: url('Assets/clientbackground.jpg');
+	
+}
+
 #GameCanvas {
 
 position: absolute;
@@ -13,8 +26,17 @@ position: absolute;
 #GameContainer {
 	
 position: absolute;
+width: 1000px;
+height: 562px;
 left: 0px;
-top: 0px;
+right: 0px;
+margin-left: auto;
+margin-right: auto;
+top: 150px;
+-webkit-box-shadow: 0px 0px 13px 0px rgba(0,0,0,0.75);
+-moz-box-shadow: 0px 0px 13px 0px rgba(0,0,0,0.75);
+box-shadow: 0px 0px 13px 0px rgba(0,0,0,0.75);
+display: none;
 	
 }
 
@@ -26,4 +48,150 @@ left: 8px;
 width: 30px;
 height: 30px;
 	
+}
+
+#navigation {
+
+position: absolute;
+left: 0px;
+right: 0px;
+top: 50px;
+margin-left: auto;
+margin-right: auto;
+width: 1000px;
+height: 50px;
+	
+}
+
+.button {
+	
+position: relative;
+width: 130px;
+height: 50px;
+background-color: #282828;
+color: white;
+margin-right: 50px;
+-webkit-box-shadow: 0px 0px 13px 0px rgba(0,0,0,0.75);
+-moz-box-shadow: 0px 0px 13px 0px rgba(0,0,0,0.75);
+box-shadow: 0px 0px 13px 0px rgba(0,0,0,0.75);
+border-radius: 5px;
+text-align: center;
+line-height: 50px;
+font-family: myFont;
+font-size: 22px;
+float: left;
+	
+}
+
+.button:hover {
+	
+cursor: pointer;
+height: 55px;
+top: -2.5px;
+line-height: 55px;
+	
+}
+
+.container {
+	
+position: absolute;
+width: 1000px;
+height: 562px;
+left: 0px;
+right: 0px;
+margin-left: auto;
+margin-right: auto;
+top: 150px;
+-webkit-box-shadow: 0px 0px 13px 0px rgba(0,0,0,0.75);
+-moz-box-shadow: 0px 0px 13px 0px rgba(0,0,0,0.75);
+box-shadow: 0px 0px 13px 0px rgba(0,0,0,0.75);
+	
+}
+
+#QueueContainer {
+
+background-image: url('PageAssets/queuebackground.jpg');
+z-index: 2;
+	
+}
+	
+.noselect {
+	
+-webkit-touch-callout: none; /* iOS Safari */
+-webkit-user-select: none;   /* Chrome/Safari/Opera */
+-khtml-user-select: none;    /* Konqueror */
+-moz-user-select: none;      /* Firefox */
+-ms-user-select: none;       /* IE/Edge */
+user-select: none;           /* non-prefixed version, currently
+							  not supported by any browser */
+}
+	
+
+#playbutton {
+	
+position: absolute;
+top: 50px;
+left: 0px;
+right: 0px;
+margin-left: auto;
+margin-right: auto;
+width: 200px;
+height: 50px;
+background-color: #236167;
+text-align: center;
+font-family: myFont;
+line-height: 50px;
+font-size: 22px;
+color: white;
+-webkit-box-shadow: 0px 0px 13px 0px rgba(0,0,0,0.75);
+-moz-box-shadow: 0px 0px 13px 0px rgba(0,0,0,0.75);
+box-shadow: 0px 0px 13px 0px rgba(0,0,0,0.75);
+	
+}
+
+#playbutton:hover {
+	
+cursor: pointer;
+opacity: .8;
+	
+}
+
+#playbutton:active {
+	
+-webkit-box-shadow: inset 0px 0px 11px 0px rgba(0,0,0,0.75);
+-moz-box-shadow: inset 0px 0px 11px 0px rgba(0,0,0,0.75);
+box-shadow: inset 0px 0px 11px 0px rgba(0,0,0,0.75);
+	
+}
+
+#matchtimer {
+
+position: absolute;
+width: 100%;
+text-align: center;
+top: 120px;
+color: rgba(150, 193, 241, 0.9);
+
+font-family: myFont;
+font-size: 20px;
+display: none;
+
+}
+
+#loadingbar {
+
+position: absolute;
+top: 150px;
+left: 0px;
+right: 0px;
+margin-left: auto;
+margin-right: auto;
+width: 0px;
+height: 20px;
+background-color: rgba(114, 113, 231, 0.6);
+-webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+-moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+border-radius: 15px;
+
 }

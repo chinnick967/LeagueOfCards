@@ -3,23 +3,34 @@
 <head>
 <link rel="stylesheet" type="text/css" href="GameClientCSS.css">
 
-<script src="http://code.jquery.com/jquery-2.2.2.min.js" integrity="sha256-36cp2Co+/62rEAAYHLmRCPIych47CvdM+uTBJwSzWjI=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-2.2.2.min.js" integrity="sha256-36cp2Co+/62rEAAYHLmRCPIych47CvdM+uTBJwSzWjI=" crossorigin="anonymous"></script>
 <script type="text/javascript" src="Engine/GameLoad.js"></script>
 <script type="text/javascript" src="Engine/Core.js"></script>
 <script type="text/javascript" src="Engine/Sound.js"></script>
 <script type="text/javascript" src="Engine/Mouse.js"></script>
 <script type="text/javascript" src="Engine/GameComponents.js"></script>
 <script type="text/javascript" src="Engine/Loader.js"></script>
+<script type="text/javascript" src="Engine/Queue.js"></script>
+<script type="text/javascript" src="Engine/Animations.js"></script>
 
 </head>
 
-<body onload='init()'>
-
-<div id='GameContainer'>
+<body>
+<div id='navigation'>
+	<div id='playtab' class='button'>Play</div>
+	<div id='packstab' class='button'>Packs</div>
+	<div id='decktab' class='button'>Decks</div>
+</div>
+<div id='QueueContainer' class='container noselect'>
+	<div id='playbutton'>Play</div>
+	<div id='matchtimer'>Match Found!</div>
+	<div id='loadingbar'></div>
+</div>
+<div id='GameContainer' class='container'>
 	<video id='GameBackground' width="1000" autoplay loop>
 		<source src="Assets/GameBackground.mp4" type="video/mp4">
 	</video>
-	<img id='djsona' src="Assets/djsona.gif" />
+	<img id='djsona' src="Assets/djsona2.gif" />
 	<canvas id='GameCanvas' width='1000px' height='562px'></canvas>
 </div>
 

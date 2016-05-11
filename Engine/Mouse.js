@@ -13,5 +13,15 @@ function mouseinit(core) {
 		});
 
 	$('#GameCanvas').css( 'cursor', 'url(Assets/cursor.png), auto' );
+	
+	$("#GameCanvas").mousedown(function(){
+	    core.information.mousedown = 1;
+	    core.information.mouseup = 0;
+	});
+	
+	$("#GameCanvas").mouseup(function(){
+	    core.information.mousedown = 0;
+	    core.information.mouseup = 1;
+	});
 
 }
