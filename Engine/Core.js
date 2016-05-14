@@ -436,7 +436,6 @@ function playcard(core, card) {
 		// add card to position on board
                 addtoboard(core, card);
 	
-		console.log(card.name + ' has been played in slot ' + core.information.currentslothover);
 	
 	} else if (core.information.player == 2 && core.information.currentslothover >= 16 && core.information.currentslothover <= 20 && card.type != 'Spell') {
 	
@@ -444,8 +443,6 @@ function playcard(core, card) {
 		removecardfromhand(core);
 		// add card to position on board
                 addtoboard(core, card);
-	
-		console.log(card.name + ' has been played in slot ' + core.information.currentslothover);
 	
 	}
 
@@ -560,7 +557,6 @@ function previewboardcard(core) {
              break;
           case 6:
              previewcard(core, core.board.s6);
-             console.log('test');
              break;
           case 7:
              previewcard(core, core.board.s7);

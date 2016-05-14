@@ -23,8 +23,8 @@ core.player2.icon,
 'Assets/goldstack.png',
 'Assets/yellowcard.png'
 ];
-// assets array plus one for loading the player information and plus 8 for loading cards plus 1 for each hand plus one for setting gold
-totalload += gamecomponents.length + 1 + 8 + 2 + 1;
+// assets array plus one for loading the player information and plus 8 for loading cards plus 1 for each hand plus one for setting gold plus 1 for gameinfo/settings
+totalload += gamecomponents.length + 1 + 8 + 2 + 1 + 1;
 
 	for (var i = 0; i < gamecomponents.length; i++) {
 		
@@ -42,14 +42,14 @@ totalload += gamecomponents.length + 1 + 8 + 2 + 1;
 	
 	loadplayer(core, playerID, gamecomponents);
 	
-	// load the game cards
-	loadcards(core);
-	
 	// prepare the game board
 	boardprep(core);
 	
 	// set the player gold amount
 	setgold(core);
+	
+	// set players hands count
+	sethandamount(core);
 }
 
 function addtoassets(core, current, img) {
@@ -81,8 +81,27 @@ function loadplayer(core, playerID, gamecomponents) {
 		core.information.player = jsonresult.player;
 		loadedassets++;
 		
+			// get game info
+			getgameinfo(core);
+			
+			// load the game cards
+			loadcards(core);
+		
 	});
 
+}
+
+function getgameinfo(core) {
+	
+	$.post('Engine/ServerScripts/GameInfo.php', {gameID: core.information.gameid}, function(result){
+		
+		jsonresult = JSON.parse(result);
+		core.information.player1ID = jsonresult.player1;
+		core.information.player2ID = jsonresult.player2;
+		loadedassets++;
+		
+	});
+	
 }
 
 function loadprogress(core) {
@@ -254,4 +273,11 @@ function setgold(core) {
 	
 	loadedassets++;
 
+}
+
+function sethandamount(core) {
+	
+	core.player1.handlength = 3;
+	core.player2.handlength = 4;
+	
 }

@@ -5,6 +5,20 @@ src: url(Assets/trebuchet_ms.ttf);
 	
 }
 
+@font-face {
+	
+font-family: comicFont;
+src: url(Assets/fightingspirit.ttf);
+	
+}
+
+@font-face {
+	
+font-family: action;
+src: url(Assets/action.ttf);
+	
+}
+
 body {
 	
 background-image: url('Assets/clientbackground.jpg');

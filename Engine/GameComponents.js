@@ -11,6 +11,7 @@ function drawComponents(core) {
 	drawHand(core);
 	drawButtons(core);
 	drawboard(core);
+	drawnames(core);
 	
 }
 
@@ -150,9 +151,37 @@ function drawTimer(core) {
 var canvas = document.getElementById('GameCanvas');
 var ctx = canvas.getContext("2d");
 
+	core.information.turn = 2;
+	core.information.timer = 15;
+
 	ctx.shadowBlur = 0;
-	ctx.drawImage(core.assets.bluetimer, core.information.pwidth * 42.5, 0, core.information.pwidth * 15, core.information.pheight * 22);
 	
+	// timer background
+	ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
+	ctx.beginPath();
+	ctx.arc(core.information.pwidth * 50, core.information.pheight * 11.3, core.information.pwidth * 4.3, 0, 2 * Math.PI);
+	ctx.fill();
+	
+	ctx.shadowColor = 'black';
+	ctx.shadowBlur = 20;
+	
+	if (core.information.turn == 1) {
+		ctx.drawImage(core.assets.bluetimer, core.information.pwidth * 42.5, 0, core.information.pwidth * 15, core.information.pheight * 22);
+	} else {
+		ctx.drawImage(core.assets.redtimer, core.information.pwidth * 42.5, 0, core.information.pwidth * 15, core.information.pheight * 22);
+	}
+	ctx.shadowBlur = 0;
+	ctx.globalAlpha = .7;
+	// set the font values
+	ctx.fillStyle = 'white';
+	ctx.font = core.information.pwidth * 4 + "px comicFont";
+	
+	// measure text length
+	var textlength = ctx.measureText(core.information.timer).width;
+	
+	// draw the timer text
+	ctx.fillText(core.information.timer, core.information.pwidth * 49.6 - textlength / 2, core.information.pheight * 14.5);
+	ctx.globalAlpha = 1;
 }
 
 function drawHandIcon(core) {
@@ -405,7 +434,7 @@ function drawstats(core) {
 
 var canvas = document.getElementById('GameCanvas');
 var ctx = canvas.getContext("2d");
-
+	// stat container
 	ctx.beginPath();
 	ctx.moveTo(core.information.pwidth * 34, core.information.pheight * 11);
 	ctx.lineTo(core.information.pwidth * 45.2, core.information.pheight * 11);
@@ -424,6 +453,7 @@ var ctx = canvas.getContext("2d");
 
 	drawtowers(core);
 	drawstaticons(core);
+	drawstatnumbers(core);
 
 }
 
@@ -487,4 +517,59 @@ var ctx = canvas.getContext("2d");
         ctx.arc(core.information.pwidth * 56, core.information.pheight * 4, core.information.pwidth * 1.2, 0, 2 * Math.PI);
         ctx.stroke();
 
+}
+
+function drawstatnumbers(core) {
+	
+var canvas = document.getElementById('GameCanvas');
+var ctx = canvas.getContext("2d");
+		// variable to track text length of stats
+		var slength;
+
+		ctx.fillStyle = 'white';
+		ctx.font= core.information.pwidth * 1.4 + "px myFont";
+		
+		// player 1 stats
+		slength = ctx.measureText(core.player1.gold).width / 2;
+		ctx.fillText(core.player1.gold, core.information.pwidth * 36 - slength, core.information.pheight * 4.85);
+		
+		slength = ctx.measureText(core.player1.goldincome).width / 2;
+		ctx.fillText(core.player1.goldincome, core.information.pwidth * 39 - slength, core.information.pheight * 4.85);
+		
+		slength = ctx.measureText(core.player1.handlength).width / 2;
+		ctx.fillText(core.player1.handlength, core.information.pwidth * 44 - slength, core.information.pheight * 4.85);
+		
+		// player 2 stats
+		slength = ctx.measureText(core.player2.gold).width / 2;
+		ctx.fillText(core.player2.gold, core.information.pwidth * 64 - slength, core.information.pheight * 4.85);
+		
+		slength = ctx.measureText(core.player2.goldincome).width / 2;
+		ctx.fillText(core.player2.goldincome, core.information.pwidth * 61 - slength, core.information.pheight * 4.85);
+		
+		slength = ctx.measureText(core.player2.handlength).width / 2;
+		ctx.fillText(core.player2.handlength, core.information.pwidth * 56 - slength, core.information.pheight * 4.85);
+	
+}
+
+function drawnames(core) {
+	
+var canvas = document.getElementById('GameCanvas');
+var ctx = canvas.getContext("2d");
+
+	var name1 = core.information.player1ID.toUpperCase();
+	var name2 = core.information.player2ID.toUpperCase();
+	
+		// player 1 name
+		ctx.fillStyle = 'white';
+		ctx.font= core.information.pwidth * .7 + "px action";
+		var name1adjust = ctx.measureText(name1).width / 2;
+		ctx.fillText(name1, core.information.pwidth * 19 - name1adjust, core.information.pheight * 2.3);
+		
+		// player 2 name
+		// player 1 name
+		ctx.fillStyle = 'white';
+		ctx.font= core.information.pwidth * .7 + "px action";
+		var name2adjust = ctx.measureText(name2).width / 2;
+		ctx.fillText(name2, core.information.pwidth * 81 - name2adjust, core.information.pheight * 2.3);
+	
 }
