@@ -23,8 +23,13 @@ core.player2.icon,
 'Assets/goldstack.png',
 'Assets/yellowcard.png'
 ];
+<<<<<<< HEAD
 // assets array plus one for loading the player information and plus 8 for loading cards plus 1 for each hand plus one for setting gold plus 1 for gameinfo/settings plus 1 for loading towers plus 1 for actions array
 totalload += gamecomponents.length + 1 + 8 + 2 + 1 + 1 + 1 + 1;
+=======
+// assets array plus one for loading the player information and plus 8 for loading cards plus 1 for each hand plus one for setting gold plus 1 for gameinfo/settings
+totalload += gamecomponents.length + 1 + 8 + 2 + 1 + 1;
+>>>>>>> origin/master
 
 	for (var i = 0; i < gamecomponents.length; i++) {
 		
@@ -50,12 +55,15 @@ totalload += gamecomponents.length + 1 + 8 + 2 + 1 + 1 + 1 + 1;
 	
 	// set players hands count
 	sethandamount(core);
+<<<<<<< HEAD
 	
 	// set the player's towers
 	settowers(core);
 	
 	// actions array
 	createactionsarray(core);
+=======
+>>>>>>> origin/master
 }
 
 function addtoassets(core, current, img) {
@@ -104,7 +112,10 @@ function getgameinfo(core) {
 		jsonresult = JSON.parse(result);
 		core.information.player1ID = jsonresult.player1;
 		core.information.player2ID = jsonresult.player2;
+<<<<<<< HEAD
 		core.information.starttime = jsonresult.starttime;
+=======
+>>>>>>> origin/master
 		loadedassets++;
 		
 	});
@@ -288,6 +299,7 @@ function sethandamount(core) {
 	core.player1.handlength = 3;
 	core.player2.handlength = 4;
 	
+<<<<<<< HEAD
 }
 
 function settowers(core) {
@@ -320,4 +332,6 @@ function createactionsarray(core) {
 	
 	loadedassets++;
 	
+=======
+>>>>>>> origin/master
 }

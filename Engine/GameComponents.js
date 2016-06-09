@@ -11,9 +11,12 @@ function drawComponents(core) {
 	drawButtons(core);
 	drawboard(core);
 	drawnames(core);
+<<<<<<< HEAD
 	drawhand(core);
 	
 	settime(core);
+=======
+>>>>>>> origin/master
 	
 }
 
@@ -588,6 +591,7 @@ var ctx = canvas.getContext("2d");
 		var slength;
 
 		ctx.fillStyle = 'white';
+<<<<<<< HEAD
 		ctx.font= core.information.pwidth * 1.4 + "px lifecraft";
 		
 		// player 1 stats
@@ -609,6 +613,29 @@ var ctx = canvas.getContext("2d");
 		
 		slength = ctx.measureText(core.player2.handlength).width / 2;
 		ctx.fillText(core.player2.handlength, core.information.pwidth * 56 - slength, core.information.pheight * 4.88);
+=======
+		ctx.font= core.information.pwidth * 1.4 + "px myFont";
+		
+		// player 1 stats
+		slength = ctx.measureText(core.player1.gold).width / 2;
+		ctx.fillText(core.player1.gold, core.information.pwidth * 36 - slength, core.information.pheight * 4.85);
+		
+		slength = ctx.measureText(core.player1.goldincome).width / 2;
+		ctx.fillText(core.player1.goldincome, core.information.pwidth * 39 - slength, core.information.pheight * 4.85);
+		
+		slength = ctx.measureText(core.player1.handlength).width / 2;
+		ctx.fillText(core.player1.handlength, core.information.pwidth * 44 - slength, core.information.pheight * 4.85);
+		
+		// player 2 stats
+		slength = ctx.measureText(core.player2.gold).width / 2;
+		ctx.fillText(core.player2.gold, core.information.pwidth * 64 - slength, core.information.pheight * 4.85);
+		
+		slength = ctx.measureText(core.player2.goldincome).width / 2;
+		ctx.fillText(core.player2.goldincome, core.information.pwidth * 61 - slength, core.information.pheight * 4.85);
+		
+		slength = ctx.measureText(core.player2.handlength).width / 2;
+		ctx.fillText(core.player2.handlength, core.information.pwidth * 56 - slength, core.information.pheight * 4.85);
+>>>>>>> origin/master
 	
 }
 
@@ -617,6 +644,7 @@ function drawnames(core) {
 var canvas = document.getElementById('GameCanvas');
 var ctx = canvas.getContext("2d");
 
+<<<<<<< HEAD
 	var name1 = core.information.player1ID;
 	var name2 = core.information.player2ID;
 	
@@ -627,10 +655,21 @@ var ctx = canvas.getContext("2d");
 		ctx.font= core.information.pwidth * 1.8 + "px myFont";
 		var name1adjust = ctx.measureText(name1).width / 2;
 		ctx.fillText(name1, core.information.pwidth * 19.5 - name1adjust, core.information.pheight * 3);
+=======
+	var name1 = core.information.player1ID.toUpperCase();
+	var name2 = core.information.player2ID.toUpperCase();
+	
+		// player 1 name
+		ctx.fillStyle = 'white';
+		ctx.font= core.information.pwidth * .7 + "px action";
+		var name1adjust = ctx.measureText(name1).width / 2;
+		ctx.fillText(name1, core.information.pwidth * 19 - name1adjust, core.information.pheight * 2.3);
+>>>>>>> origin/master
 		
 		// player 2 name
 		// player 1 name
 		ctx.fillStyle = 'white';
+<<<<<<< HEAD
 		ctx.font= core.information.pwidth * 1.8 + "px myFont";
 		var name2adjust = ctx.measureText(name2).width / 2;
 		ctx.fillText(name2, core.information.pwidth * 80.5 - name2adjust, core.information.pheight * 3);
@@ -646,5 +685,10 @@ function settime(core) {
 	time = time.toFixed(2);
 	
 	core.information.time = time;
+=======
+		ctx.font= core.information.pwidth * .7 + "px action";
+		var name2adjust = ctx.measureText(name2).width / 2;
+		ctx.fillText(name2, core.information.pwidth * 81 - name2adjust, core.information.pheight * 2.3);
+>>>>>>> origin/master
 	
 }

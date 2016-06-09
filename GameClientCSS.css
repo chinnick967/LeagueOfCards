@@ -19,6 +19,7 @@ src: url(Assets/action.ttf);
 	
 }
 
+<<<<<<< HEAD
 @font-face {
 	
 font-family: lifecraft;
@@ -26,6 +27,8 @@ src: url(Assets/lifecraft.ttf);
 	
 }
 
+=======
+>>>>>>> origin/master
 body {
 	
 background-image: url('Assets/clientbackground.jpg');
