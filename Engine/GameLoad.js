@@ -16,8 +16,8 @@ var ctx = canvas.getContext("2d");
 	// json object that holds settings
 	var settings = {};
 	
-	// json object that holds animation vars
-	var animation = {};
+	// array that holds animation vars
+	var animation = [];
 	
 	// json objects that holds settings
 	var player1 = {};
@@ -25,6 +25,9 @@ var ctx = canvas.getContext("2d");
 	
 	// json objects that hold board information
 	var board = {};
+	
+	// json object that holds the actions information
+	var actions = {};
 
 	// json object that holds core json objects
 	var core = {};
@@ -35,6 +38,7 @@ var ctx = canvas.getContext("2d");
 	core.player2 = player2;
 	core.animation = animation;
 	core.board = board;
+	core.actions = actions;
 	
 	core.information.init = 0;
 	core.information.playerID = playerID;
@@ -42,15 +46,6 @@ var ctx = canvas.getContext("2d");
 	// delete this later
 	core.player1.icon = 'Assets/Ekko.png';
 	core.player2.icon = 'Assets/teemo.png';
-	
-	// delete this later
-	core.player1.hand1 = 'Assets/Blitz2.png';
-	core.player1.hand2 = 'Assets/Blitz2.png';
-	core.player1.hand3 = 'Assets/Blitz2.png';
-	core.player1.hand4 = 'Assets/Blitz2.png';
-	core.player1.hand5 = 'Assets/Blitz2.png';
-	core.player1.hand6 = 'Assets/Blitz2.png';
-	core.player1.hand7 = 'Assets/Blitz2.png';
 	
 	// asset loading function
 	loadassets(core);
@@ -61,7 +56,11 @@ var ctx = canvas.getContext("2d");
 	mouseinit(core);
 	//setInterval(function(){ redraw(core); }, 16);
 	redraw(core);
-
+	
+	// start check for actions
+	checkactions(core);
+	
+	setTimeout(function(){ addanimation(core, 'cardhealth', 30, 20, var1 = -2, var2 = 'right', var3 = ''); }, 5000);
 }
 
 function redraw(core) {
@@ -81,15 +80,15 @@ function redraw(core) {
 		// draw sound bars
 		drawSound(core);
 		
-		// temporarily draw card 7.868
-		drawhand(core);
-		
 		// check users current hover position on the board
 		//currentboardpositionhover(core);
 		
 		// draws animation effects
 		drawanimations(core);
-	
+		
+		// runs actions
+		runactions(core);
+		
 	} else {
 	
 		loadprogress(core);
@@ -106,6 +105,6 @@ function redraw(core) {
 	}
 	
 	// redraw
-	setTimeout(function(){ redraw(core); }, 10);
+	setTimeout(function(){ redraw(core); }, 5);
 	
 }
