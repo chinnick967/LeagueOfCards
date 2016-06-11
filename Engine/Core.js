@@ -10,6 +10,8 @@ function drawcard(core, card, width, left, top, rotation, hover) {
 	var canvas = document.getElementById('GameCanvas');
 	var ctx = canvas.getContext("2d");
 	
+	var adjust = 0;
+	
 	if (typeof(card) != 'undefined' && card != '') {
 	
 		var asset = card.asset;
@@ -47,56 +49,49 @@ function drawcard(core, card, width, left, top, rotation, hover) {
 			// draw the card values
 			ctx.fillStyle = 'white';
 			
-			ctx.font = core.information.pwidth * width / 8.333 + "px myFont";
+			ctx.font = core.information.pwidth * width / 8.333 + "px lifecraft";
+			adjust = ctx.measureText(card.cost).width / 2;
 			
 		if (type != 'Spell') {
 			// card cost
-			if (card.cost < 10) {
-				ctx.fillText(card.cost, core.information.pwidth * (left + (width * .84)), core.information.pheight * (top + (height * .114)));
-			} else {
-				ctx.fillText(card.cost, core.information.pwidth * (left + (width * .8)), core.information.pheight * (top + (height * .114)));
-			}
+			ctx.fillText(card.cost, core.information.pwidth * (left + (width * .875)) - adjust, core.information.pheight * (top + (height * .114)));
 		} else {
-			if (card.cost < 10) {
-				ctx.fillText(card.cost, core.information.pwidth * (left + (width * .86)), core.information.pheight * (top + (height * .945)));
-			} else {
-				ctx.fillText(card.cost, core.information.pwidth * (left + (width * .82)), core.information.pheight * (top + (height * .945)));
-			}
+			ctx.fillText(card.cost, core.information.pwidth * (left + (width * .888)) - adjust, core.information.pheight * (top + (height * .945)));
 		}
 			
 		if (type != 'Spell') {
 		
 			// card attack
-			ctx.font= core.information.pwidth * width / 9.375 + "px myFont";
-			if (card.attack < 10) {
-				ctx.fillText(card.attack, core.information.pwidth * (left + (width * .76)), core.information.pheight * (top + (height * .483)));
-			} else {
-				ctx.fillText(card.attack, core.information.pwidth * (left + (width * .72)), core.information.pheight * (top + (height * .483)));
-			}
-			
+			ctx.font= core.information.pwidth * width / 9.375 + "px lifecraft";
+			adjust = ctx.measureText(card.attack).width / 2;
+			ctx.fillText(card.attack, core.information.pwidth * (left + (width * .787)) - adjust, core.information.pheight * (top + (height * .483)));
+
 			// card defense
-			ctx.font= core.information.pwidth * width / 9.375 + "px myFont";
-			if (card.defense < 10) {
-				ctx.fillText(card.defense, core.information.pwidth * (left + (width * .165)), core.information.pheight * (top + (height * .483)));
-			} else {
-				ctx.fillText(card.defense, core.information.pwidth * (left + (width * .126)), core.information.pheight * (top + (height * .483)));
-			}
+			ctx.font= core.information.pwidth * width / 9.375 + "px lifecraft";
+			adjust = ctx.measureText(card.defense).width / 2;
+			ctx.fillText(card.defense, core.information.pwidth * (left + (width * .192)) - adjust, core.information.pheight * (top + (height * .483)));
+			
+			ctx.shadowBlur = 15;
+			ctx.shadowColor = 'black';
 			
 			// card armor
-			ctx.font= core.information.pwidth * width / 12.5 + "px myFont";
-			if (card.armor < 10) {
-				ctx.fillText(card.armor, core.information.pwidth * (left + (width * .125)), core.information.pheight * (top + (height * .184)));
-			} else {
-				ctx.fillText(card.armor, core.information.pwidth * (left + (width * .1)), core.information.pheight * (top + (height * .184)));
-			}
+			ctx.font= core.information.pwidth * width / 12.5 + "px lifecraft";
+			adjust = ctx.measureText(card.armor).width / 2;
+			ctx.fillText(card.armor, core.information.pwidth * (left + (width * .144)) - adjust, core.information.pheight * (top + (height * .184)));
+			ctx.fillText(card.armor, core.information.pwidth * (left + (width * .144)) - adjust, core.information.pheight * (top + (height * .184)));
+			ctx.fillText(card.armor, core.information.pwidth * (left + (width * .144)) - adjust, core.information.pheight * (top + (height * .184)));
+			ctx.fillText(card.armor, core.information.pwidth * (left + (width * .144)) - adjust, core.information.pheight * (top + (height * .184)));
+			ctx.fillText(card.armor, core.information.pwidth * (left + (width * .144)) - adjust, core.information.pheight * (top + (height * .184)));
 			
 			// card magic resist
-			ctx.font= core.information.pwidth * width / 12.5 + "px myFont";
-			if (card.magicresist < 10) {
-				ctx.fillText(card.magicresist, core.information.pwidth * (left + (width * .125)), core.information.pheight * (top + (height * .289)));
-			} else {
-				ctx.fillText(card.magicresist, core.information.pwidth * (left + (width * .1)), core.information.pheight * (top + (height * .289)));
-			}
+			ctx.font= core.information.pwidth * width / 12.5 + "px lifecraft";
+			adjust = ctx.measureText(card.magicresist).width / 2;
+			ctx.fillText(card.magicresist, core.information.pwidth * (left + (width * .144)) - adjust, core.information.pheight * (top + (height * .289)));
+			ctx.fillText(card.magicresist, core.information.pwidth * (left + (width * .144)) - adjust, core.information.pheight * (top + (height * .289)));
+			ctx.fillText(card.magicresist, core.information.pwidth * (left + (width * .144)) - adjust, core.information.pheight * (top + (height * .289)));
+			ctx.fillText(card.magicresist, core.information.pwidth * (left + (width * .144)) - adjust, core.information.pheight * (top + (height * .289)));
+			ctx.fillText(card.magicresist, core.information.pwidth * (left + (width * .144)) - adjust, core.information.pheight * (top + (height * .289)));
+
 		}
 		
 		// restore the canvas after rotating	
@@ -107,6 +102,9 @@ function drawcard(core, card, width, left, top, rotation, hover) {
 }
 
 function drawhand(core) {
+	
+	// adjust the hand to resort it
+	adjusthand(core);
 
 	// hover area to bring up hand
 	if (core.information.xoffset >= 46 && core.information.xoffset <= 53 && core.information.yoffset >= 90 && core.information.yoffset <= 100) {
@@ -200,13 +198,13 @@ function handanimations(core) {
 	var h6left = 62.6;
 
         var handlength = gethandlength(core);
-        
+		
         if (handlength == 1) {
-		h1left += 10;
+			h1left += 10;
         } else if (handlength == 2) {
         	h2left += 10;
         } else if (handlength == 3) {
-                h3left += 7;
+            h3left += 7;
         } else if (handlength == 4) {
         	h4left += 8;
         } else if (handlength == 5) {
@@ -217,11 +215,11 @@ function handanimations(core) {
 	
 	// top adjustment for hand animation
 	if (core.information.focus == 'hand' && core.animation.handcounter <= 8) {
-		core.animation.handcounter += 1;
-		core.animation.handtop -= 2;
+		core.animation.handcounter += .5;
+		core.animation.handtop -= 1;
 	} else if (core.information.focus == 'hand' && core.animation.handcounter > 8 && core.animation.handcounter < 13) {
-		core.animation.handcounter += 1;
-		core.animation.handtop += 1;
+		core.animation.handcounter += .5;
+		core.animation.handtop += .5;
 	}
 	
 	// variable to prevent higher card selection
@@ -429,31 +427,80 @@ function dragcard(core) {
 
 function playcard(core, card) {
 	// need to add check for gold
-	if (core.information.player == 1 && core.information.currentslothover >= 6 && core.information.currentslothover <= 10 && card.type != 'Spell') {
+	if (core.information.player == 1 && core.information.currentslothover >= 6 && core.information.currentslothover <= 10 && card.type != 'Spell' && core.player1.gold >= card.cost) {
 	
 		// remove card from hand
 		removecardfromhand(core);
+		
+		// subtract one from hand length
+		core.player1.handlength -= 1;
+		var action = {};
+		action.name = 'HandAdjust', action.sendingplayer = '1', action.receivingplayer = '2', action.var1 = '-1', action.var2 = '1';
+		submitaction(core, action);
+		
+		// subtract gold
+		adjustgold(core, 1, -card.cost);
+		// subtract gold action
+		var action = {};
+		action.name = 'GoldAdjust', action.sendingplayer = '1', action.receivingplayer = '2', action.var1 = -card.cost, action.var2 = '1';
+		submitaction(core, action);
+		
 		// add card to position on board
-                addtoboard(core, card);
+        addtoboard(core, card, 0);
+		// play card action
+		var action = {};
+		action.name = 'PlayCard', action.sendingplayer = '1', action.receivingplayer = '2', action.var1 = card.cardID, action.var2 = core.information.currentslothover;
+		submitaction(core, action);
 	
-		console.log(card.name + ' has been played in slot ' + core.information.currentslothover);
 	
-	} else if (core.information.player == 2 && core.information.currentslothover >= 16 && core.information.currentslothover <= 20 && card.type != 'Spell') {
+	} else if (core.information.player == 2 && core.information.currentslothover >= 16 && core.information.currentslothover <= 20 && card.type != 'Spell' && core.player2.gold >= card.cost) {
 	
 		// remove card from hand
 		removecardfromhand(core);
+		
+		// subtract one from hand length
+		core.player2.handlength -= 1;
+		var action = {};
+		action.name = 'HandAdjust', action.sendingplayer = '1', action.receivingplayer = '2', action.var1 = '-1', action.var2 = '2';
+		submitaction(core, action);
+		
+		// subtract gold
+		adjustgold(core, 2, -card.cost);
+		// subtract gold action
+		var action = {};
+		action.name = 'GoldAdjust', action.sendingplayer = '2', action.receivingplayer = '1', action.var1 = -card.cost, action.var2 = '2';
+		submitaction(core, action);
+		
 		// add card to position on board
-                addtoboard(core, card);
-	
-		console.log(card.name + ' has been played in slot ' + core.information.currentslothover);
+        addtoboard(core, card, 0);
+		// play card action
+		var action = {};
+		action.name = 'PlayCard', action.sendingplayer = '2', action.receivingplayer = '1', action.var1 = card.cardID, action.var2 = core.information.currentslothover;
+		submitaction(core, action);
 	
 	}
 
 }
 
-function addtoboard (core, card) {
+function adjustgold(core, player, amount) {
+	
+	if (player == 1) {
+		core.player1.gold += amount;
+	} else if (player == 2) {
+		core.player2.gold += amount;
+	}
+	
+}
 
-     switch(core.information.currentslothover) {
+function addtoboard (core, card, slot) {
+	
+	if (slot == 0) {
+		
+		slot = core.information.currentslothover;
+		
+	}
+
+     switch(slot) {
           case 1:
              core.board.s1 = card;
              break;
@@ -521,11 +568,11 @@ function addtoboard (core, card) {
 }
 
 function gethandlength(core) {
-
+	
      if (core.information.player == 1) {
-          return core.player1.hand.length;
+          return core.player1.handlength;
      } else {
-          return core.player2.hand.length;
+          return core.player2.handlength;
       }
 
 }
@@ -560,7 +607,6 @@ function previewboardcard(core) {
              break;
           case 6:
              previewcard(core, core.board.s6);
-             console.log('test');
              break;
           case 7:
              previewcard(core, core.board.s7);
@@ -608,4 +654,53 @@ function previewboardcard(core) {
              // nothing
           }
 
+}
+
+function checkcurrenttower(core) {
+	
+	if (core.player1.tier1health == 0 && core.player1.currenttower == 1) {
+		core.player1.currenttower += 1;	
+	} else if (core.player1.tier2health == 0 && core.player1.currenttower == 2) {
+		core.player1.currenttower += 1;	
+	} else if (core.player1.tier3health == 0 && core.player1.currenttower == 3) {
+		core.player1.currenttower += 1;	
+	} else if (core.player1.nexushealth == 0 && core.player1.currenttower == 4) {
+		core.player1.currenttower += 1;	
+	}
+	
+	if (core.player2.tier1health == 0 && core.player2.currenttower == 1) {
+		core.player2.currenttower += 1;	
+	} else if (core.player2.tier2health == 0 && core.player2.currenttower == 2) {
+		core.player2.currenttower += 1;	
+	} else if (core.player2.tier3health == 0 && core.player2.currenttower == 3) {
+		core.player2.currenttower += 1;	
+	} else if (core.player2.nexushealth == 0 && core.player2.currenttower == 4) {
+		core.player2.currenttower += 1;	
+	}
+	
+}
+
+function adjusthand(core) {
+	
+	if (core.information.player == 1) {
+		for (var i = 1; i < 7; i++) {
+			if (core.player1.hand[i - 1] == '' || typeof(core.player1.hand[i - 1]) == 'undefined') {
+					if (core.player1.hand[i] != '' && typeof(core.player1.hand[1]) != 'undefined' ) {
+						core.player1.hand[i - 1] = core.player1.hand[i];
+						core.player1.hand[i] = '';
+					}
+			}	
+		}
+	} else if (core.information.player == 2) {
+		for (var i = 1; i < 7; i++) {
+			if (core.player2.hand[i - 1] == '' || typeof(core.player2.hand[i - 1]) == 'undefined') {
+					if (core.player2.hand[i] != '' && typeof(core.player2.hand[1]) != 'undefined' ) {
+						core.player2.hand[i - 1] = core.player2.hand[i];
+						core.player2.hand[i] = '';
+					}
+			}	
+		}
+	}
+		
+	
 }

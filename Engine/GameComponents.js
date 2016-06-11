@@ -8,9 +8,12 @@ function drawComponents(core) {
 	drawHandIcon(core);
 	drawPlayerIcons(core);
 	drawSettingsIcon(core);
-	drawHand(core);
 	drawButtons(core);
 	drawboard(core);
+	drawnames(core);
+	drawhand(core);
+	
+	settime(core);
 	
 }
 
@@ -121,8 +124,15 @@ function drawHealthBars(core) {
 var canvas = document.getElementById('GameCanvas');
 var ctx = canvas.getContext("2d");
 
+var percentage = 0;
+var healthwidth = 0;
+
 	ctx.shadowColor = 'white';
 	ctx.shadowBlur = 0;
+	
+	// get width of healthbar
+	percentage = core.player1.currenthealth / core.player1.currentmaxhealth;
+	healthwidth = 24 * percentage;
 
 	// blue side health bar
 	ctx.fillStyle = 'black';
@@ -131,7 +141,11 @@ var ctx = canvas.getContext("2d");
 	ctx.fillRect(core.information.pwidth * 7.7, core.information.pheight * 3.8, core.information.pwidth * 24, core.information.pheight * 1.7);
 	ctx.fillStyle = 'rgba(78, 144, 254, 0.8)';
 	ctx.shadowBlur = 2;
-	ctx.fillRect(core.information.pwidth * 7.7, core.information.pheight * 3.8, core.information.pwidth * 21, core.information.pheight * 1.7);
+	ctx.fillRect(core.information.pwidth * 7.7, core.information.pheight * 3.8, core.information.pwidth * healthwidth, core.information.pheight * 1.7);
+	
+	// get width of healthbar
+	percentage = core.player2.currenthealth / core.player2.currentmaxhealth;
+	healthwidth = 24 * percentage;
 
 	ctx.shadowBlur = 0;
 	// red side health bar
@@ -141,7 +155,20 @@ var ctx = canvas.getContext("2d");
 	ctx.fillRect(core.information.pwidth * 68.3, core.information.pheight * 3.8, core.information.pwidth * 24, core.information.pheight * 1.7);
 	ctx.fillStyle = 'rgba(220, 0, 41, 0.8)';
 	ctx.shadowBlur = 2;
-	ctx.fillRect(core.information.pwidth * 68.3, core.information.pheight * 3.8, core.information.pwidth * 11, core.information.pheight * 1.7);
+	ctx.fillRect(core.information.pwidth * 68.3, core.information.pheight * 3.8, core.information.pwidth * healthwidth, core.information.pheight * 1.7);
+	
+	// draw health text
+	var healthtext1 = core.player1.currenthealth + '/' + core.player1.currentmaxhealth;
+	var healthtext2 = core.player2.currenthealth + '/' + core.player2.currentmaxhealth;
+	
+	ctx.fillStyle = 'white';
+	ctx.font = core.information.pwidth * 1 + "px myFont";
+	
+	var adjust = ctx.measureText(healthtext1).width / 2;
+	ctx.fillText(healthtext1, core.information.pwidth * 19.5 - adjust, core.information.pheight * 5.25);
+	
+	adjust = ctx.measureText(healthtext2).width / 2;
+	ctx.fillText(healthtext2, core.information.pwidth * 80.5 - adjust, core.information.pheight * 5.25);
 
 }
 
@@ -151,8 +178,35 @@ var canvas = document.getElementById('GameCanvas');
 var ctx = canvas.getContext("2d");
 
 	ctx.shadowBlur = 0;
-	ctx.drawImage(core.assets.bluetimer, core.information.pwidth * 42.5, 0, core.information.pwidth * 15, core.information.pheight * 22);
 	
+	// timer background
+	ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
+	ctx.beginPath();
+	ctx.arc(core.information.pwidth * 50, core.information.pheight * 11.3, core.information.pwidth * 4.3, 0, 2 * Math.PI);
+	ctx.fill();
+	
+	ctx.shadowColor = 'black';
+	ctx.shadowBlur = 20;
+	
+	if (core.information.turn == 1 || core.information.turn == 0) {
+		ctx.drawImage(core.assets.bluetimer, core.information.pwidth * 42.5, 0, core.information.pwidth * 15, core.information.pheight * 22);
+	} else if (core.information.turn == 2) {
+		ctx.drawImage(core.assets.redtimer, core.information.pwidth * 42.5, 0, core.information.pwidth * 15, core.information.pheight * 22);
+	}
+	ctx.shadowBlur = 0;
+	ctx.globalAlpha = .7;
+	// set the font values
+	ctx.fillStyle = 'white';
+	ctx.font = core.information.pwidth * 4 + "px comicFont";
+
+	// measure text length
+	var textlength = ctx.measureText(parseInt(core.information.turntimer)).width;
+	
+	// draw the timer text
+	ctx.fillText(parseInt(core.information.turntimer), core.information.pwidth * 49.6 - textlength / 2, core.information.pheight * 14.5);
+	
+	
+	ctx.globalAlpha = 1;
 }
 
 function drawHandIcon(core) {
@@ -184,13 +238,13 @@ var ctx = canvas.getContext("2d");
 		
 		if (core.information.threecardstopflag == true) {
 			
-			core.information.threecardstop += .1;
+			core.information.threecardstop += .05;
 			
 		}
 		
 		else if (core.information.threecardstopflag == false) {
 			
-			core.information.threecardstop -= .1;
+			core.information.threecardstop -= .05;
 			
 		}
 	
@@ -218,15 +272,6 @@ ctx.drawImage(core.assets.fullscreen, core.information.pwidth * 95.5, core.infor
 	
 }
 
-function drawHand(core) {
-	
-var canvas = document.getElementById('GameCanvas');
-var ctx = canvas.getContext("2d");
-
-		
-	
-}
-
 function drawButtons(core) {
 	
 var canvas = document.getElementById('GameCanvas');
@@ -240,10 +285,10 @@ var ctx = canvas.getContext("2d");
 	ctx.shadowBlur = 5;
 	ctx.globalAlpha = 1;
 	ctx.fillStyle = '#897BAF';
-	ctx.font= core.information.pwidth * 2 + "px Trebuchet MS";
-	ctx.fillText("End Turn", core.information.pwidth * 80, core.information.pheight * 96.8);
-	ctx.fillText("End Turn", core.information.pwidth * 80, core.information.pheight * 96.8);
-	ctx.fillText("End Turn", core.information.pwidth * 80, core.information.pheight * 96.8);
+	ctx.font= core.information.pwidth * 2 + "px lifecraft";
+	ctx.fillText("End Turn", core.information.pwidth * 80.8, core.information.pheight * 96.8);
+	ctx.fillText("End Turn", core.information.pwidth * 80.8, core.information.pheight * 96.8);
+	ctx.fillText("End Turn", core.information.pwidth * 80.8, core.information.pheight * 96.8);
 	
 	// Surrender Button
 	ctx.shadowBlur = 5;
@@ -253,10 +298,10 @@ var ctx = canvas.getContext("2d");
 	ctx.globalAlpha = 1;
 	ctx.shadowBlur = 5;
 	ctx.fillStyle = '#897BAF';
-	ctx.font= core.information.pwidth * 2 + "px Trebuchet MS";
-	ctx.fillText("Surrender", core.information.pwidth * 67.6, core.information.pheight * 96.8);
-	ctx.fillText("Surrender", core.information.pwidth * 67.6, core.information.pheight * 96.8);
-	ctx.fillText("Surrender", core.information.pwidth * 67.6, core.information.pheight * 96.8);
+	ctx.font= core.information.pwidth * 2 + "px lifecraft";
+	ctx.fillText("Surrender", core.information.pwidth * 68.3, core.information.pheight * 96.7);
+	ctx.fillText("Surrender", core.information.pwidth * 68.3, core.information.pheight * 96.7);
+	ctx.fillText("Surrender", core.information.pwidth * 68.3, core.information.pheight * 96.7);
 
 }
 
@@ -405,7 +450,7 @@ function drawstats(core) {
 
 var canvas = document.getElementById('GameCanvas');
 var ctx = canvas.getContext("2d");
-
+	// stat container
 	ctx.beginPath();
 	ctx.moveTo(core.information.pwidth * 34, core.information.pheight * 11);
 	ctx.lineTo(core.information.pwidth * 45.2, core.information.pheight * 11);
@@ -424,6 +469,7 @@ var ctx = canvas.getContext("2d");
 
 	drawtowers(core);
 	drawstaticons(core);
+	drawstatnumbers(core);
 
 }
 
@@ -432,17 +478,55 @@ function drawtowers(core) {
 var canvas = document.getElementById('GameCanvas');
 var ctx = canvas.getContext("2d");
 
+	checkcurrenttower(core);
+	
+	if (core.player1.currenttower > 1) {
+		ctx.globalAlpha = .4;
+	}
 	ctx.drawImage(core.assets.tower, core.information.pwidth * 35.5, core.information.pheight * 7, core.information.pwidth * 2, core.information.pheight * 3.5);
+	ctx.globalAlpha = 1;
+	
+	if (core.player1.currenttower > 2) {
+		ctx.globalAlpha = .4;
+	}
 	ctx.drawImage(core.assets.tower, core.information.pwidth * 37.5, core.information.pheight * 7, core.information.pwidth * 2, core.information.pheight * 3.5);
+	ctx.globalAlpha = 1;
+	
+	if (core.player1.currenttower > 3) {
+		ctx.globalAlpha = .4;
+	}
 	ctx.drawImage(core.assets.tower, core.information.pwidth * 39.5, core.information.pheight * 7, core.information.pwidth * 2, core.information.pheight * 3.5);
+	ctx.globalAlpha = 1;
 	
+	if (core.player1.currenttower > 4) {
+		ctx.globalAlpha = .4;
+	}
 	ctx.drawImage(core.assets.nexus, core.information.pwidth * 42, core.information.pheight * 7, core.information.pwidth * 2, core.information.pheight * 3.5);
+	ctx.globalAlpha = 1;
 	
-	
-	ctx.drawImage(core.assets.tower, core.information.pwidth * 58.5, core.information.pheight * 7, core.information.pwidth * 2, core.information.pheight * 3.5);
-	ctx.drawImage(core.assets.tower, core.information.pwidth * 60.5, core.information.pheight * 7, core.information.pwidth * 2, core.information.pheight * 3.5);
+	if (core.player2.currenttower > 1) {
+		ctx.globalAlpha = .4;
+	}
 	ctx.drawImage(core.assets.tower, core.information.pwidth * 62.5, core.information.pheight * 7, core.information.pwidth * 2, core.information.pheight * 3.5);
+	ctx.globalAlpha = 1;
+	
+	if (core.player2.currenttower > 2) {
+		ctx.globalAlpha = .4;
+	}
+	ctx.drawImage(core.assets.tower, core.information.pwidth * 60.5, core.information.pheight * 7, core.information.pwidth * 2, core.information.pheight * 3.5);
+	ctx.globalAlpha = 1;
+	
+	if (core.player2.currenttower > 3) {
+		ctx.globalAlpha = .4;
+	}
+	ctx.drawImage(core.assets.tower, core.information.pwidth * 58.5, core.information.pheight * 7, core.information.pwidth * 2, core.information.pheight * 3.5);
+	ctx.globalAlpha = 1;
+	
+	if (core.player2.currenttower > 4) {
+		ctx.globalAlpha = .4;
+	}
 	ctx.drawImage(core.assets.nexus, core.information.pwidth * 56, core.information.pheight * 7, core.information.pwidth * 2, core.information.pheight * 3.5);
+	ctx.globalAlpha = 1;
 
 }
 
@@ -460,31 +544,106 @@ var ctx = canvas.getContext("2d");
         ctx.strokeStyle = 'rgba(215, 227, 44, 0.6)';
         ctx.beginPath();
         ctx.arc(core.information.pwidth * 36, core.information.pheight * 4, core.information.pwidth * 1.2, 0, 2 * Math.PI);
+		ctx.fill();
         ctx.stroke();
 
         ctx.strokeStyle = 'rgba(116, 227, 173, 0.6)';
         ctx.beginPath();
         ctx.arc(core.information.pwidth * 39, core.information.pheight * 4, core.information.pwidth * 1.2, 0, 2 * Math.PI);
+		ctx.fill();
         ctx.stroke();
 
         ctx.strokeStyle = 'rgba(237, 35, 0, 0.6)';
         ctx.beginPath();
         ctx.arc(core.information.pwidth * 44, core.information.pheight * 4, core.information.pwidth * 1.2, 0, 2 * Math.PI);
+		ctx.fill();
         ctx.stroke();
 
         ctx.strokeStyle = 'rgba(215, 227, 44, 0.6)';
         ctx.beginPath();
         ctx.arc(core.information.pwidth * 64, core.information.pheight * 4, core.information.pwidth * 1.2, 0, 2 * Math.PI);
+		ctx.fill();
         ctx.stroke();
 
         ctx.strokeStyle = 'rgba(116, 227, 173, 0.6)';
         ctx.beginPath();
         ctx.arc(core.information.pwidth * 61, core.information.pheight * 4, core.information.pwidth * 1.2, 0, 2 * Math.PI);
+		ctx.fill();
         ctx.stroke();
 
         ctx.strokeStyle = 'rgba(237, 35, 0, 0.6)';
         ctx.beginPath();
         ctx.arc(core.information.pwidth * 56, core.information.pheight * 4, core.information.pwidth * 1.2, 0, 2 * Math.PI);
+		ctx.fill();
         ctx.stroke();
 
+}
+
+function drawstatnumbers(core) {
+	
+var canvas = document.getElementById('GameCanvas');
+var ctx = canvas.getContext("2d");
+		// variable to track text length of stats
+		var slength;
+
+		ctx.fillStyle = 'white';
+		ctx.font= core.information.pwidth * 1.4 + "px lifecraft";
+		
+		// player 1 stats
+		slength = ctx.measureText(core.player1.gold).width / 2;
+		ctx.fillText(core.player1.gold, core.information.pwidth * 36 - slength, core.information.pheight * 4.88);
+		
+		slength = ctx.measureText(core.player1.goldincome).width / 2;
+		ctx.fillText(core.player1.goldincome, core.information.pwidth * 39 - slength, core.information.pheight * 4.88);
+		
+		slength = ctx.measureText(core.player1.handlength).width / 2;
+		ctx.fillText(core.player1.handlength, core.information.pwidth * 44 - slength, core.information.pheight * 4.88);
+		
+		// player 2 stats
+		slength = ctx.measureText(core.player2.gold).width / 2;
+		ctx.fillText(core.player2.gold, core.information.pwidth * 64 - slength, core.information.pheight * 4.88);
+		
+		slength = ctx.measureText(core.player2.goldincome).width / 2;
+		ctx.fillText(core.player2.goldincome, core.information.pwidth * 61 - slength, core.information.pheight * 4.88);
+		
+		slength = ctx.measureText(core.player2.handlength).width / 2;
+		ctx.fillText(core.player2.handlength, core.information.pwidth * 56 - slength, core.information.pheight * 4.88);
+	
+}
+
+function drawnames(core) {
+	
+var canvas = document.getElementById('GameCanvas');
+var ctx = canvas.getContext("2d");
+
+	var name1 = core.information.player1ID;
+	var name2 = core.information.player2ID;
+	
+	ctx.globalAlpha = .8;
+	
+		// player 1 name
+		ctx.fillStyle = 'white';
+		ctx.font= core.information.pwidth * 1.8 + "px myFont";
+		var name1adjust = ctx.measureText(name1).width / 2;
+		ctx.fillText(name1, core.information.pwidth * 19.5 - name1adjust, core.information.pheight * 3);
+		
+		// player 2 name
+		// player 1 name
+		ctx.fillStyle = 'white';
+		ctx.font= core.information.pwidth * 1.8 + "px myFont";
+		var name2adjust = ctx.measureText(name2).width / 2;
+		ctx.fillText(name2, core.information.pwidth * 80.5 - name2adjust, core.information.pheight * 3);
+		
+	ctx.globalAlpha = 1;
+}
+
+function settime(core) {
+	
+	var date = new Date();
+	// time is UTC from start of game to current UTC, javascript date converted to seconds instead of milliseconds
+	var time = date.getTime() / 1000 - core.information.starttime;
+	time = time.toFixed(2);
+	
+	core.information.time = time;
+	
 }

@@ -101,7 +101,7 @@ $playerID = (int)$_POST["playerID"];
 		// delete any rows associated with this player to cancel their queue
 		$getqueuerows = mysql_query("
 	
-				     	 DELETE FROM Queue
+				     DELETE FROM Queue
 					 WHERE	Player1 = $playerID
 				
 				");
