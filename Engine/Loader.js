@@ -2,7 +2,6 @@
 loadpercent = 0;
 loadedassets = 0;
 totalload = 0;
-
 function loadassets(core) {
 
 // game assets
@@ -139,35 +138,50 @@ function loadprogress(core) {
 
 function loadcards(core) {
 
-	$.get('Engine/ServerScripts/GetCards.php', function(result){
-	
-		core.information.loadedcards = 0;
-	
-		core.assets.cards = result.split('---');
-		
-		for (var i = 0; i < core.assets.cards.length - 1; i++) {
-		
-			core.assets.cards[i] = JSON.parse(core.assets.cards[i]);
-			
-			core.assets.cards[i].asset = new Image();
-			
-			core.assets.cards[i].asset.onload = function() {
+	$.get('Engine/ServerScripts/GetCards.php', function(cardList){
 
-				loadedassets++;
-				core.information.loadedcards += 1;
-				
-				// get the deck when the final card has loaded
-				if (core.information.loadedcards == core.assets.cards.length - 1) {
-				
-					getdeck(core);
-				
-				}
-			
-			}
-			
-			core.assets.cards[i].asset.src = core.assets.cards[i].Image;
-			
-		}
+		core.assets.cards = cardList.map(function (card) {
+			return new Card(card);
+		});
+
+		var assetArray = core.assets.cards.map(function (card) {
+			return card.loadAsset();
+		});
+
+		Promise.all(assetArray).then(function (res) {
+			getdeck(core);
+		});
+
+
+		//console.log(result);
+		//return;
+		//core.information.loadedcards = 0;
+        //
+		//core.assets.cards = result.split('---');
+		//
+		//for (var i = 0; i < core.assets.cards.length - 1; i++) {
+		//
+		//	core.assets.cards[i] = JSON.parse(core.assets.cards[i]);
+		//
+		//	core.assets.cards[i].asset = new Image();
+		//
+		//	core.assets.cards[i].asset.onload = function() {
+        //
+		//		loadedassets++;
+		//		core.information.loadedcards += 1;
+		//
+		//		// get the deck when the final card has loaded
+		//		if (core.information.loadedcards == core.assets.cards.length - 1) {
+		//
+		//			getdeck(core);
+		//
+		//		}
+		//
+		//	}
+		//
+		//	core.assets.cards[i].asset.src = core.assets.cards[i].Image;
+		//
+		//}
 		
 	});
 
@@ -179,31 +193,33 @@ function getdeck(core) {
 core.player1.deck = [];
 core.player2.deck = [];
 
-	var counter = 0;
+	//var counter = 0;
 	for (var i = 0; i <= 60; i++) {
-	
-		var card = {};
-		card.cardID = core.assets.cards[counter].cardID;
-		card.attack = core.assets.cards[counter].attack;
-		card.defense = core.assets.cards[counter].defense;
-		card.magicresist = core.assets.cards[counter].magicresist;
-		card.armor = core.assets.cards[counter].armor;
-		card.cost = core.assets.cards[counter].cost;
-		card.type = core.assets.cards[counter].type;
-		card.name = core.assets.cards[counter].name;
-		card.asset = core.assets.cards[counter].asset;
-		card.damagetype = core.assets.cards[counter].damagetype;
+        //
+        //var card = {};
+        //card.cardID = core.assets.cards[counter].cardID;
+        //card.attack = core.assets.cards[counter].attack;
+        //card.defense = core.assets.cards[counter].defense;
+        //card.magicresist = core.assets.cards[counter].magicresist;
+        //card.armor = core.assets.cards[counter].armor;
+        //card.cost = core.assets.cards[counter].cost;
+        //card.type = core.assets.cards[counter].type;
+        //card.name = core.assets.cards[counter].name;
+        //card.asset = core.assets.cards[counter].asset;
+        //card.damagetype = core.assets.cards[counter].damagetype;
+		//card.activated = 0;
 
+		
+			//if (counter != 7) {
+			//	counter ++;
+			//} else {
+			//	counter = 0;
+			//}
+		var card = pickRandom(core.assets.cards);
+
+		// TODO come up with a way to add cardback asset when cards created.
 		card.back = core.assets.cardback;
-		card.activated = 0;
 
-		
-			if (counter != 7) {
-				counter ++;
-			} else {
-				counter = 0;
-			}
-		
 		core.player1.deck[i] = card;
 		core.player2.deck[i] = card;
 	}
