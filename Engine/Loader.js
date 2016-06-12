@@ -52,7 +52,7 @@ totalload += gamecomponents.length + 1 + 8 + 2 + 1 + 1 + 1 + 1;
 	
 	// set players hands count
 	sethandamount(core);
-	
+
 	// set the player's towers
 	settowers(core);
 	
@@ -61,6 +61,7 @@ totalload += gamecomponents.length + 1 + 8 + 2 + 1 + 1 + 1 + 1;
 	
 	// start the game
 	startgame(core);
+
 }
 
 function addtoassets(core, current, img) {

@@ -27,9 +27,9 @@ src: url(Assets/lifecraft.ttf);
 }
 
 body {
-	
+
 background-image: url('Assets/clientbackground.jpg');
-	
+
 }
 
 #GameCanvas {
