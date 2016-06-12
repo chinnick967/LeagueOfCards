@@ -4,7 +4,7 @@ function checkactions(core) {
 		
 		$.post('Engine/ServerScripts/CheckActions.php', {gameID: core.information.gameid, player: core.information.player}, function(result){
 
-			if (result.length != 0) {
+			if (result.data.length != 0) {
 
 				var actions = result.data;
 
