@@ -2,6 +2,8 @@
 
 // connect to the database
 require 'Connect.php';
+require 'Response.php';
+
 $gameid = $_POST["gameID"];
 
 $gameinfo = mysql_query("
@@ -14,10 +16,14 @@ $gameinfo = mysql_query("
 
 	while ($row = mysql_fetch_assoc($gameinfo)) {
 	
-		$gamejson = array('player1' => $row['Player1'], 'player2' => $row['Player2'], 'starttime' => $row['starttime']);
+		$gamejson = array(
+			'player1' => $row['Player1'],
+			'player2' => $row['Player2'],
+			'starttime' => $row['starttime']
+		);
 	
 	}
 	
-	echo json_encode($gamejson);
+	echo generateSuccessResponse($gamejson);
 
 ?>

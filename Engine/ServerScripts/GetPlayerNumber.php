@@ -10,6 +10,7 @@ if (!isset($_POST["playerID"])) {
 // connect to the database
 require 'Connect.php';
 require 'QueueFunctions.php';
+require 'Response.php';
 
 $playerID = $_POST["playerID"];
 
@@ -45,7 +46,11 @@ creategame($playerID);
 	$gameid = mysql_result($getgameid, 0);
 	
 	// echo out a json with the gameid and player number
-	$arr = array('gameid' => $gameid, 'player' => $playernumber);
-	echo json_encode($arr);
+	$arr = array(
+		'gameid' => $gameid,
+		'player' => $playernumber
+	);
+
+	echo generateSuccessResponse($arr);
 
 ?>

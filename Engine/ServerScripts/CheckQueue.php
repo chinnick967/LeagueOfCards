@@ -10,6 +10,7 @@ if (!isset($_POST["playerID"])) {
 // connect to the database
 require 'Connect.php';
 require 'QueueFunctions.php';
+require 'Response.php';
 
 // Get the player's ID
 $playerID = (int)$_POST["playerID"];
@@ -40,14 +41,15 @@ $playerID = (int)$_POST["playerID"];
 		 WHERE	(Queue.player1 = '$playerID' OR Queue.player2 = '$playerID') AND Queue.player2 != 0
 
 	");
-	
+
+
 	if (mysql_num_rows($checkformatch) == 1) {
 	
-		echo 1;
+		echo generateSuccessResponse(1);
 	
 	} else {
 	
-		echo 0;
+		echo generateSuccessResponse(0);
 	
 	}
 

@@ -10,6 +10,7 @@ if (!isset($_POST["playerID"])) {
 // connect to the database
 require 'Connect.php';
 require 'QueueFunctions.php';
+require 'Response.php';
 
 // Get the player's ID
 $playerID = (int)$_POST["playerID"];
@@ -61,7 +62,7 @@ $playerID = (int)$_POST["playerID"];
 				");
 				
 				// echo 2 showing that they found a match
-				echo 2;
+				echo generateSuccessResponse(2);
 				
 				
 			} else {
@@ -90,7 +91,7 @@ $playerID = (int)$_POST["playerID"];
 				");
 				
 				// echo 1 showing that queueing was successful
-				echo 1;
+				echo generateSuccessResponse(1);
 			
 			}
 	
@@ -107,7 +108,7 @@ $playerID = (int)$_POST["playerID"];
 				");
 	
 		// echo 0 showing that queueing was not successful
-		echo 0;
+		echo generateSuccessResponse(0);
 	
 	}
 
