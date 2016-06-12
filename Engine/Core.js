@@ -477,6 +477,7 @@ function playcard(core, card) {
 		var action = {};
 		action.name = 'PlayCard', action.sendingplayer = '2', action.receivingplayer = '1', action.var1 = card.cardID, action.var2 = core.information.currentslothover;
 		submitaction(core, action);
+        addtoboard(core, card);
 	
 	}
 

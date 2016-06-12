@@ -11,10 +11,10 @@ function drawComponents(core) {
 	drawButtons(core);
 	drawboard(core);
 	drawnames(core);
-	drawhand(core);
 	
 	settime(core);
-	
+	drawhand(core);
+
 }
 
 function drawCardSlots(core) {
@@ -177,6 +177,25 @@ function drawTimer(core) {
 var canvas = document.getElementById('GameCanvas');
 var ctx = canvas.getContext("2d");
 
+	core.information.turn = 2;
+	core.information.timer = 15;
+
+	ctx.shadowBlur = 0;
+	
+	// timer background
+	ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
+	ctx.beginPath();
+	ctx.arc(core.information.pwidth * 50, core.information.pheight * 11.3, core.information.pwidth * 4.3, 0, 2 * Math.PI);
+	ctx.fill();
+	
+	ctx.shadowColor = 'black';
+	ctx.shadowBlur = 20;
+	
+	if (core.information.turn == 1) {
+		ctx.drawImage(core.assets.bluetimer, core.information.pwidth * 42.5, 0, core.information.pwidth * 15, core.information.pheight * 22);
+	} else {
+		ctx.drawImage(core.assets.redtimer, core.information.pwidth * 42.5, 0, core.information.pwidth * 15, core.information.pheight * 22);
+	}
 	ctx.shadowBlur = 0;
 	
 	// timer background
@@ -204,7 +223,6 @@ var ctx = canvas.getContext("2d");
 	
 	// draw the timer text
 	ctx.fillText(parseInt(core.information.turntimer), core.information.pwidth * 49.6 - textlength / 2, core.information.pheight * 14.5);
-	
 	
 	ctx.globalAlpha = 1;
 }
@@ -515,7 +533,7 @@ var ctx = canvas.getContext("2d");
 	}
 	ctx.drawImage(core.assets.tower, core.information.pwidth * 60.5, core.information.pheight * 7, core.information.pwidth * 2, core.information.pheight * 3.5);
 	ctx.globalAlpha = 1;
-	
+
 	if (core.player2.currenttower > 3) {
 		ctx.globalAlpha = .4;
 	}
@@ -587,6 +605,7 @@ var ctx = canvas.getContext("2d");
 		var slength;
 
 		ctx.fillStyle = 'white';
+
 		ctx.font= core.information.pwidth * 1.4 + "px lifecraft";
 		
 		// player 1 stats
@@ -630,6 +649,7 @@ var ctx = canvas.getContext("2d");
 		// player 2 name
 		// player 1 name
 		ctx.fillStyle = 'white';
+
 		ctx.font= core.information.pwidth * 1.8 + "px myFont";
 		var name2adjust = ctx.measureText(name2).width / 2;
 		ctx.fillText(name2, core.information.pwidth * 80.5 - name2adjust, core.information.pheight * 3);

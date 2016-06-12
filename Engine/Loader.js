@@ -24,6 +24,7 @@ core.player2.icon,
 'Assets/yellowcard.png',
 'Assets/cardback.png'
 ];
+
 // assets array plus one for loading the player information and plus 8 for loading cards plus 1 for each hand plus one for setting gold plus 1 for gameinfo/settings plus 1 for loading towers plus 1 for actions array
 totalload += gamecomponents.length + 1 + 8 + 2 + 1 + 1 + 1 + 1;
 
@@ -116,6 +117,7 @@ function getgameinfo(core) {
 		core.information.player1ID = jsonresult.player1;
 		core.information.player2ID = jsonresult.player2;
 		core.information.starttime = jsonresult.starttime;
+
 		loadedassets++;
 		
 	});
@@ -190,8 +192,10 @@ core.player2.deck = [];
 		card.name = core.assets.cards[counter].name;
 		card.asset = core.assets.cards[counter].asset;
 		card.damagetype = core.assets.cards[counter].damagetype;
+
 		card.back = core.assets.cardback;
 		card.activated = 0;
+
 		
 			if (counter != 7) {
 				counter ++;
@@ -332,5 +336,5 @@ function createactionsarray(core) {
 	core.actions.actionarray = [];
 	
 	loadedassets++;
-	
+
 }
