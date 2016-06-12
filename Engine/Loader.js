@@ -2,27 +2,27 @@
 var loadpercent = 0;
 var loadedassets = 0;
 var totalload = 0;
-//loadcards();
+
 function loadassets(core) {
 
 // game assets
 var gamecomponents = [
-	'Assets/SoundBars.png',
-	'Assets/bluetimer.png',
-	'Assets/redtimer.png',
-	'Assets/threecards.png',
-	core.player1.icon,
-	core.player2.icon,
-	'Assets/settings.png',
-	'Assets/fullscreen.png',
-	'Assets/magicresist.png',
-	'Assets/armor.png',
-	'Assets/towericon.png',
-	'Assets/inhibicon.png',
-	'Assets/goldicon2.png',
-	'Assets/goldstack.png',
-	'Assets/yellowcard.png',
-	'Assets/cardback.png'
+'Assets/SoundBars.png',
+'Assets/bluetimer.png',
+'Assets/redtimer.png',
+'Assets/threecards.png',
+core.player1.icon,
+core.player2.icon,
+'Assets/settings.png',
+'Assets/fullscreen.png',
+'Assets/magicresist.png',
+'Assets/armor.png',
+'Assets/towericon.png',
+'Assets/inhibicon.png',
+'Assets/goldicon2.png',
+'Assets/goldstack.png',
+'Assets/yellowcard.png',
+'Assets/cardback.png'
 ];
 
 // assets array plus one for loading the player information and plus 8 for loading cards plus 1 for each hand plus one for setting gold plus 1 for gameinfo/settings plus 1 for loading towers plus 1 for actions array
