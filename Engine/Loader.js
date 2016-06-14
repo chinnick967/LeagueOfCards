@@ -1,7 +1,7 @@
 // global variable for games loading percentage
-loadpercent = 0;
-loadedassets = 0;
-totalload = 0;
+var loadpercent = 0;
+var loadedassets = 0;
+var totalload = 0;
 
 function loadassets(core) {
 
@@ -24,6 +24,7 @@ core.player2.icon,
 'Assets/yellowcard.png',
 'Assets/cardback.png'
 ];
+
 // assets array plus one for loading the player information and plus 8 for loading cards plus 1 for each hand plus one for setting gold plus 1 for gameinfo/settings plus 1 for loading towers plus 1 for actions array
 totalload += gamecomponents.length + 1 + 8 + 2 + 1 + 1 + 1 + 1;
 
@@ -33,7 +34,7 @@ totalload += gamecomponents.length + 1 + 8 + 2 + 1 + 1 + 1 + 1;
 		
 		img.onload = function() {
 			loadedassets++;
-		}
+		};
 		
 		img.src = gamecomponents[i];
 		
@@ -51,7 +52,7 @@ totalload += gamecomponents.length + 1 + 8 + 2 + 1 + 1 + 1 + 1;
 	
 	// set players hands count
 	sethandamount(core);
-	
+
 	// set the player's towers
 	settowers(core);
 	
@@ -60,6 +61,7 @@ totalload += gamecomponents.length + 1 + 8 + 2 + 1 + 1 + 1 + 1;
 	
 	// start the game
 	startgame(core);
+
 }
 
 function addtoassets(core, current, img) {
@@ -86,8 +88,8 @@ function addtoassets(core, current, img) {
 function loadplayer(core, playerID, gamecomponents) {
 	
 	$.post('Engine/ServerScripts/GetPlayerNumber.php', {playerID: playerID}, function(result){
-	
-		jsonresult = JSON.parse(result);
+
+		var jsonresult = result.data;
 		core.information.gameid = jsonresult.gameid;
 		core.information.player = jsonresult.player;
 		loadedassets++;
@@ -112,10 +114,11 @@ function getgameinfo(core) {
 	
 	$.post('Engine/ServerScripts/GameInfo.php', {gameID: core.information.gameid}, function(result){
 		
-		jsonresult = JSON.parse(result);
+		var jsonresult = result.data;
 		core.information.player1ID = jsonresult.player1;
 		core.information.player2ID = jsonresult.player2;
 		core.information.starttime = jsonresult.starttime;
+
 		loadedassets++;
 		
 	});
@@ -137,15 +140,13 @@ function loadprogress(core) {
 function loadcards(core) {
 
 	$.get('Engine/ServerScripts/GetCards.php', function(result){
-	
+
 		core.information.loadedcards = 0;
-	
-		core.assets.cards = result.split('---');
-		
-		for (var i = 0; i < core.assets.cards.length - 1; i++) {
-		
-			core.assets.cards[i] = JSON.parse(core.assets.cards[i]);
-			
+
+		core.assets.cards = result.data;
+
+		for (var i = 0; i < core.assets.cards.length; i++) {
+
 			core.assets.cards[i].asset = new Image();
 			
 			core.assets.cards[i].asset.onload = function() {
@@ -155,17 +156,18 @@ function loadcards(core) {
 				
 				// get the deck when the final card has loaded
 				if (core.information.loadedcards == core.assets.cards.length - 1) {
-				
+
 					getdeck(core);
 				
 				}
+
 			
-			}
+			};
 			
 			core.assets.cards[i].asset.src = core.assets.cards[i].Image;
 			
 		}
-		
+
 	});
 
 }
@@ -175,7 +177,6 @@ function getdeck(core) {
 // temporarily give both players the same decks
 core.player1.deck = [];
 core.player2.deck = [];
-
 	var counter = 0;
 	for (var i = 0; i <= 60; i++) {
 	
@@ -190,15 +191,17 @@ core.player2.deck = [];
 		card.name = core.assets.cards[counter].name;
 		card.asset = core.assets.cards[counter].asset;
 		card.damagetype = core.assets.cards[counter].damagetype;
+
 		card.back = core.assets.cardback;
 		card.activated = 0;
+
 		
 			if (counter != 7) {
 				counter ++;
 			} else {
 				counter = 0;
 			}
-		
+
 		core.player1.deck[i] = card;
 		core.player2.deck[i] = card;
 	}
@@ -229,7 +232,7 @@ function shuffledeck(deck) {
 
 function gethand(core, deck) {
 
-var amount;
+	var amount;
 
 	if (core.information.player == 1) {
 		amount = 3;
@@ -240,15 +243,15 @@ var amount;
 	}
 	
 	for (var i = 0; i < amount; i++) {
-	
+
 		var topcard = deck.length - 1;
 		
 		if (core.information.player == 1) {
+			console.log('Player 1 deck', deck[topcard]);
 			core.player1.hand.push(deck[topcard]);
 		} else {
 			core.player2.hand.push(deck[topcard]);
 		}
-	
 		deck.splice(topcard, 1);
 	}
 	
@@ -332,5 +335,5 @@ function createactionsarray(core) {
 	core.actions.actionarray = [];
 	
 	loadedassets++;
-	
+
 }

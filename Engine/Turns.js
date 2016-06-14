@@ -29,7 +29,7 @@ function changeturntime(core) {
 	if (core.information.turntimer < 0) {
 		core.information.turntimer = 0;
 	}
-	
+
 }
 
 function changeturn(core) {
@@ -56,6 +56,5 @@ function checkturn(core) {
 	} else {
 		return false;
 	}
-	
 	
 }
