@@ -177,9 +177,6 @@ function drawTimer(core) {
 var canvas = document.getElementById('GameCanvas');
 var ctx = canvas.getContext("2d");
 
-	core.information.turn = 2;
-	core.information.timer = 15;
-
 	ctx.shadowBlur = 0;
 	
 	// timer background
@@ -191,7 +188,7 @@ var ctx = canvas.getContext("2d");
 	ctx.shadowColor = 'black';
 	ctx.shadowBlur = 20;
 	
-	if (core.information.turn == 1) {
+	if (core.information.turn == 1 || core.information.turn == 0) {
 		ctx.drawImage(core.assets.bluetimer, core.information.pwidth * 42.5, 0, core.information.pwidth * 15, core.information.pheight * 22);
 	} else {
 		ctx.drawImage(core.assets.redtimer, core.information.pwidth * 42.5, 0, core.information.pwidth * 15, core.information.pheight * 22);

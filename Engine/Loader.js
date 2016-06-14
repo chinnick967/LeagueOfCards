@@ -58,9 +58,6 @@ totalload += gamecomponents.length + 1 + 8 + 2 + 1 + 1 + 1 + 1;
 	
 	// actions array
 	createactionsarray(core);
-	
-	// start the game
-	startgame(core);
 
 }
 

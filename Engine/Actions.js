@@ -1,5 +1,5 @@
 function checkactions(core) {
-
+//test
 	if (core.information.loaded == true) {
 		
 		$.post('Engine/ServerScripts/CheckActions.php', {gameID: core.information.gameid, player: core.information.player}, function(result){

@@ -3,6 +3,8 @@ function startgame(core) {
 	core.information.turn = 0;
 	core.information.turntimestart = 0;
 	core.information.turnlength = 30;
+	
+	loadedassets++;
 
 }
 
