@@ -57,5 +57,4 @@ function checkturn(core) {
 		return false;
 	}
 	
-	
 }

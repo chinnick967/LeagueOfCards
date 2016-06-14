@@ -1,16 +1,17 @@
 function checkactions(core) {
-	//test
+
 	if (core.information.loaded == true) {
 		
 		$.post('Engine/ServerScripts/CheckActions.php', {gameID: core.information.gameid, player: core.information.player}, function(result){
 
-			if (result != 0) {
-				
-				var actions = result.split('---');
-				
-				for (var i = 0; i < actions.length - 1; i++) {
+			if (result.data.length != 0) {
+
+				var actions = result.data;
+
+				for (var i = 0; i < actions.length; i++) {
 					
-					var actionobject = JSON.parse(actions[i]);
+					var actionobject = actions[i];
+
 					actionobject.complete = 0;
 					actionobject.running = 0;
 					core.actions.actionarray.push(actionobject);

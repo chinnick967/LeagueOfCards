@@ -470,7 +470,7 @@ function playcard(core, card) {
 		var action = {};
 		action.name = 'GoldAdjust', action.sendingplayer = '1', action.receivingplayer = '2', action.var1 = -card.cost, action.var2 = '1';
 		submitaction(core, action);
-		
+
 		// add card to position on board
         addtoboard(core, card, 0);
 		// play card action

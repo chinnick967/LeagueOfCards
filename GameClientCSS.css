@@ -28,8 +28,29 @@ src: url(Assets/lifecraft.ttf);
 
 body {
 	
-background-image: url('Assets/clientbackground.jpg');
+font-family: comicFont;
+src: url(Assets/fightingspirit.ttf);
 	
+}
+
+@font-face {
+	
+font-family: action;
+src: url(Assets/action.ttf);
+	
+}
+
+@font-face {
+	
+font-family: lifecraft;
+src: url(Assets/lifecraft.ttf);
+	
+}
+
+body {
+
+background-image: url('Assets/clientbackground.jpg');
+
 }
 
 #GameCanvas {

@@ -59,7 +59,7 @@ var ctx = canvas.getContext("2d");
 	
 	// start check for actions
 	checkactions(core);
-	
+
 	// set the variable for the first run after loading
 	core.information.firstrun = 1;
 	
