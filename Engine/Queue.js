@@ -75,11 +75,21 @@ var queueactive = 0;
 		// append the timer to show the new time/message
 		$("#matchtimer").append("Searching... " + minutes + ':' + seconds);
 		
-		if (queueactive == '0') {
+		if (queueactive == '2') {
 		
 			document.getElementById('matchtimer').innerHTML = "Match Found!";
 			document.getElementById("playbutton").disabled = true;
 		
+		} else if (queueactive == '0') {
+			
+			// clear the play button
+			document.getElementById('playbutton').innerHTML = "";
+			// append the timer to show the new time/message
+			$("#playbutton").append('Play');
+			// clear match timer
+			// clear the play button
+			document.getElementById('matchtimer').innerHTML = "";
+			
 		} else {
 		
 			setTimeout(function(){ queuetimer(time); }, 1000);
@@ -95,7 +105,7 @@ var queueactive = 0;
 				// if match is found stop the queue and start a match
 				if (result == '1') {
 				
-					queueactive = '0';
+					queueactive = '2';
 					startgame();
 				
 				}
@@ -116,13 +126,16 @@ var queueactive = 0;
 		document.getElementById('matchtimer').style.display = 'block';
 		document.getElementById('matchtimer').innerHTML = "Match Found!";
 		init();
-		loadinggame();
+		loadinggame(0);
 		
 	}
 	
-	function loadinggame() {
+	function loadinggame(pinged) {
 		
-		ping.play();
+		if (pinged == 0) {
+			ping.play();
+		}
+		
 		document.getElementById('loadingbar').style.display = 'block';
 		document.getElementById('loadingbar').style.width = loadpercent * 3;
 		
@@ -135,7 +148,7 @@ var queueactive = 0;
 
 				}, 2000);	
 		} else {
-			setTimeout(function(){ loadinggame(); }, 10);
+			setTimeout(function(){ loadinggame(1); }, 10);
 		}
 	
 	}

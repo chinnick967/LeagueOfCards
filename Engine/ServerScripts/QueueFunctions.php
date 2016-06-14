@@ -68,8 +68,8 @@ function creategame($playerID) {
 		// create a game
 		$creategame = mysql_query("
 	
-	     	 INSERT INTO Games (GameID, Player1, Player2, Player1Ping, Player2Ping)
-	     	 VALUES		   ($newid, $player1, $player2, $time, $time)
+	     	 INSERT INTO Games (GameID, Player1, Player2, Player1Ping, Player2Ping, starttime)
+	     	 VALUES		   ($newid, $player1, $player2, $time, $time, $time)
 	
 		");
 	

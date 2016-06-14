@@ -21,10 +21,11 @@ core.player2.icon,
 'Assets/inhibicon.png',
 'Assets/goldicon2.png',
 'Assets/goldstack.png',
-'Assets/yellowcard.png'
+'Assets/yellowcard.png',
+'Assets/cardback.png'
 ];
-// assets array plus one for loading the player information and plus 8 for loading cards plus 1 for each hand plus one for setting gold
-totalload += gamecomponents.length + 1 + 8 + 2 + 1;
+// assets array plus one for loading the player information and plus 8 for loading cards plus 1 for each hand plus one for setting gold plus 1 for gameinfo/settings plus 1 for loading towers plus 1 for actions array
+totalload += gamecomponents.length + 1 + 8 + 2 + 1 + 1 + 1 + 1;
 
 	for (var i = 0; i < gamecomponents.length; i++) {
 		
@@ -42,14 +43,23 @@ totalload += gamecomponents.length + 1 + 8 + 2 + 1;
 	
 	loadplayer(core, playerID, gamecomponents);
 	
-	// load the game cards
-	loadcards(core);
-	
 	// prepare the game board
 	boardprep(core);
 	
 	// set the player gold amount
 	setgold(core);
+	
+	// set players hands count
+	sethandamount(core);
+	
+	// set the player's towers
+	settowers(core);
+	
+	// actions array
+	createactionsarray(core);
+	
+	// start the game
+	startgame(core);
 }
 
 function addtoassets(core, current, img) {
@@ -69,6 +79,7 @@ function addtoassets(core, current, img) {
 	if (current == 12) {core.assets.gold = img;}
 	if (current == 13) {core.assets.goldincome = img;}
 	if (current == 14) {core.assets.cardsicon = img;}
+	if (current == 15) {core.assets.cardback = img;}
 	
 }
 
@@ -81,8 +92,34 @@ function loadplayer(core, playerID, gamecomponents) {
 		core.information.player = jsonresult.player;
 		loadedassets++;
 		
+		if (core.information.player == 1) {
+			core.information.enemyplayer = 2;
+		} else {
+			core.information.enemyplayer = 1;
+		}
+		
+			// get game info
+			getgameinfo(core);
+			
+			// load the game cards
+			loadcards(core);
+		
 	});
 
+}
+
+function getgameinfo(core) {
+	
+	$.post('Engine/ServerScripts/GameInfo.php', {gameID: core.information.gameid}, function(result){
+		
+		jsonresult = JSON.parse(result);
+		core.information.player1ID = jsonresult.player1;
+		core.information.player2ID = jsonresult.player2;
+		core.information.starttime = jsonresult.starttime;
+		loadedassets++;
+		
+	});
+	
 }
 
 function loadprogress(core) {
@@ -109,9 +146,9 @@ function loadcards(core) {
 		
 			core.assets.cards[i] = JSON.parse(core.assets.cards[i]);
 			
-			core.assets.cards[i].Asset = new Image();
+			core.assets.cards[i].asset = new Image();
 			
-			core.assets.cards[i].Asset.onload = function() {
+			core.assets.cards[i].asset.onload = function() {
 
 				loadedassets++;
 				core.information.loadedcards += 1;
@@ -125,7 +162,7 @@ function loadcards(core) {
 			
 			}
 			
-			core.assets.cards[i].Asset.src = core.assets.cards[i].Image;
+			core.assets.cards[i].asset.src = core.assets.cards[i].Image;
 			
 		}
 		
@@ -143,15 +180,18 @@ core.player2.deck = [];
 	for (var i = 0; i <= 60; i++) {
 	
 		var card = {};
-		card.attack = core.assets.cards[counter].Attack;
-		card.defense = core.assets.cards[counter].Defense;
-		card.magicresist = core.assets.cards[counter].MagicResist;
-		card.armor = core.assets.cards[counter].Armor;
-		card.cost = core.assets.cards[counter].Cost;
-		card.type = core.assets.cards[counter].Type;
-		card.name = core.assets.cards[counter].Name;
-		card.asset = core.assets.cards[counter].Asset;
-		card.damagetype = core.assets.cards[counter].DamageType;
+		card.cardID = core.assets.cards[counter].cardID;
+		card.attack = core.assets.cards[counter].attack;
+		card.defense = core.assets.cards[counter].defense;
+		card.magicresist = core.assets.cards[counter].magicresist;
+		card.armor = core.assets.cards[counter].armor;
+		card.cost = core.assets.cards[counter].cost;
+		card.type = core.assets.cards[counter].type;
+		card.name = core.assets.cards[counter].name;
+		card.asset = core.assets.cards[counter].asset;
+		card.damagetype = core.assets.cards[counter].damagetype;
+		card.back = core.assets.cardback;
+		card.activated = 0;
 		
 			if (counter != 7) {
 				counter ++;
@@ -254,4 +294,43 @@ function setgold(core) {
 	
 	loadedassets++;
 
+}
+
+function sethandamount(core) {
+	
+	core.player1.handlength = 3;
+	core.player2.handlength = 4;
+	
+}
+
+function settowers(core) {
+	
+	// player 1
+	core.player1.currenttower = 1;
+	core.player1.currentmaxhealth = 5;
+	core.player1.currenthealth = 5;
+	core.player1.tier1health = 5;
+	core.player1.tier2health = 10;
+	core.player1.tier3health = 15;
+	core.player1.nexushealth = 20;
+	
+	// player 2
+	core.player2.currenttower = 1;
+	core.player2.currentmaxhealth = 5;
+	core.player2.currenthealth = 5;
+	core.player2.tier1health = 5;
+	core.player2.tier2health = 10;
+	core.player2.tier3health = 15;
+	core.player2.nexushealth = 20;
+	
+	loadedassets++;
+	
+}
+
+function createactionsarray(core) {
+	
+	core.actions.actionarray = [];
+	
+	loadedassets++;
+	
 }
