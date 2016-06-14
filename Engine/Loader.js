@@ -115,6 +115,12 @@ function getgameinfo(core) {
 		core.information.player1ID = jsonresult.player1;
 		core.information.player2ID = jsonresult.player2;
 		core.information.starttime = jsonresult.starttime;
+		
+		if (core.information.player == 1) {
+			core.information.playerID = core.information.player1ID;
+		} else {
+			core.information.playerID = core.information.player2ID;
+		}
 
 		loadedassets++;
 		
@@ -143,7 +149,9 @@ function loadcards(core) {
 		core.assets.cards = result.data;
 
 		for (var i = 0; i < core.assets.cards.length; i++) {
-
+			
+			core.assets.cards[i].back = core.assets.cardback;
+			core.assets.cards[i].activated = 0;
 			core.assets.cards[i].asset = new Image();
 			
 			core.assets.cards[i].asset.onload = function() {

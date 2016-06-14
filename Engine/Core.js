@@ -395,6 +395,7 @@ function previewcard(core, card) {
 	if (card != '' && typeof(card) != 'undefined') {
 		drawcard(core, card, 20, 40, 1, 0, 0);
 	}
+	
 }
 
 function dragcard(core) {
@@ -642,19 +643,29 @@ function previewboardcard(core) {
 
 	switch(core.information.currentslothover) {
           case 1:
-             previewcard(core, core.board.s1);
+			if (core.information.player == 1) {
+				previewcard(core, core.board.s1);
+			}
              break;
           case 2:
+			if (core.information.player == 1) {
              previewcard(core, core.board.s2);
+			}
              break;
           case 3:
+			if (core.information.player == 1) {
              previewcard(core, core.board.s3);
+			}
              break;
           case 4:
+			if (core.information.player == 1) {
              previewcard(core, core.board.s4);
+			}
              break;
           case 5:
+			if (core.information.player == 1) {
              previewcard(core, core.board.s5);
+			}
              break;
           case 6:
              previewcard(core, core.board.s6);
@@ -672,19 +683,29 @@ function previewboardcard(core) {
              previewcard(core, core.board.s10);
              break;
           case 11:
+			if (core.information.player == 2) {
              previewcard(core, core.board.s11);
+			}
              break;
           case 12:
+			if (core.information.player == 2) {
              previewcard(core, core.board.s12);
+			}
              break;
           case 13:
+			if (core.information.player == 2) {
              previewcard(core, core.board.s13);
+			}
              break;
           case 14:
+			if (core.information.player == 2) {
              previewcard(core, core.board.s14);
+			}
              break;
           case 15:
+			if (core.information.player == 2) {
              previewcard(core, core.board.s15);
+			}
              break;
           case 16:
              previewcard(core, core.board.s16);
