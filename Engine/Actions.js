@@ -116,6 +116,10 @@ function action_playcard(core, action, index) {
 	var card = core.assets.cards[action.var1];
 	addtoboard(core, card, parseInt(action.var2));
 	
+	// get board left and top for the animation and then play the animation
+	getboardposition(core, parseInt(action.var2));
+	addanimation(core, 'playcard', core.information.topposition - 6, core.information.leftposition - 1, var1 = 90, var2 = '', var3 = '');
+	
 	// complete action
 	core.actions.actionarray[index].complete = 1;
 	core.actions.actionarray[index].running = 0;

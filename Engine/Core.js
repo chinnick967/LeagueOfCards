@@ -452,7 +452,10 @@ function playcard(core, card) {
 		var action = {};
 		action.name = 'PlayCard', action.sendingplayer = '1', action.receivingplayer = '2', action.var1 = card.cardID, action.var2 = core.information.currentslothover;
 		submitaction(core, action);
-	
+		
+		// get board left and top for the animation and then play the animation
+		getboardposition(core, core.information.currentslothover);
+		addanimation(core, 'playcard', core.information.topposition - 6, core.information.leftposition - 1, var1 = 90, var2 = '', var3 = '');
 	
 	} else if (core.information.player == 1 && core.information.currentslothover >= 1 && core.information.currentslothover <= 5 && card.type == 'Spell' && core.player1.gold >= card.cost) {
 	
@@ -478,6 +481,10 @@ function playcard(core, card) {
 		var action = {};
 		action.name = 'PlayCard', action.sendingplayer = '1', action.receivingplayer = '2', action.var1 = card.cardID, action.var2 = core.information.currentslothover;
 		submitaction(core, action);
+		
+		// get board left and top for the animation and then play the animation
+		getboardposition(core, core.information.currentslothover);
+		addanimation(core, 'playcard', core.information.topposition - 6, core.information.leftposition - 1, var1 = 90, var2 = '', var3 = '');
 	
 	
 	} else if (core.information.player == 2 && core.information.currentslothover >= 16 && core.information.currentslothover <= 20 && card.type != 'Spell' && core.player2.gold >= card.cost) {
@@ -504,6 +511,10 @@ function playcard(core, card) {
 		var action = {};
 		action.name = 'PlayCard', action.sendingplayer = '2', action.receivingplayer = '1', action.var1 = card.cardID, action.var2 = core.information.currentslothover;
 		submitaction(core, action);
+		
+		// get board left and top for the animation and then play the animation
+		getboardposition(core, core.information.currentslothover);
+		addanimation(core, 'playcard', core.information.topposition - 6, core.information.leftposition - 1, var1 = 90, var2 = '', var3 = '');
 	
 	} else if (core.information.player == 2 && core.information.currentslothover >= 10 && core.information.currentslothover <= 15 && card.type == 'Spell' && core.player2.gold >= card.cost) {
 	
@@ -529,6 +540,10 @@ function playcard(core, card) {
 		var action = {};
 		action.name = 'PlayCard', action.sendingplayer = '2', action.receivingplayer = '1', action.var1 = card.cardID, action.var2 = core.information.currentslothover;
 		submitaction(core, action);
+		
+		// get board left and top for the animation and then play the animation
+		getboardposition(core, core.information.currentslothover);
+		addanimation(core, 'playcard', core.information.topposition - 6, core.information.leftposition - 1, var1 = 90, var2 = '', var3 = '');
 	
 	}
 
@@ -797,5 +812,95 @@ function drawcardback(core, card, left, top, width, height, rotation) {
 	ctx.drawImage(card.back, core.information.pwidth * left, core.information.pheight * top, core.information.pwidth * width, core.information.pheight * height);
 	
 	ctx.restore();
+	
+}
+
+function getboardposition(core, position) {
+	
+	var canvas = document.getElementById('GameCanvas');
+	var ctx = canvas.getContext("2d");
+	
+	switch(position) {
+    case 1:
+        core.information.topposition = 10;
+		core.information.leftposition = 4.5;
+        break;
+    case 2:
+        core.information.topposition = 26;
+		core.information.leftposition = 4.5;
+        break;
+	case 3:
+        core.information.topposition = 42;
+		core.information.leftposition = 4.5;
+        break;
+	case 4:
+        core.information.topposition = 58;
+		core.information.leftposition = 4.5;
+        break;
+	case 5:
+        core.information.topposition = 74;
+		core.information.leftposition = 4.5;
+        break;
+	case 6:
+        core.information.topposition = 10;
+		core.information.leftposition = 20;
+        break;
+    case 7:
+        core.information.topposition = 26;
+		core.information.leftposition = 20;
+        break;
+	case 8:
+        core.information.topposition = 42;
+		core.information.leftposition = 20;
+        break;
+	case 9:
+        core.information.topposition = 58;
+		core.information.leftposition = 20;
+        break;
+	case 10:
+        core.information.topposition = 74;
+		core.information.leftposition = 20;
+        break;
+	case 11:
+        core.information.topposition = 10;
+		core.information.leftposition = 82.5;
+        break;
+    case 12:
+        core.information.topposition = 26;
+		core.information.leftposition = 82.5;
+        break;
+	case 13:
+        core.information.topposition = 42;
+		core.information.leftposition = 82.5;
+        break;
+	case 14:
+        core.information.topposition = 58;
+		core.information.leftposition = 82.5;
+        break;
+	case 15:
+        core.information.topposition = 74;
+		core.information.leftposition = 82.5;
+        break;
+	case 16:
+        core.information.topposition = 10;
+		core.information.leftposition = 67;
+        break;
+    case 17:
+        core.information.topposition = 26;
+		core.information.leftposition = 67;
+        break;
+	case 18:
+        core.information.topposition = 42;
+		core.information.leftposition = 67;
+        break;
+	case 19:
+        core.information.topposition = 58;
+		core.information.leftposition = 67;
+        break;
+	case 20:
+        core.information.topposition = 74;
+		core.information.leftposition = 67;
+        break;
+}
 	
 }

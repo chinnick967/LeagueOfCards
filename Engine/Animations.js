@@ -15,9 +15,9 @@ function drawanimations(core) {
 function animationselector(core, animation, index) {
 	
 	if (animation.type == 'cardhealth') {
-		
 		cardhealthanimation(core, animation, index);
-		
+	} else if (animation.type == 'playcard') {
+		playcardanimation(core, animation, index);
 	}
 	
 }
@@ -30,8 +30,8 @@ function addanimation(core, type, top, left, var1 = 'none', var2 = 'none', var3 
 	// set animation values
 	animation.starttime = core.information.time;
 	animation.complete = 0;
-	animation.top = top;
 	animation.type = type;
+	animation.top = top;
 	animation.left = left;
 	animation.var1 = var1;
 	animation.var2 = var2;
@@ -79,8 +79,23 @@ function cardhealthanimation(core, animation, index) {
 	
 }
 
-function playcardanimation(core) {
+function playcardanimation(core, animation, index) {
+	
+	/* Notes
+	
+	*/
 
-
+	var canvas = document.getElementById('GameCanvas');
+	var ctx = canvas.getContext("2d");
+	
+	// current animation time
+	var time = core.information.time - animation.starttime;
+	animation.animationlength = .8;
+	
+	playcardsprite(core, animation, time);
+	
+	if (time >= animation.animationlength) {
+		core.animation[index].complete = 1;
+	}
 
 }

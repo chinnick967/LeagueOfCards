@@ -22,7 +22,9 @@ core.player2.icon,
 'Assets/goldicon2.png',
 'Assets/goldstack.png',
 'Assets/yellowcard.png',
-'Assets/cardback.png'
+'Assets/cardback.png',
+'Assets/Sprites/buff.png',
+'Assets/Sprites/rune6.png'
 ];
 
 // assets array plus one for loading the player information and plus 8 for loading cards plus 1 for each hand plus one for setting gold plus 1 for gameinfo/settings plus 1 for loading towers plus 1 for actions array
@@ -79,6 +81,8 @@ function addtoassets(core, current, img) {
 	if (current == 13) {core.assets.goldincome = img;}
 	if (current == 14) {core.assets.cardsicon = img;}
 	if (current == 15) {core.assets.cardback = img;}
+	if (current == 16) {core.assets.buffsprite = img;}
+	if (current == 17) {core.assets.playcardsprite = img;}
 	
 }
 
@@ -339,4 +343,74 @@ function createactionsarray(core) {
 	
 	loadedassets++;
 
+}
+
+function componentsinfo(core) {
+	
+	core.information.s1left
+	
+	// player 1 back row
+	core.information.currentdrawnslot = 1;
+	drawSlot(core, core.board.s1, 10, 4.5, 'rgba(104, 155, 193, 0.4)');
+
+	core.information.currentdrawnslot = 2;
+	drawSlot(core, core.board.s2, 26, 4.5, 'rgba(104, 155, 193, 0.4)');
+
+	core.information.currentdrawnslot = 3;
+	drawSlot(core, core.board.s3, 42, 4.5, 'rgba(104, 155, 193, 0.4)');
+	
+	core.information.currentdrawnslot = 4;
+	drawSlot(core, core.board.s4, 58, 4.5, 'rgba(104, 155, 193, 0.4)');
+
+	core.information.currentdrawnslot = 5;
+	drawSlot(core, core.board.s5, 74, 4.5, 'rgba(104, 155, 193, 0.4)');
+	
+	// player 1 front row
+	core.information.currentdrawnslot = 6;
+	drawSlot(core, core.board.s6, 10, 20, 'rgba(104, 155, 193, 0.4)');
+	
+	core.information.currentdrawnslot = 7;
+	drawSlot(core, core.board.s7, 26, 20, 'rgba(104, 155, 193, 0.4)');
+	
+	core.information.currentdrawnslot = 8;
+	drawSlot(core, core.board.s8, 42, 20, 'rgba(104, 155, 193, 0.4)');
+	
+	core.information.currentdrawnslot = 9;
+	drawSlot(core, core.board.s9, 58, 20, 'rgba(104, 155, 193, 0.4)');
+	
+	core.information.currentdrawnslot = 10;
+	drawSlot(core, core.board.s10, 74, 20, 'rgba(104, 155, 193, 0.4)');
+	
+	// player 2 back row
+	core.information.currentdrawnslot = 11;
+	drawSlot(core, core.board.s11, 10, 82.5, 'rgba(235, 0, 0, 0.4)');
+	
+	core.information.currentdrawnslot = 12;
+	drawSlot(core, core.board.s12, 26, 82.5, 'rgba(235, 0, 0, 0.4)');
+	
+	core.information.currentdrawnslot = 13;
+	drawSlot(core, core.board.s13, 42, 82.5, 'rgba(235, 0, 0, 0.4)');
+	
+	core.information.currentdrawnslot = 14;
+	drawSlot(core, core.board.s14, 58, 82.5, 'rgba(235, 0, 0, 0.4)');
+	
+	core.information.currentdrawnslot = 15;
+	drawSlot(core, core.board.s15, 74, 82.5, 'rgba(235, 0, 0, 0.4)');
+	
+	// player 2 front row
+	core.information.currentdrawnslot = 16;
+	drawSlot(core, core.board.s16, 10, 67, 'rgba(235, 0, 0, 0.4)');
+	
+	core.information.currentdrawnslot = 17;
+	drawSlot(core, core.board.s17, 26, 67, 'rgba(235, 0, 0, 0.4)');
+	
+	core.information.currentdrawnslot = 18;
+	drawSlot(core, core.board.s18, 42, 67, 'rgba(235, 0, 0, 0.4)');
+	
+	core.information.currentdrawnslot = 19;
+	drawSlot(core, core.board.s19, 58, 67, 'rgba(235, 0, 0, 0.4)');
+	
+	core.information.currentdrawnslot = 20;
+	drawSlot(core, core.board.s20, 74, 67, 'rgba(235, 0, 0, 0.4)');
+	
 }

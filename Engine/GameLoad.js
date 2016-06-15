@@ -63,7 +63,6 @@ var ctx = canvas.getContext("2d");
 	// set the variable for the first run after loading
 	core.information.firstrun = 1;
 	
-	setTimeout(function(){ addanimation(core, 'cardhealth', 30, 20, var1 = -2, var2 = 'right', var3 = ''); }, 5000);
 }
 
 function redraw(core) {
@@ -98,6 +97,7 @@ function redraw(core) {
 		// if first run, start game
 		if (core.information.firstrun == 1) {
 			startgame(core);
+			// setTimeout(function(){ addanimation(core, 'playcard', 30, 20, var1 = 90, var2 = '', var3 = ''); }, 5000);
 		}
 		
 		// set first run to 1
