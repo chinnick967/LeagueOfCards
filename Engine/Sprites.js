@@ -49,6 +49,6 @@ function playcardsprite(core, animation, time){
 	var clipy = getclipy(192, 5, frame);
 	
 	// ctx.drawimage(image, clipx, clipy, clipwidth, clipheight, xcoord, ycoord, width, height);
-	ctx.drawImage(core.assets.playcardsprite, clipx, clipy, 192, 192, core.information.pwidth * animation.left, core.information.pheight * animation.top, core.information.pwidth * 15, core.information.pheight * 25);
+	ctx.drawImage(core.assets.playcardsprite, clipx, clipy, 192, 192, core.information.pwidth * animation.left, core.information.pheight * animation.top, core.information.pwidth * 20, core.information.pheight * 35);
 	
 }
