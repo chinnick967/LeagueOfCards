@@ -18,6 +18,10 @@ function animationselector(core, animation, index) {
 		cardhealthanimation(core, animation, index);
 	} else if (animation.type == 'playcard') {
 		playcardanimation(core, animation, index);
+	} else if (animation.type == 'goldcoin') {
+		infinitegoldcoinanimation(core, animation, index);
+	} else if (animation.type == 'silvercoin') {
+		infinitesilvercoinanimation(core, animation, index);
 	}
 	
 }
@@ -97,5 +101,47 @@ function playcardanimation(core, animation, index) {
 	if (time >= animation.animationlength) {
 		core.animation[index].complete = 1;
 	}
+
+}
+
+function infinitegoldcoinanimation(core, animation, index) {
+	
+	/* Notes
+	
+	*/
+
+	var canvas = document.getElementById('GameCanvas');
+	var ctx = canvas.getContext("2d");
+	
+	// current animation time
+	var time = core.information.time - animation.starttime;
+	animation.animationlength = .8;
+	
+	goldcoinsprite(core, animation, time);
+	
+	if (time >= animation.animationlength) {
+		animation.starttime = core.information.time;
+	}
+
+}
+
+function infinitesilvercoinanimation(core, animation, index) {
+	
+	/* Notes
+	
+	*/
+
+	var canvas = document.getElementById('GameCanvas');
+	var ctx = canvas.getContext("2d");
+	
+	// current animation time
+	var time = core.information.time - animation.starttime;
+	animation.animationlength = .8;
+	
+	if (time >= animation.animationlength) {
+		animation.starttime = core.information.time;
+	}
+	
+	silvercoinsprite(core, animation, time);
 
 }

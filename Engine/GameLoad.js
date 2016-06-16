@@ -97,7 +97,11 @@ function redraw(core) {
 		// if first run, start game
 		if (core.information.firstrun == 1) {
 			startgame(core);
-			// setTimeout(function(){ addanimation(core, 'playcard', 30, 20, var1 = 90, var2 = '', var3 = ''); }, 5000);
+			// adds coin animations
+			setTimeout(function(){ addanimation(core, 'goldcoin', 1.8, 34, var1 = '', var2 = '', var3 = ''); }, 1000);
+			setTimeout(function(){ addanimation(core, 'goldcoin', 1.8, 54, var1 = '', var2 = '', var3 = ''); }, 1000);
+			setTimeout(function(){ addanimation(core, 'silvercoin', 2.3, 38.2, var1 = '', var2 = '', var3 = ''); }, 1000);
+			setTimeout(function(){ addanimation(core, 'silvercoin', 2.3, 58.2, var1 = '', var2 = '', var3 = ''); }, 1000);
 		}
 		
 		// set first run to 1

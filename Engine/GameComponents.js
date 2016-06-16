@@ -598,7 +598,7 @@ var ctx = canvas.getContext("2d");
         ctx.shadowColor = 'black';
         ctx.shadowBlur = 1;
 
-        ctx.strokeStyle = 'rgba(215, 227, 44, 0.6)';
+        /*ctx.strokeStyle = 'rgba(215, 227, 44, 0.6)';
         ctx.beginPath();
         ctx.arc(core.information.pwidth * 36, core.information.pheight * 4, core.information.pwidth * 1.2, 0, 2 * Math.PI);
 		ctx.fill();
@@ -608,7 +608,7 @@ var ctx = canvas.getContext("2d");
         ctx.beginPath();
         ctx.arc(core.information.pwidth * 39, core.information.pheight * 4, core.information.pwidth * 1.2, 0, 2 * Math.PI);
 		ctx.fill();
-        ctx.stroke();
+        ctx.stroke(); */
 
         ctx.strokeStyle = 'rgba(237, 35, 0, 0.6)';
         ctx.beginPath();
@@ -616,13 +616,13 @@ var ctx = canvas.getContext("2d");
 		ctx.fill();
         ctx.stroke();
 
-        ctx.strokeStyle = 'rgba(215, 227, 44, 0.6)';
+        ctx.strokeStyle = 'rgba(237, 35, 0, 0.6)';
         ctx.beginPath();
         ctx.arc(core.information.pwidth * 64, core.information.pheight * 4, core.information.pwidth * 1.2, 0, 2 * Math.PI);
 		ctx.fill();
         ctx.stroke();
 
-        ctx.strokeStyle = 'rgba(116, 227, 173, 0.6)';
+        /* ctx.strokeStyle = 'rgba(116, 227, 173, 0.6)';
         ctx.beginPath();
         ctx.arc(core.information.pwidth * 61, core.information.pheight * 4, core.information.pwidth * 1.2, 0, 2 * Math.PI);
 		ctx.fill();
@@ -632,7 +632,7 @@ var ctx = canvas.getContext("2d");
         ctx.beginPath();
         ctx.arc(core.information.pwidth * 56, core.information.pheight * 4, core.information.pwidth * 1.2, 0, 2 * Math.PI);
 		ctx.fill();
-        ctx.stroke();
+        ctx.stroke(); */
 
 }
 
@@ -648,24 +648,20 @@ var ctx = canvas.getContext("2d");
 		ctx.font= core.information.pwidth * 1.4 + "px lifecraft";
 		
 		// player 1 stats
-		slength = ctx.measureText(core.player1.gold).width / 2;
-		ctx.fillText(core.player1.gold, core.information.pwidth * 36 - slength, core.information.pheight * 4.88);
+		ctx.fillText(core.player1.gold, core.information.pwidth * 36.5, core.information.pheight * 4.88);
 		
-		slength = ctx.measureText(core.player1.goldincome).width / 2;
-		ctx.fillText(core.player1.goldincome, core.information.pwidth * 39 - slength, core.information.pheight * 4.88);
+		ctx.fillText(core.player1.goldincome, core.information.pwidth * 40.7, core.information.pheight * 4.88);
 		
 		slength = ctx.measureText(core.player1.handlength).width / 2;
 		ctx.fillText(core.player1.handlength, core.information.pwidth * 44 - slength, core.information.pheight * 4.88);
 		
 		// player 2 stats
-		slength = ctx.measureText(core.player2.gold).width / 2;
-		ctx.fillText(core.player2.gold, core.information.pwidth * 64 - slength, core.information.pheight * 4.88);
+		ctx.fillText(core.player2.gold, core.information.pwidth * 56.5, core.information.pheight * 4.88);
 		
-		slength = ctx.measureText(core.player2.goldincome).width / 2;
-		ctx.fillText(core.player2.goldincome, core.information.pwidth * 61 - slength, core.information.pheight * 4.88);
+		ctx.fillText(core.player2.goldincome, core.information.pwidth * 60.7, core.information.pheight * 4.88);
 		
 		slength = ctx.measureText(core.player2.handlength).width / 2;
-		ctx.fillText(core.player2.handlength, core.information.pwidth * 56 - slength, core.information.pheight * 4.88);
+		ctx.fillText(core.player2.handlength, core.information.pwidth * 64 - slength, core.information.pheight * 4.88);
 	
 }
 

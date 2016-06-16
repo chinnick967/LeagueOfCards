@@ -114,11 +114,12 @@ function action_changeturn(core, action, index) {
 function action_playcard(core, action, index) {
 	
 	var card = core.assets.cards[action.var1];
-	addtoboard(core, card, parseInt(action.var2));
+	// add card to position on board
+	setTimeout(function(){ addtoboard(core, card, parseInt(action.var2)); }, 500);
 	
 	// get board left and top for the animation and then play the animation
 	getboardposition(core, parseInt(action.var2));
-	addanimation(core, 'playcard', core.information.topposition - 11, core.information.leftposition - 3.5, var1 = 90, var2 = '', var3 = '');
+	addanimation(core, 'playcard', core.information.topposition - 15, core.information.leftposition - 6, var1 = 90, var2 = '', var3 = '');
 	
 	// complete action
 	core.actions.actionarray[index].complete = 1;

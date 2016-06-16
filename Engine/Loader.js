@@ -24,7 +24,8 @@ core.player2.icon,
 'Assets/yellowcard.png',
 'Assets/cardback.png',
 'Assets/Sprites/buff.png',
-'Assets/Sprites/rune6.png'
+'Assets/Sprites/rune6.png',
+'Assets/Sprites/coins2.png'
 ];
 
 // assets array plus one for loading the player information and plus 8 for loading cards plus 1 for each hand plus one for setting gold plus 1 for gameinfo/settings plus 1 for loading towers plus 1 for actions array
@@ -83,6 +84,7 @@ function addtoassets(core, current, img) {
 	if (current == 15) {core.assets.cardback = img;}
 	if (current == 16) {core.assets.buffsprite = img;}
 	if (current == 17) {core.assets.playcardsprite = img;}
+	if (current == 18) {core.assets.coins = img;}
 	
 }
 

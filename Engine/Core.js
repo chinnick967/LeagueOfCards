@@ -447,7 +447,10 @@ function playcard(core, card) {
 		submitaction(core, action);
 		
 		// add card to position on board
-        addtoboard(core, card, 0);
+		var slot = core.information.currentslothover;
+		setTimeout(function(){ addtoboard(core, card, slot); }, 500);
+		//addtoboard(core, card, 0);
+        
 		// play card action
 		var action = {};
 		action.name = 'PlayCard', action.sendingplayer = '1', action.receivingplayer = '2', action.var1 = card.cardID, action.var2 = core.information.currentslothover;
@@ -455,7 +458,7 @@ function playcard(core, card) {
 		
 		// get board left and top for the animation and then play the animation
 		getboardposition(core, core.information.currentslothover);
-		addanimation(core, 'playcard', core.information.topposition - 11, core.information.leftposition - 3.5, var1 = 90, var2 = '', var3 = '');
+		addanimation(core, 'playcard', core.information.topposition - 15, core.information.leftposition - 6, var1 = 90, var2 = '', var3 = '');
 	
 	} else if (core.information.player == 1 && core.information.currentslothover >= 1 && core.information.currentslothover <= 5 && card.type == 'Spell' && core.player1.gold >= card.cost) {
 	
@@ -476,7 +479,9 @@ function playcard(core, card) {
 		submitaction(core, action);
 
 		// add card to position on board
-        addtoboard(core, card, 0);
+		var slot = core.information.currentslothover;
+		setTimeout(function(){ addtoboard(core, card, slot); }, 500);
+		
 		// play card action
 		var action = {};
 		action.name = 'PlayCard', action.sendingplayer = '1', action.receivingplayer = '2', action.var1 = card.cardID, action.var2 = core.information.currentslothover;
@@ -484,7 +489,7 @@ function playcard(core, card) {
 		
 		// get board left and top for the animation and then play the animation
 		getboardposition(core, core.information.currentslothover);
-		addanimation(core, 'playcard', core.information.topposition - 11, core.information.leftposition - 3.5, var1 = 90, var2 = '', var3 = '');
+		addanimation(core, 'playcard', core.information.topposition - 15, core.information.leftposition - 6, var1 = 90, var2 = '', var3 = '');
 	
 	
 	} else if (core.information.player == 2 && core.information.currentslothover >= 16 && core.information.currentslothover <= 20 && card.type != 'Spell' && core.player2.gold >= card.cost) {
@@ -506,7 +511,9 @@ function playcard(core, card) {
 		submitaction(core, action);
 		
 		// add card to position on board
-        addtoboard(core, card, 0);
+		var slot = core.information.currentslothover;
+		setTimeout(function(){ addtoboard(core, card, slot); }, 500);
+		
 		// play card action
 		var action = {};
 		action.name = 'PlayCard', action.sendingplayer = '2', action.receivingplayer = '1', action.var1 = card.cardID, action.var2 = core.information.currentslothover;
@@ -514,7 +521,7 @@ function playcard(core, card) {
 		
 		// get board left and top for the animation and then play the animation
 		getboardposition(core, core.information.currentslothover);
-		addanimation(core, 'playcard', core.information.topposition - 11, core.information.leftposition - 3.5, var1 = 90, var2 = '', var3 = '');
+		addanimation(core, 'playcard', core.information.topposition - 15, core.information.leftposition - 6, var1 = 90, var2 = '', var3 = '');
 	
 	} else if (core.information.player == 2 && core.information.currentslothover >= 10 && core.information.currentslothover <= 15 && card.type == 'Spell' && core.player2.gold >= card.cost) {
 	
@@ -535,7 +542,9 @@ function playcard(core, card) {
 		submitaction(core, action);
 		
 		// add card to position on board
-        addtoboard(core, card, 0);
+		var slot = core.information.currentslothover;
+		setTimeout(function(){ addtoboard(core, card, slot); }, 500);
+		
 		// play card action
 		var action = {};
 		action.name = 'PlayCard', action.sendingplayer = '2', action.receivingplayer = '1', action.var1 = card.cardID, action.var2 = core.information.currentslothover;
@@ -543,7 +552,7 @@ function playcard(core, card) {
 		
 		// get board left and top for the animation and then play the animation
 		getboardposition(core, core.information.currentslothover);
-		addanimation(core, 'playcard', core.information.topposition - 11, core.information.leftposition - 3.5, var1 = 90, var2 = '', var3 = '');
+		addanimation(core, 'playcard', core.information.topposition - 15, core.information.leftposition - 6, var1 = 90, var2 = '', var3 = '');
 	
 	}
 
