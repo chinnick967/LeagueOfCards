@@ -13,7 +13,6 @@ function drawComponents(core) {
 	drawnames(core);
 	
 	settime(core);
-	drawhand(core);
 
 }
 

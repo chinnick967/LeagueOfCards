@@ -76,17 +76,20 @@ function redraw(core) {
 		// clear canvas for redrawing
 		canvas.width = core.information.width;
 		
-		// draw game components
-		drawComponents(core);
-		
 		// draw sound bars
 		drawSound(core);
 		
 		// check users current hover position on the board
 		//currentboardpositionhover(core);
 		
+		// draw game components
+		drawComponents(core);
+		
 		// draws animation effects
 		drawanimations(core);
+		
+		// draws the hand outside the components because the previewcard function has to draw after animations or the coins sit on top of it
+		drawhand(core);
 		
 		// runs actions
 		runactions(core);
