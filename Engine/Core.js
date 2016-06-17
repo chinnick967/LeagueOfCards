@@ -30,6 +30,11 @@ function drawcard(core, card, width, left, top, rotation, hover) {
 		
 		}
 		
+		if (hover == 1) {
+			ctx.shadowColor = 'white';
+			ctx.shadowBlur = 15;
+		}
+		
 		// translate to the center of the card
 		ctx.translate(core.information.pwidth * (left + width/2), core.information.pheight * (top + height/2));
 		
@@ -202,11 +207,11 @@ function handanimations(core) {
         if (handlength == 1) {
 			h1left += 10;
         } else if (handlength == 2) {
-        	h2left += 10;
+        	h2left += 9;
         } else if (handlength == 3) {
-            h3left += 7;
+            h3left += 8.2;
         } else if (handlength == 4) {
-        	h4left += 8;
+        	h4left += 8.5;
         } else if (handlength == 5) {
         	h5left += 9;
         } else if (handlength == 6) {
@@ -226,7 +231,7 @@ function handanimations(core) {
 	var selected = 0;
 	
 	// animation for raising hovered cards
-	if (core.information.xoffset >= 18 && core.information.xoffset <= h1left && core.information.yoffset >= 56 && core.information.yoffset <= 100 && core.information.focus == 'hand' && selected == 0) {
+	if (core.information.xoffset >= 16 && core.information.xoffset <= h1left && core.information.yoffset >= 56 && core.information.yoffset <= 100 && core.information.focus == 'hand' && selected == 0) {
 		core.animation.h1top = -5;
 		core.animation.h1left = -2;
 		core.animation.h1hover = 1;
@@ -253,7 +258,6 @@ function handanimations(core) {
 		core.animation.h2left = -2;
 		core.animation.h2hover = 1;
 		selected = 1;
-		
 			
 			if (core.information.player == 1) {
 				core.information.cardfocus = core.player1.hand[1];
@@ -276,7 +280,6 @@ function handanimations(core) {
 		core.animation.h3left = -1;
 		core.animation.h3hover = 1;
 		selected = 1;
-		
 			
 			if (core.information.player == 1) {
 				core.information.cardfocus = core.player1.hand[2];
@@ -645,11 +648,29 @@ function addtoboard (core, card, slot) {
 
 function gethandlength(core) {
 	
-     if (core.information.player == 1) {
+	var handcount = 0;
+	
+	if (core.information.player == 1) {
+		for (var i = 0; i < 6; i++) {
+			if (core.player1.hand[i] != '' && typeof(core.player1.hand[i]) != 'undefined') {
+				handcount++;
+			}
+		}
+	} else {
+		for (var i = 0; i < 6; i++) {
+			if (core.player2.hand[i] != '' && typeof(core.player2.hand[i]) != 'undefined') {
+				handcount++;
+			}
+		}
+	}
+	
+	return handcount;
+	
+     /*if (core.information.player == 1) {
           return core.player1.handlength;
      } else {
           return core.player2.handlength;
-      }
+      }*/
 
 }
 
