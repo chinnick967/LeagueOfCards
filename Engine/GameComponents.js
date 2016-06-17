@@ -497,8 +497,6 @@ var counter = 1;
 	    	}
 	  }
 	}
-	
-	previewboardcard(core);
 
 }
 
@@ -609,15 +607,15 @@ var ctx = canvas.getContext("2d");
 		ctx.fill();
         ctx.stroke(); */
 
-        ctx.strokeStyle = 'rgba(237, 35, 0, 0.6)';
+        ctx.strokeStyle = 'rgba(104, 155, 193, 0.4)';
         ctx.beginPath();
         ctx.arc(core.information.pwidth * 44, core.information.pheight * 4, core.information.pwidth * 1.2, 0, 2 * Math.PI);
 		ctx.fill();
         ctx.stroke();
 
-        ctx.strokeStyle = 'rgba(237, 35, 0, 0.6)';
+        ctx.strokeStyle = 'rgba(235, 0, 0, 0.4)';
         ctx.beginPath();
-        ctx.arc(core.information.pwidth * 64, core.information.pheight * 4, core.information.pwidth * 1.2, 0, 2 * Math.PI);
+        ctx.arc(core.information.pwidth * 56, core.information.pheight * 4, core.information.pwidth * 1.2, 0, 2 * Math.PI);
 		ctx.fill();
         ctx.stroke();
 
@@ -629,7 +627,7 @@ var ctx = canvas.getContext("2d");
 
         ctx.strokeStyle = 'rgba(237, 35, 0, 0.6)';
         ctx.beginPath();
-        ctx.arc(core.information.pwidth * 56, core.information.pheight * 4, core.information.pwidth * 1.2, 0, 2 * Math.PI);
+        ctx.arc(core.information.pwidth *64, core.information.pheight * 4, core.information.pwidth * 1.2, 0, 2 * Math.PI);
 		ctx.fill();
         ctx.stroke(); */
 
@@ -655,12 +653,12 @@ var ctx = canvas.getContext("2d");
 		ctx.fillText(core.player1.handlength, core.information.pwidth * 44 - slength, core.information.pheight * 4.88);
 		
 		// player 2 stats
-		ctx.fillText(core.player2.gold, core.information.pwidth * 56.5, core.information.pheight * 4.88);
+		ctx.fillText(core.player2.gold, core.information.pwidth * 64, core.information.pheight * 4.88);
 		
 		ctx.fillText(core.player2.goldincome, core.information.pwidth * 60.7, core.information.pheight * 4.88);
 		
 		slength = ctx.measureText(core.player2.handlength).width / 2;
-		ctx.fillText(core.player2.handlength, core.information.pwidth * 64 - slength, core.information.pheight * 4.88);
+		ctx.fillText(core.player2.handlength, core.information.pwidth * 56 - slength, core.information.pheight * 4.88);
 	
 }
 

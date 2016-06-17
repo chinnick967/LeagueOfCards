@@ -90,6 +90,7 @@ function redraw(core) {
 		
 		// draws the hand outside the components because the previewcard function has to draw after animations or the coins sit on top of it
 		drawhand(core);
+		previewboardcard(core);
 		
 		// runs actions
 		runactions(core);
@@ -102,7 +103,7 @@ function redraw(core) {
 			startgame(core);
 			// adds coin animations
 			setTimeout(function(){ addanimation(core, 'goldcoin', 1.8, 34, var1 = '', var2 = '', var3 = ''); }, 1000);
-			setTimeout(function(){ addanimation(core, 'goldcoin', 1.8, 54, var1 = '', var2 = '', var3 = ''); }, 1000);
+			setTimeout(function(){ addanimation(core, 'goldcoin', 1.8, 61.6, var1 = '', var2 = '', var3 = ''); }, 1000);
 			setTimeout(function(){ addanimation(core, 'silvercoin', 2.3, 38.2, var1 = '', var2 = '', var3 = ''); }, 1000);
 			setTimeout(function(){ addanimation(core, 'silvercoin', 2.3, 58.2, var1 = '', var2 = '', var3 = ''); }, 1000);
 		}
