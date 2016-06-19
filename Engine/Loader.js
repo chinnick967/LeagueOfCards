@@ -114,10 +114,9 @@ function addtoassets(core, current, img) {
 }
 
 function loadplayer(core, playerID, gamecomponents) {
-	
-	$.post('Engine/ServerScripts/GetPlayerNumber.php', {playerID: playerID}, function(result){
 
-		var jsonresult = result.data;
+	Api.getPlayerNumber(playerID).then(function(jsonresult){
+
 		core.information.gameid = jsonresult.gameid;
 		core.information.player = jsonresult.player;
 		loadedassets++;
@@ -139,10 +138,9 @@ function loadplayer(core, playerID, gamecomponents) {
 }
 
 function getgameinfo(core) {
-	
-	$.post('Engine/ServerScripts/GameInfo.php', {gameID: core.information.gameid}, function(result){
+
+	Api.getGameInfo(core.information.gameid).then(function(jsonresult){
 		
-		var jsonresult = result.data;
 		core.information.player1ID = jsonresult.player1;
 		core.information.player2ID = jsonresult.player2;
 		core.information.starttime = jsonresult.starttime;
@@ -173,11 +171,11 @@ function loadprogress(core) {
 
 function loadcards(core) {
 
-	$.get('Engine/ServerScripts/GetCards.php', function(result){
+	Api.getCards().then(function(result){
 
 		core.information.loadedcards = 0;
 
-		core.assets.cards = result.data;
+		core.assets.cards = result;
 
 		for (var i = 0; i < core.assets.cards.length; i++) {
 			

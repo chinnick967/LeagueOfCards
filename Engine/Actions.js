@@ -1,12 +1,9 @@
 function checkactions(core) {
 //test
 	if (core.information.loaded == true) {
-		
-		$.post('Engine/ServerScripts/CheckActions.php', {gameID: core.information.gameid, player: core.information.player}, function(result){
+		Api.checkActions(core.information.gameid, core.information.player).then(function(actions){
 
-			if (result.data.length != 0) {
-
-				var actions = result.data;
+			if (actions.length != 0) {
 
 				for (var i = 0; i < actions.length; i++) {
 					
@@ -33,8 +30,8 @@ function checkactions(core) {
 }
 
 function submitaction(core, action) {
-	
-	$.post('Engine/ServerScripts/SubmitAction.php', {gameID: core.information.gameid, action: action}, function(result){
+
+	Api.submitActions(core.information.gameid, action).then(function(result){
 			
 			console.log('Action Submitted');
 		

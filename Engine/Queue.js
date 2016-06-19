@@ -8,13 +8,13 @@ var queueactive = 0;
 
 	$("#playbutton").click(function(){
 
-	    $.post('Engine/ServerScripts/QueueJoin.php', {playerID: playerID}, function(result){
+		Api.queueJoin(playerID).then(function(result){
 
-	    	if (result.data == '0') {
+	    	if (result == '0') {
 
 	    		queueactive = 0;
 
-	    	} else if (result.data == '1') {
+	    	} else if (result == '1') {
 
 	    		// clear the play button
 			document.getElementById('playbutton').innerHTML = "";
@@ -26,7 +26,7 @@ var queueactive = 0;
 
 	    		queuetimer(0);
 
-	    	} else if (result.data == '2') {
+	    	} else if (result == '2') {
 
 	    		// clear the play button
 			document.getElementById('playbutton').innerHTML = "";
@@ -99,11 +99,10 @@ var queueactive = 0;
 	}
 
 	function checkqueue() {
-
-		$.post('Engine/ServerScripts/CheckQueue.php', {playerID: playerID}, function(result){
+		Api.checkQueue(playerID).then(function(result){
 
 				// if match is found stop the queue and start a match
-				if (result.data == '1') {
+				if (result == '1') {
 
 					queueactive = '2';
 					startgame();
