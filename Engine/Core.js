@@ -462,6 +462,9 @@ function playcard(core, card) {
 		// get board left and top for the animation and then play the animation
 		getboardposition(core, core.information.currentslothover);
 		addanimation(core, 'playcard', core.information.topposition - 15, core.information.leftposition - 6, var1 = 90, var2 = '', var3 = '');
+		
+		// play sound
+		core.sounds[1].play();
 	
 	} else if (core.information.player == 1 && core.information.currentslothover >= 1 && core.information.currentslothover <= 5 && card.type == 'Spell' && core.player1.gold >= card.cost) {
 	
@@ -493,6 +496,9 @@ function playcard(core, card) {
 		// get board left and top for the animation and then play the animation
 		getboardposition(core, core.information.currentslothover);
 		addanimation(core, 'playcard', core.information.topposition - 15, core.information.leftposition - 6, var1 = 90, var2 = '', var3 = '');
+		
+		// play sound
+		core.sounds[1].play();
 	
 	
 	} else if (core.information.player == 2 && core.information.currentslothover >= 16 && core.information.currentslothover <= 20 && card.type != 'Spell' && core.player2.gold >= card.cost) {
@@ -525,6 +531,9 @@ function playcard(core, card) {
 		// get board left and top for the animation and then play the animation
 		getboardposition(core, core.information.currentslothover);
 		addanimation(core, 'playcard', core.information.topposition - 15, core.information.leftposition - 6, var1 = 90, var2 = '', var3 = '');
+		
+		// play sound
+		core.sounds[1].play();
 	
 	} else if (core.information.player == 2 && core.information.currentslothover >= 10 && core.information.currentslothover <= 15 && card.type == 'Spell' && core.player2.gold >= card.cost) {
 	
@@ -556,6 +565,9 @@ function playcard(core, card) {
 		// get board left and top for the animation and then play the animation
 		getboardposition(core, core.information.currentslothover);
 		addanimation(core, 'playcard', core.information.topposition - 15, core.information.leftposition - 6, var1 = 90, var2 = '', var3 = '');
+		
+		// play sound
+		core.sounds[1].play();
 	
 	}
 
@@ -931,6 +943,108 @@ function getboardposition(core, position) {
         core.information.topposition = 74;
 		core.information.leftposition = 67;
         break;
+	}
+	
 }
+
+function addturnstoboardcards(core, player) {
+	
+	if (player == 1) {
+		
+		if (core.board.s6 != '' && typeof(core.board.s6) != 'undefined') {
+			core.board.s6.turns += 1;
+		}
+		
+		if (core.board.s7 != '' && typeof(core.board.s7) != 'undefined') {
+			core.board.s7.turns += 1;
+		}
+		
+		if (core.board.s8 != '' && typeof(core.board.s8) != 'undefined') {
+			core.board.s8.turns += 1;
+		}
+		
+		if (core.board.s9 != '' && typeof(core.board.s9) != 'undefined') {
+			core.board.s9.turns += 1;
+		}
+		
+		if (core.board.s10 != '' && typeof(core.board.s10) != 'undefined') {
+			core.board.s10.turns += 1;
+		}
+		
+	} else if (player == 2) {
+		
+		if (core.board.s16 != '' && typeof(core.board.s16) != 'undefined') {
+			core.board.s16.turns += 1;
+		}
+		
+		if (core.board.s17 != '' && typeof(core.board.s17) != 'undefined') {
+			core.board.s17.turns += 1;
+		}
+		
+		if (core.board.s18 != '' && typeof(core.board.s18) != 'undefined') {
+			core.board.s18.turns += 1;
+		}
+		
+		if (core.board.s19 != '' && typeof(core.board.s19) != 'undefined') {
+			core.board.s19.turns += 1;
+		}
+		
+		if (core.board.s20 != '' && typeof(core.board.s20) != 'undefined') {
+			core.board.s20.turns += 1;
+		}
+		
+	}
+	
+}
+
+function checkboardturns(core) {
+	
+	if (core.information.player == 1) {
+		
+		if (core.board.s6.turns >= 1) {
+			return true;
+		}
+		
+		if (core.board.s7.turns >= 1) {
+			return true;
+		}
+		
+		if (core.board.s8.turns >= 1) {
+			return true;
+		}
+		
+		if (core.board.s9.turns >= 1) {
+			return true;
+		}
+		
+		if (core.board.s10.turns >= 1) {
+			return true;
+		}
+		
+	} else if (core.information.player == 2) {
+		
+		if (core.board.s16.turns >= 1) {
+			return true;
+		}
+		
+		if (core.board.s17.turns >= 1) {
+			return true;
+		}
+		
+		if (core.board.s18.turns >= 1) {
+			return true;
+		}
+		
+		if (core.board.s19.turns >= 1) {
+			return true;
+		}
+		
+		if (core.board.s20.turns >- 1) {
+			return true;
+		}
+		
+	}
+	
+	return false;
 	
 }
