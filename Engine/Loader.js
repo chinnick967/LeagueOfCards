@@ -62,6 +62,11 @@ totalload += gamecomponents.length + 1 + 8 + 2 + 1 + 1 + 1 + 1;
 	// actions array
 	createactionsarray(core);
 
+	core.chatBox = ChatBox($('chat-box'), core);
+	core.chatBox.listen();
+
+	window.core = core;
+
 }
 
 function addtoassets(core, current, img) {
