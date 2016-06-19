@@ -36,7 +36,7 @@ var ChatBox = function (node, core) {
 
 	function post (msg, data) {
 		appendMessage({message: msg, data: data});
-		postMessage(core.information.gameid, msg, data);
+		Api.postMessage(core.information.gameid, msg, getCurrentPlayer(core), data);
 	}
 
 	function clear () {
@@ -56,25 +56,6 @@ var ChatBox = function (node, core) {
 			var maxScroll = Math.max(0, $parent[0].scrollHeight - $parent.height());
 			$parent.scrollTop(maxScroll);
 		}
-	}
-
-	function getUnreadMessages() {
-		return $.post(BASE_URL + 'GetMessage.php', {
-			gameId: core.information.gameid,
-			playerId: getCurrentPlayer(core)
-		}).then(function (response) {
-			return appendMessage(response.data)
-		});
-	}
-
-	function postMessage (gameId, message, data) {
-		return $.post(BASE_URL + 'PostMessage.php', {
-			gameId: gameId,
-			message: message,
-			playerId: getCurrentPlayer(core),
-			data: data,
-			timestamp: Date.now()
-		});
 	}
 
 	function getCurrentPlayer(core){
@@ -98,8 +79,9 @@ var ChatBox = function (node, core) {
 	}
 
 	function listenForMessages () {
-		getUnreadMessages()
-			.then(function () {
+		Api.getMessage(core.information.gameid, getCurrentPlayer(core))
+			.then(function (messageList) {
+				appendMessage(messageList);
 				setTimeout(listenForMessages, 1000);
 			});
 	}
