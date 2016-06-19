@@ -23,7 +23,7 @@ var ChatBox = function (node, core) {
 		$parent.empty();
 		$parent.addClass('chat-box');
 		$parent.append([ $container, $footer ]);
-		$footer.text('thing');
+		$footer.text('Chat Log');
 		$footer.on('click', handleFooterClick);
 		updateScroll();
 		var observer = new MutationObserver(updateScroll);
