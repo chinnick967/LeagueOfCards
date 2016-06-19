@@ -2,7 +2,7 @@
 var playerID = Math.round(Math.random() * 10000000);
 var ping = new Audio('Assets/ping.wav');
 
-$( document ).ready(function() {
+function start() {
 
 var queueactive = 0;
 
@@ -153,4 +153,4 @@ var queueactive = 0;
 
 	}
 
-});
+}
