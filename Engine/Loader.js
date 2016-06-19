@@ -25,7 +25,8 @@ core.player2.icon,
 'Assets/cardback.png',
 'Assets/Sprites/buff.png',
 'Assets/Sprites/rune6.png',
-'Assets/Sprites/coins2.png'
+'Assets/Sprites/coins2.png',
+'Assets/rengar.png'
 ];
 
 // assets array plus one for loading the player information and plus 8 for loading cards plus 1 for each hand plus one for setting gold plus 1 for gameinfo/settings plus 1 for loading towers plus 1 for actions array
@@ -49,6 +50,9 @@ totalload += gamecomponents.length + 1 + 8 + 2 + 1 + 1 + 1 + 1;
 	
 	// prepare the game board
 	boardprep(core);
+	
+	// load game sounds
+	loadsounds(core);
 	
 	// set the player gold amount
 	setgold(core);
@@ -105,6 +109,7 @@ function addtoassets(core, current, img) {
 	if (current == 16) {core.assets.buffsprite = img;}
 	if (current == 17) {core.assets.playcardsprite = img;}
 	if (current == 18) {core.assets.coins = img;}
+	if (current == 19) {core.assets.rengar = img;}
 	
 }
 
@@ -178,6 +183,7 @@ function loadcards(core) {
 			
 			core.assets.cards[i].back = core.assets.cardback;
 			core.assets.cards[i].activated = 0;
+			core.assets.cards[i].turns = 0;
 			core.assets.cards[i].asset = new Image();
 			
 			core.assets.cards[i].asset.onload = function() {
@@ -224,6 +230,7 @@ core.player2.deck = [];
 		card.damagetype = core.assets.cards[counter].damagetype;
 		card.back = core.assets.cardback;
 		card.activated = 0;
+		card.turns = 0;
 	
 			if (counter != 7) {
 				counter ++;
@@ -434,5 +441,12 @@ function componentsinfo(core) {
 	
 	core.information.currentdrawnslot = 20;
 	drawSlot(core, core.board.s20, 74, 67, 'rgba(235, 0, 0, 0.4)');
+	
+}
+
+function loadsounds(core) {
+	
+	core.sounds[0] = new sound("Assets/Sounds/TheBoyWhoShatteredTime.mp3");
+	core.sounds[1] = new sound("Assets/Sounds/spell2.wav");
 	
 }

@@ -38,8 +38,10 @@ function changeturn(core) {
 	
 	if (core.information.turn == 1) {
 		core.information.turn = 2;
+		addturnstoboardcards(core, 2);
 	} else if (core.information.turn == 2) {
 		core.information.turn = 1;
+		addturnstoboardcards(core, 1);
 	}
 	
 	core.information.turntimestart = core.information.time;

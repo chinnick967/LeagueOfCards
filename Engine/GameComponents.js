@@ -11,6 +11,7 @@ function drawComponents(core) {
 	drawButtons(core);
 	drawboard(core);
 	drawnames(core);
+	drawattackbutton(core);
 	
 	settime(core);
 
@@ -698,4 +699,26 @@ function settime(core) {
 	
 	core.information.time = time;
 	
+}
+
+function drawattackbutton(core) {
+	
+	var canvas = document.getElementById('GameCanvas');
+	var ctx = canvas.getContext("2d");
+	
+	if (core.information.turn == core.information.player && checkboardturns(core)) {
+		
+		ctx.save();
+		
+		// set global opacity if they haven't selected any attackers
+		//ctx.globalAlpha = .5;
+		
+		// shadowblur
+		ctx.shadowBlur = 5;
+		ctx.shadowColor = 'white';
+		
+		ctx.drawImage(core.assets.rengar, core.information.pwidth * 42.5, core.information.pheight * 37.5, core.information.pwidth * 17, core.information.pheight * 25);
+	
+	}
+		ctx.restore();
 }
