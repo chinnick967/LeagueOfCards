@@ -1,6 +1,6 @@
 (function () {
 
-	var PLAYER = '<span style="color:blue">{{player}}</span>';
+	var PLAYER = '<span style="color:deepskyblue">{{player}}</span>';
 
 	ChatBox.msg = {
 		DESTROYED_CARD: PLAYER + ' destroyed {{card}}',
