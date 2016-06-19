@@ -62,6 +62,26 @@ totalload += gamecomponents.length + 1 + 8 + 2 + 1 + 1 + 1 + 1;
 	// actions array
 	createactionsarray(core);
 
+	/* ------------------------------- CHAT BOX EXAMPLE ------------------------------- */
+	// Create object
+	var chat = ChatBox($('chat-box'), core);
+	// start listening for events
+	chat.listen();
+	// publish events
+	chat.post(ChatBox.msg.DESTROYED_CARD, {
+		player: 'Master Popo',
+		card: 'Piccolo\'s bum'
+	});
+	// show/hide
+	var show = false;
+	setInterval(function () {
+		if(show) {
+			chat.show();
+		} else {
+			chat.show(false);
+		}
+		show = !show;
+	}, 1000);
 }
 
 function addtoassets(core, current, img) {
