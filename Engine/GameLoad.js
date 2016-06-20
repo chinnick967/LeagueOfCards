@@ -111,11 +111,11 @@ function redraw(core) {
 			setTimeout(function(){ addanimation(core, 'silvercoin', 2.3, 38.2, var1 = '', var2 = '', var3 = ''); }, 1000);
 			setTimeout(function(){ addanimation(core, 'silvercoin', 2.3, 58.2, var1 = '', var2 = '', var3 = ''); }, 1000);
 			// run background music (temporarily just for player 1)
-			if (core.information.player == 1) {
+			/*if (core.information.player == 1) {
 				core.sounds[0].volume(0.5);
 				core.sounds[0].play();
 				core.sounds[0].loop();
-			}
+			}*/
 		}
 		
 		// set first run to 1

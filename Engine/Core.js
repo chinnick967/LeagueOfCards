@@ -44,6 +44,16 @@ function drawcard(core, card, width, left, top, rotation, hover) {
 		// translate back
 		ctx.translate(-core.information.pwidth * (left + width/2), -core.information.pheight * (top + height/2));
 		
+		// attacking effect
+		if (card.attacking == 1) {
+			ctx.shadowColor = 'orange';
+			ctx.shadowBlur = 15;
+			ctx.fillRect(core.information.pwidth * (left + .6), core.information.pheight * (top + .6), core.information.pwidth * (width - 1.2), core.information.pheight * (height - 1.2));
+			ctx.fillRect(core.information.pwidth * (left + .6), core.information.pheight * (top + .6), core.information.pwidth * (width - 1.2), core.information.pheight * (height - 1.2));
+			ctx.fillRect(core.information.pwidth * (left + .6), core.information.pheight * (top + .6), core.information.pwidth * (width - 1.2), core.information.pheight * (height - 1.2));
+			ctx.fillRect(core.information.pwidth * (left + .6), core.information.pheight * (top + .6), core.information.pwidth * (width - 1.2), core.information.pheight * (height - 1.2));
+		}
+		
 		// rectangle for box shadow on rotated cards due to Google Chrome bug
 		ctx.fillRect(core.information.pwidth * (left + .6), core.information.pheight * (top + .6), core.information.pwidth * (width - 1.2), core.information.pheight * (height - 1.2));
 		ctx.fillRect(core.information.pwidth * (left + .6), core.information.pheight * (top + .6), core.information.pwidth * (width - 1.2), core.information.pheight * (height - 1.2));
@@ -151,6 +161,11 @@ function drawhand(core) {
 			drawcard(core, core.player2.hand[6], 15, 60 + core.animation.h7left, 73 + core.animation.handtop + core.animation.h7top, 35, core.animation.h7hover); // 7
 		
 		}
+		
+		// hide chatbox
+		var cbox = document.getElementsByClassName("chat-box");
+		cbox[0].style.display = 'none';
+		core.chat.show(true);
 	
 	}
 
@@ -184,6 +199,10 @@ function handanimations(core) {
 		core.animation.h7top = 0;
 		core.animation.h7left = 0;
 		core.animation.h7hover = 0;
+		
+		// show chatbox
+		var cbox = document.getElementsByClassName("chat-box");
+		cbox[0].style.display = 'block';
 	}
 	
 	// check how many cards are in your hand
@@ -465,6 +484,12 @@ function playcard(core, card) {
 		
 		// play sound
 		core.sounds[1].play();
+		
+		// add chat message
+		core.chat.post(ChatBox.msg.PLAYED_CARD, {
+		player: core.information.player1ID,
+		card: card.name
+		});
 	
 	} else if (core.information.player == 1 && core.information.currentslothover >= 1 && core.information.currentslothover <= 5 && card.type == 'Spell' && core.player1.gold >= card.cost) {
 	
@@ -499,6 +524,12 @@ function playcard(core, card) {
 		
 		// play sound
 		core.sounds[1].play();
+		
+		// add chat message
+		core.chat.post(ChatBox.msg.PLAYED_CARD, {
+		player: core.information.player1ID,
+		card: 'a facedown card'
+		});
 	
 	
 	} else if (core.information.player == 2 && core.information.currentslothover >= 16 && core.information.currentslothover <= 20 && card.type != 'Spell' && core.player2.gold >= card.cost) {
@@ -534,6 +565,12 @@ function playcard(core, card) {
 		
 		// play sound
 		core.sounds[1].play();
+		
+		// add chat message
+		core.chat.post(ChatBox.msg.PLAYED_CARD, {
+		player: core.information.player2ID,
+		card: card.name
+		});
 	
 	} else if (core.information.player == 2 && core.information.currentslothover >= 10 && core.information.currentslothover <= 15 && card.type == 'Spell' && core.player2.gold >= card.cost) {
 	
@@ -568,6 +605,12 @@ function playcard(core, card) {
 		
 		// play sound
 		core.sounds[1].play();
+		
+		// add chat message
+		core.chat.post(ChatBox.msg.PLAYED_CARD, {
+		player: core.information.player2ID,
+		card: 'a facedown card'
+		});
 	
 	}
 
@@ -1040,6 +1083,143 @@ function checkboardturns(core) {
 		}
 		
 		if (core.board.s20.turns >- 1) {
+			return true;
+		}
+		
+	}
+	
+	return false;
+	
+}
+
+function setattacker(core) {
+	
+	if (core.information.player == 1 && core.information.turn == 1) {
+		
+		if (core.information.currentslothover == 6 && core.board.s6.turns >= 1 && core.board.s6.attacking != 1) {		
+			core.board.s6.attacking = 1;			
+		} else if (core.information.currentslothover == 6 && core.board.s6.turns >= 1 && core.board.s6.attacking == 1) {
+			core.board.s6.attacking = 0;
+		}
+		
+		if (core.information.currentslothover == 7 && core.board.s7.turns >= 1 && core.board.s7.attacking != 1) {		
+			core.board.s7.attacking = 1;			
+		} else if (core.information.currentslothover == 7 && core.board.s7.turns >= 1 && core.board.s7.attacking == 1) {
+			core.board.s7.attacking = 0;
+		}
+		
+		if (core.information.currentslothover == 8 && core.board.s8.turns >= 1 && core.board.s8.attacking != 1) {		
+			core.board.s8.attacking = 1;			
+		} else if (core.information.currentslothover == 8 && core.board.s8.turns >= 1 && core.board.s8.attacking == 1) {
+			core.board.s8.attacking = 0;
+		}
+		
+		if (core.information.currentslothover == 9 && core.board.s9.turns >= 1 && core.board.s9.attacking != 1) {		
+			core.board.s9.attacking = 1;			
+		} else if (core.information.currentslothover == 9 && core.board.s9.turns >= 1 && core.board.s9.attacking == 1) {
+			core.board.s9.attacking = 0;
+		}
+		
+		if (core.information.currentslothover == 10 && core.board.s10.turns >= 1 && core.board.s10.attacking != 1) {		
+			core.board.s10.attacking = 1;			
+		} else if (core.information.currentslothover == 10 && core.board.s10.turns >= 1 && core.board.s10.attacking == 1) {
+			core.board.s10.attacking = 0;
+		}
+		
+	}
+	
+	if (core.information.player == 2 && core.information.turn == 2) {
+		
+		if (core.information.currentslothover == 16 && core.board.s16.turns >= 1 && core.board.s16.attacking != 1) {		
+			core.board.s16.attacking = 1;			
+		} else if (core.information.currentslothover == 16 && core.board.s16.turns >= 1 && core.board.s16.attacking == 1) {
+			core.board.s16.attacking = 0;
+		}
+		
+		if (core.information.currentslothover == 17 && core.board.s17.turns >= 1 && core.board.s17.attacking != 1) {		
+			core.board.s17.attacking = 1;			
+		} else if (core.information.currentslothover == 17 && core.board.s17.turns >= 1 && core.board.s17.attacking == 1) {
+			core.board.s17.attacking = 0;
+		}
+		
+		if (core.information.currentslothover == 18 && core.board.s18.turns >= 1 && core.board.s18.attacking != 1) {		
+			core.board.s18.attacking = 1;			
+		} else if (core.information.currentslothover == 18 && core.board.s18.turns >= 1 && core.board.s18.attacking == 1) {
+			core.board.s18.attacking = 0;
+		}
+		
+		if (core.information.currentslothover == 19 && core.board.s19.turns >= 1 && core.board.s19.attacking != 1) {		
+			core.board.s19.attacking = 1;			
+		} else if (core.information.currentslothover == 19 && core.board.s19.turns >= 1 && core.board.s19.attacking == 1) {
+			core.board.s19.attacking = 0;
+		}
+		
+		if (core.information.currentslothover == 20 && core.board.s20.turns >= 1 && core.board.s20.attacking != 1) {		
+			core.board.s20.attacking = 1;			
+		} else if (core.information.currentslothover == 20 && core.board.s20.turns >= 1 && core.board.s20.attacking == 1) {
+			core.board.s20.attacking = 0;
+		}
+		
+	}
+	
+}
+
+function resetturninfo(core) {
+	core.board.s6.attacking = 0;
+	core.board.s7.attacking = 0;
+	core.board.s8.attacking = 0;
+	core.board.s9.attacking = 0;
+	core.board.s10.attacking = 0;
+	core.board.s16.attacking = 0;
+	core.board.s17.attacking = 0;
+	core.board.s18.attacking = 0;
+	core.board.s19.attacking = 0;
+	core.board.s20.attacking = 0;
+}
+
+function checkforattackers(core) {
+	
+	if (core.information.player == 1) {
+		
+		if (core.board.s6.attacking == 1) {
+			return true;
+		}
+		
+		if (core.board.s7.attacking == 1) {
+			return true;
+		}
+		
+		if (core.board.s8.attacking == 1) {
+			return true;
+		}
+		
+		if (core.board.s9.attacking == 1) {
+			return true;
+		}
+		
+		if (core.board.s10.attacking == 1) {
+			return true;
+		}
+		
+	} else if (core.information.player == 2) {
+		
+		if (core.board.s16.attacking == 1) {
+			return true;
+		}
+		
+		if (core.board.s17.attacking == 1) {
+			return true;
+		}
+		
+		if (core.board.s18.attacking == 1) {
+			return true;
+		}
+		
+		if (core.board.s19.attacking == 1) {
+			return true;
+		}
+		
+		if (core.board.s20.attacking == 1) {
 			return true;
 		}
 		

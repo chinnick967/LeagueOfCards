@@ -86,8 +86,6 @@ function drawCardSlots(core) {
 	core.information.currentdrawnslot = 20;
 	drawSlot(core, core.board.s20, 74, 67, 'rgba(235, 0, 0, 0.4)');
 	
-	
-	
 }
 
 function drawSlot(core, boardslot, top, left, color) {
@@ -97,10 +95,10 @@ var ctx = canvas.getContext("2d");
 
         if (typeof(boardslot) == 'undefined' || boardslot == '') {
 	
-	ctx.shadowColor = 'black';
-	ctx.shadowBlur = 5;
-	ctx.fillStyle = color;
-	ctx.fillRect(core.information.pwidth * left, core.information.pheight * top, core.information.pwidth * 13, core.information.pheight * 14.5);
+			ctx.shadowColor = 'black';
+			ctx.shadowBlur = 5;
+			ctx.fillStyle = color;
+			ctx.fillRect(core.information.pwidth * left, core.information.pheight * top, core.information.pwidth * 13, core.information.pheight * 14.5);
 
         }
 	
@@ -108,11 +106,11 @@ var ctx = canvas.getContext("2d");
 	
 	if (core.information.xoffset >= left && core.information.xoffset <= left + 13 && core.information.yoffset >= top && core.information.yoffset <= top + 14.5 && core.information.focus == 'board') {
 		if (typeof(boardslot) == 'undefined' || boardslot == '') {
-		ctx.shadowBlur = 15;
-		ctx.fillRect(core.information.pwidth * left, core.information.pheight * top, core.information.pwidth * 13, core.information.pheight * 14.5);
-		ctx.fillRect(core.information.pwidth * left, core.information.pheight * top, core.information.pwidth * 13, core.information.pheight * 14.5);
-		ctx.fillRect(core.information.pwidth * left, core.information.pheight * top, core.information.pwidth * 13, core.information.pheight * 14.5);
-                }
+			ctx.shadowBlur = 15;
+			ctx.fillRect(core.information.pwidth * left, core.information.pheight * top, core.information.pwidth * 13, core.information.pheight * 14.5);
+			ctx.fillRect(core.information.pwidth * left, core.information.pheight * top, core.information.pwidth * 13, core.information.pheight * 14.5);
+			ctx.fillRect(core.information.pwidth * left, core.information.pheight * top, core.information.pwidth * 13, core.information.pheight * 14.5);
+        }
 		core.information.currentslothover = core.information.currentdrawnslot;
 		
 	}
@@ -711,14 +709,16 @@ function drawattackbutton(core) {
 		ctx.save();
 		
 		// set global opacity if they haven't selected any attackers
-		//ctx.globalAlpha = .5;
-		
-		// shadowblur
-		ctx.shadowBlur = 5;
-		ctx.shadowColor = 'white';
+		if (!checkforattackers(core)) {
+			ctx.globalAlpha = .5;
+		} else {
+			ctx.shadowBlur = 5;
+			ctx.shadowColor = 'orange';
+		}
 		
 		ctx.drawImage(core.assets.rengar, core.information.pwidth * 42.5, core.information.pheight * 37.5, core.information.pwidth * 17, core.information.pheight * 25);
 	
-	}
 		ctx.restore();
+	
+	}
 }

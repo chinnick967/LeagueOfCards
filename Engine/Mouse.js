@@ -17,6 +17,9 @@ function mouseinit(core) {
 	$("#GameCanvas").mousedown(function(){
 	    core.information.mousedown = 1;
 	    core.information.mouseup = 0;
+		
+		// click functions
+		setattacker(core);
 	});
 	
 	$("#GameCanvas").mouseup(function(){

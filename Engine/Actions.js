@@ -33,9 +33,11 @@ function submitaction(core, action) {
 
 	Api.submitActions(core.information.gameid, action).then(function(result){
 			
-			console.log('Action Submitted');
-		
 		});
+		
+	/*$.post( "Engine/ServerScripts/SubmitAction.php", {gameID: core.information.gameid, action: action}, function( result ) {
+			console.log(result);
+	});*/
 	
 }
 
@@ -96,9 +98,11 @@ function action_changeturn(core, action, index) {
 	if (core.information.turn == 1) {
 		core.information.turn = 2;
 		addturnstoboardcards(core, 2);
+		resetturninfo(core);
 	} else if (core.information.turn == 2) {
 		core.information.turn = 1;
 		addturnstoboardcards(core, 1);
+		resetturninfo(core);
 	}
 	
 	core.information.turntimestart = action.var1;

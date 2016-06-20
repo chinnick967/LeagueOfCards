@@ -39,14 +39,16 @@ function changeturn(core) {
 	if (core.information.turn == 1) {
 		core.information.turn = 2;
 		addturnstoboardcards(core, 2);
+		resetturninfo(core);
 	} else if (core.information.turn == 2) {
 		core.information.turn = 1;
 		addturnstoboardcards(core, 1);
+		resetturninfo(core);
 	}
 	
 	core.information.turntimestart = core.information.time;
 	core.information.turnlength = 45;
-	
+	console.log('Change Turn');
 	var action = {};
 	action.name = 'changeturn', action.sendingplayer = core.information.player, action.receivingplayer = core.information.enemyplayer, action.var1 = core.information.time;
 	submitaction(core, action);
