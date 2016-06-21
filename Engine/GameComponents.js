@@ -711,12 +711,18 @@ function drawattackbutton(core) {
 		// set global opacity if they haven't selected any attackers
 		if (!checkforattackers(core)) {
 			ctx.globalAlpha = .5;
-		} else {
+		} else if (core.information.xoffset >= 42.5 && core.information.xoffset <= 59.5 && core.information.yoffset >= 23 && core.information.yoffset <= 55) {
 			ctx.shadowBlur = 5;
 			ctx.shadowColor = 'orange';
 		}
 		
-		ctx.drawImage(core.assets.rengar, core.information.pwidth * 42.5, core.information.pheight * 37.5, core.information.pwidth * 17, core.information.pheight * 25);
+		ctx.drawImage(core.assets.rengar, core.information.pwidth * 42.5, core.information.pheight * 23, core.information.pwidth * 17, core.information.pheight * 22);
+		
+		ctx.fillStyle = 'white';
+		ctx.font = core.information.pwidth * 4 + "px comicFont";
+		
+		// draw the timer text
+		ctx.fillText('Attack', core.information.pwidth * 42.5, core.information.pheight * 50.5);
 	
 		ctx.restore();
 	

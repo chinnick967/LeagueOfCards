@@ -48,7 +48,7 @@ function changeturn(core) {
 	
 	core.information.turntimestart = core.information.time;
 	core.information.turnlength = 45;
-	console.log('Change Turn');
+	
 	var action = {};
 	action.name = 'changeturn', action.sendingplayer = core.information.player, action.receivingplayer = core.information.enemyplayer, action.var1 = core.information.time;
 	submitaction(core, action);

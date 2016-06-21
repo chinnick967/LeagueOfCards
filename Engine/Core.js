@@ -487,8 +487,8 @@ function playcard(core, card) {
 		
 		// add chat message
 		core.chat.post(ChatBox.msg.PLAYED_CARD, {
-		player: core.information.player1ID,
-		card: card.name
+			player: core.information.player1ID,
+			card: card.name
 		});
 	
 	} else if (core.information.player == 1 && core.information.currentslothover >= 1 && core.information.currentslothover <= 5 && card.type == 'Spell' && core.player1.gold >= card.cost) {
