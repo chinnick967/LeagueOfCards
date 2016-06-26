@@ -49,7 +49,7 @@ var Api = (function ($) {
 	 * @returns {Promise}
 	 */
 	function getMessage (gameId, playerId) {
-		return $.post(GET_MESSAGE, { gameId: gameId, playerId: playerId })
+		return post(GET_MESSAGE, { gameId: gameId, playerId: playerId })
 			.then(returnData, returnReject);
 	}
 
@@ -62,7 +62,7 @@ var Api = (function ($) {
 	 * @returns {Promise}
 	 */
 	function postMessage (gameId, message, playerId, data) {
-		return $.post(POST_MESSAGE, {
+		return post(POST_MESSAGE, {
 			gameId: gameId,
 			message: message,
 			playerId: playerId,
@@ -78,7 +78,7 @@ var Api = (function ($) {
 	 * @returns {Promise}
 	 */
 	function checkActions (gameId, player) {
-		return $.post(CHECK_ACTIONS, {gameID: gameId, player: player})
+		return post(CHECK_ACTIONS, {gameID: gameId, player: player})
 			.then(returnData, returnReject);
 	}
 
@@ -89,7 +89,7 @@ var Api = (function ($) {
 	 * @returns {Promise}
 	 */
 	function submitActions (gameId, action) {
-		return $.post(SUBMIT_ACTIONS, {gameID: gameId, action: action})
+		return post(SUBMIT_ACTIONS, {gameID: gameId, action: action})
 			.then(returnData, returnReject);
 	}
 
@@ -99,7 +99,7 @@ var Api = (function ($) {
 	 * @returns {Promise}
 	 */
 	function getPlayerNumber (playerId) {
-		return $.post(GET_PLAYER_NUMBER, {playerID: playerId})
+		return post(GET_PLAYER_NUMBER, {playerID: playerId})
 			.then(returnData, returnReject);
 	}
 
@@ -109,7 +109,7 @@ var Api = (function ($) {
 	 * @returns {Promise}
 	 */
 	function getGameInfo (gameId) {
-		return $.post(GET_GAME_INFO, {gameID: gameId})
+		return post(GET_GAME_INFO, {gameID: gameId})
 			.then(returnData, returnReject);
 	}
 
@@ -119,7 +119,7 @@ var Api = (function ($) {
 	 * @returns {Promise}
 	 */
 	function queueJoin (playerId) {
-		return $.post(QUEUE_JOIN, {playerID: playerId})
+		return post(QUEUE_JOIN, {playerID: playerId})
 			.then(returnData, returnReject);
 	}
 
@@ -129,7 +129,7 @@ var Api = (function ($) {
 	 * @returns {Promise}
 	 */
 	function checkQueue (playerId) {
-		return $.post(CHECK_QUEUE, {playerID: playerId})
+		return post(CHECK_QUEUE, {playerID: playerId})
 			.then(returnData, returnReject);
 	}
 
@@ -138,7 +138,20 @@ var Api = (function ($) {
 	}
 
 	function returnReject (result) {
-		return $.reject(result);
+		return Promise.reject(result);
 	}
 
+	function post (url, data) {
+		data = typeof data === 'object' ? data: {};
+		return new Promise(function (resolve, reject) {
+			$.post(url, data).then(resolve, reject);
+		});
+	}
+
+	function get (url, queryParams) {
+		queryParams = typeof queryParams === 'object' ? queryParams: {};
+		return new Promise(function (resolve, reject) {
+			$.get(url, queryParams).then(resolve, reject);
+		})
+	}
 } (jQuery));
