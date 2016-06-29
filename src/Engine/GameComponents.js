@@ -12,6 +12,7 @@ function drawComponents(core) {
 	drawboard(core);
 	drawnames(core);
 	drawattackbutton(core);
+	drawshields(core);
 	
 	settime(core);
 
@@ -202,9 +203,9 @@ var ctx = canvas.getContext("2d");
 	ctx.shadowColor = 'black';
 	ctx.shadowBlur = 20;
 	
-	if (core.information.turn == 1 || core.information.turn == 0) {
+	if (core.information.turn == 1 || core.information.turn == 0 || core.information.turn == 3) {
 		ctx.drawImage(core.assets.bluetimer, core.information.pwidth * 42.5, 0, core.information.pwidth * 15, core.information.pheight * 22);
-	} else if (core.information.turn == 2) {
+	} else if (core.information.turn == 2 || core.information.turn == 4) {
 		ctx.drawImage(core.assets.redtimer, core.information.pwidth * 42.5, 0, core.information.pwidth * 15, core.information.pheight * 22);
 	}
 	ctx.shadowBlur = 0;
@@ -726,5 +727,38 @@ function drawattackbutton(core) {
 	
 		ctx.restore();
 	
+	}
+}
+
+function drawshields(core) {
+	
+	var canvas = document.getElementById('GameCanvas');
+	var ctx = canvas.getContext("2d");
+	
+	if (typeof(core.mechanics.shields) != 'undefined') {
+			for (var i = 0; i < core.mechanics.shields.length; i++) {
+				var shield = core.mechanics.shields[i];
+				
+				ctx.save();
+				
+				ctx.globalAlpha = .5;
+				
+				ctx.strokeStyle = '#882D60';
+				ctx.lineWidth = core.information.pwidth / 4;
+				ctx.beginPath();
+				ctx.moveTo(core.information.pwidth * (shield.startleft + 2.5), core.information.pheight * (shield.starttop + 5));
+				ctx.lineTo(core.information.pwidth * (shield.left + 2.5), core.information.pheight * (shield.top + 5));
+				ctx.closePath();
+				ctx.stroke();
+				
+				ctx.drawImage(core.assets.shield, core.information.pwidth * shield.startleft, core.information.pheight * shield.starttop, core.information.pwidth * shield.width, core.information.pheight * shield.height);
+				ctx.globalAlpha = 1;
+				
+				ctx.shadowBlur = 5;
+				ctx.shadowColor = 'white';
+				ctx.drawImage(core.assets.shield, core.information.pwidth * shield.left, core.information.pheight * shield.top, core.information.pwidth * shield.width, core.information.pheight * shield.height);
+				
+				ctx.restore();
+			}
 	}
 }

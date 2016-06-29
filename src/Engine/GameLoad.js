@@ -29,8 +29,11 @@ var ctx = canvas.getContext("2d");
 	// json object that holds the actions information
 	var actions = {};
 	
-	// array that holds sounds
-	var sounds = [];
+	// json that holds sounds
+	var sounds = {};
+	
+	// json that holds game mechanics
+	var mechanics = {};
 
 	// json object that holds core json objects
 	var core = {};
@@ -43,6 +46,7 @@ var ctx = canvas.getContext("2d");
 	core.board = board;
 	core.actions = actions;
 	core.sounds = sounds;
+	core.mechanics = mechanics;
 	
 	core.information.init = 0;
 	core.information.playerID = playerID;
@@ -112,9 +116,9 @@ function redraw(core) {
 			setTimeout(function(){ addanimation(core, 'silvercoin', 2.3, 58.2, var1 = '', var2 = '', var3 = ''); }, 1000);
 			// run background music (temporarily just for player 1)
 			/*if (core.information.player == 1) {
-				core.sounds[0].volume(0.5);
-				core.sounds[0].play();
-				core.sounds[0].loop();
+				core.sounds.tracks[0].volume(0.5);
+				core.sounds.tracks[0].play();
+				core.sounds.tracks[0].loop();
 			}*/
 		}
 		

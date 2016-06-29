@@ -26,7 +26,8 @@ core.player2.icon,
 'Assets/Sprites/buff.png',
 'Assets/Sprites/rune6.png',
 'Assets/Sprites/coins2.png',
-'Assets/rengar.png'
+'Assets/rengar.png',
+'Assets/braumshield.png'
 ];
 
 // assets array plus one for loading the player information and plus 8 for loading cards plus 1 for each hand plus one for setting gold plus 1 for gameinfo/settings plus 1 for loading towers plus 1 for actions array
@@ -76,6 +77,7 @@ totalload += gamecomponents.length + 1 + 8 + 2 + 1 + 1 + 1 + 1;
 		player: 'Master Popo',
 		card: 'Piccolo\'s bum'
 	});
+	window.chat = core.chat;
 	// show/hide
 	/*var show = false;
 	setInterval(function () {
@@ -110,6 +112,7 @@ function addtoassets(core, current, img) {
 	if (current == 17) {core.assets.playcardsprite = img;}
 	if (current == 18) {core.assets.coins = img;}
 	if (current == 19) {core.assets.rengar = img;}
+	if (current == 20) {core.assets.shield = img;}
 	
 }
 
@@ -444,7 +447,10 @@ function componentsinfo(core) {
 
 function loadsounds(core) {
 	
-	core.sounds[0] = new sound("Assets/Sounds/TheBoyWhoShatteredTime.mp3");
-	core.sounds[1] = new sound("Assets/Sounds/spell2.wav");
+	core.sounds.tracks = [];
+	
+	core.sounds.tracks[0] = new sound("Assets/Sounds/TheBoyWhoShatteredTime.mp3");
+	core.sounds.playcard = new sound("Assets/Sounds/spell2.wav");
+	core.sounds.attack = new sound("Assets/Sounds/roar.mp3");
 	
 }

@@ -20,6 +20,7 @@ function mouseinit(core) {
 		
 		// click functions
 		setattacker(core);
+		declareattack(core);
 	});
 	
 	$("#GameCanvas").mouseup(function(){
