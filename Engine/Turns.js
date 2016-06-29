@@ -55,6 +55,22 @@ function changeturn(core) {
 	
 }
 
+function defenseturn(core, starttime) {
+	
+	if (core.information.turn == 1) {
+		core.information.turn = 4;
+	} else {
+		core.information.turn = 3;
+	}
+	
+	// set endtime for resuming previous turn afterwards
+	core.information.endtime = starttime;
+	
+	core.information.turntimestart = starttime;
+	core.information.turnlength = 25;
+	
+}
+
 function checkturn(core) {
 	
 	if (core.information.turn == core.information.player) {

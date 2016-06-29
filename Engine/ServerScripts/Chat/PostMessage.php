@@ -9,7 +9,7 @@
 
 	$submitAction = mysql_query("
 		INSERT INTO Chat (GameID, PlayerID, ID, Message, Data, TimestampMS, Viewed)
-		SELECT              $GameID, '$PlayerID', MAX(ID) + 1, '$Message', '$Data', $TimestampMS, '-$PlayerID-'
+		SELECT              $GameID, '$PlayerID', COALESCE(MAX(ID) + 1, 0), '$Message', '$Data', $TimestampMS, '-$PlayerID-'
 		FROM Chat
 	");
 

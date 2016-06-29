@@ -483,7 +483,7 @@ function playcard(core, card) {
 		addanimation(core, 'playcard', core.information.topposition - 15, core.information.leftposition - 6, var1 = 90, var2 = '', var3 = '');
 		
 		// play sound
-		core.sounds[1].play();
+		core.sounds.playcard.play();
 		
 		// add chat message
 		core.chat.post(ChatBox.msg.PLAYED_CARD, {
@@ -523,7 +523,7 @@ function playcard(core, card) {
 		addanimation(core, 'playcard', core.information.topposition - 15, core.information.leftposition - 6, var1 = 90, var2 = '', var3 = '');
 		
 		// play sound
-		core.sounds[1].play();
+		core.sounds.playcard.play();
 		
 		// add chat message
 		core.chat.post(ChatBox.msg.PLAYED_CARD, {
@@ -564,7 +564,7 @@ function playcard(core, card) {
 		addanimation(core, 'playcard', core.information.topposition - 15, core.information.leftposition - 6, var1 = 90, var2 = '', var3 = '');
 		
 		// play sound
-		core.sounds[1].play();
+		core.sounds.playcard.play();
 		
 		// add chat message
 		core.chat.post(ChatBox.msg.PLAYED_CARD, {
@@ -604,7 +604,7 @@ function playcard(core, card) {
 		addanimation(core, 'playcard', core.information.topposition - 15, core.information.leftposition - 6, var1 = 90, var2 = '', var3 = '');
 		
 		// play sound
-		core.sounds[1].play();
+		core.sounds.playcard.play();
 		
 		// add chat message
 		core.chat.post(ChatBox.msg.PLAYED_CARD, {
@@ -1226,5 +1226,128 @@ function checkforattackers(core) {
 	}
 	
 	return false;
+	
+}
+
+function declareattack(core) {
+	
+	if (core.information.xoffset >= 42.5 && core.information.xoffset <= 59.5 && core.information.yoffset >= 23 && core.information.yoffset <= 55 && checkforattackers(core)) {
+		
+		var attackers = addattackers(core);
+		
+		// attack action
+		var action = {};
+		action.name = 'Attack', action.sendingplayer = core.information.player, action.receivingplayer = core.information.enemyplayer;
+		
+		for (var i = 0; i < attackers.length; i++) {
+			action['var' + (i + 1)] = attackers[i];
+		}
+		
+		action.var6 = core.information.time;
+		
+		defenseturn(core, action.var6);
+		
+		submitaction(core, action);
+		
+		core.sounds.attack.volume(.3);
+		core.sounds.attack.play();
+		
+		// game screen effect
+		document.getElementById('GameCanvas').style.boxShadow = 'inset 0px 0px 75px 24px rgba(94,84,94,1)';
+		
+	}
+	
+}
+
+function addattackers(core) {
+	
+	var array = [];
+	
+	if (core.information.player == 1) {
+		for (var i = 6; i <= 10; i++) {
+			if (core.board['s' + i] != '' && typeof(core.board['s' + i]) != 'undefined') {
+				array.push(i);
+			}
+		}
+	} else if (core.information.player == 2) {
+		for (var i = 16; i <= 20; i++) {
+			if (core.board['s' + i] != '' && typeof(core.board['s' + i]) != 'undefined') {
+				array.push(i);
+			}
+		}
+	}
+	
+	return array;
+	
+}
+
+function generateshields(core) {
+	
+	core.mechanics.shields = [];
+	
+	if (core.information.player == 1) {
+		
+		for (var i = 6; i <= 10; i++) {
+			if (core.board['s' + i] != '' && typeof(core.board['s' + i]) != 'undefined') {
+				
+				// create shield
+				var shield = createshield(core, i);
+				
+				// add shield to array to be drawn
+				core.mechanics.shields.push(shield);
+			}
+		}
+		
+	} else if (core.information.player == 2) {
+		for (var i = 16; i <= 20; i++) {
+			if (core.board['s' + i] != '' && typeof(core.board['s' + i]) != 'undefined') {
+				
+				// create shield
+				var shield = createshield(core, i);
+				
+				// add shield to array to be drawn
+				core.mechanics.shields.push(shield);
+			}
+		}
+	}
+	
+}
+
+function createshield(core, position) {
+	
+	var shield = {};
+	
+	if (position >= 6 && position <= 10) {
+		var adjust = (position - 6) * 16;
+		shield.left = 34;
+		shield.top = 12 + adjust;
+	} else if (position >= 16 && position <= 20) {
+		var adjust = (position - 16) * 16;
+		shield.left = 61;
+		shield.top = 12 + adjust;
+	}
+	
+	shield.width = 5;
+	shield.height = 10;
+	
+	shield.startleft = shield.left;
+	shield.starttop = shield.top;
+	
+	shield.drag = function() {
+			shield.left = core.information.xoffset - 2.5;
+			shield.top = core.information.yoffset - 5;
+	}
+	
+	$("#GameCanvas").mousedown(function(){
+		if (core.information.xoffset >= shield.left && core.information.xoffset <= shield.left + 5 && core.information.yoffset >= shield.top && shield.top <= shield.top + 10) {
+			shield.interval = setInterval(function(){ shield.drag(); }, 10);
+		}
+	});
+	
+	$("#GameCanvas").mouseup(function(){
+	    clearInterval(shield.interval);
+	});
+	
+	return shield;
 	
 }

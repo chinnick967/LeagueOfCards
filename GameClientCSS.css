@@ -242,7 +242,7 @@ border-radius: 15px;
 .chat-box {
     position: absolute;
     left: 120px;
-    bottom: 0;
+    bottom: -1;
     font-family: myFont, serif;
     width: 300px;
 }

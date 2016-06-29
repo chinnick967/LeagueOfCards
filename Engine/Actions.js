@@ -89,6 +89,8 @@ function actionsorter(core, action, index) {
 		
 		action_changeturn(core, action, index);
 		
+	} else if (action.action == 'Attack') {
+		action_attack(core, action, index);
 	}
 	
 }
@@ -147,6 +149,25 @@ function action_handadjust(core, action, index) {
 	} else {
 		core.player2.handlength += parseInt(action.var1);
 	}
+	
+	// complete action
+	core.actions.actionarray[index].complete = 1;
+	core.actions.actionarray[index].running = 0;
+	
+}
+
+function action_attack(core, action, index) {
+	
+	// change to defense turn
+	defenseturn(core, action.var6);
+	
+	for (var i = 0; i <= 4; i++) {
+		if (action['var' + (i + 1)] != '' && typeof(action['var' + (i + 1)]) != 'undefined') {
+			core.board['s' + action['var' + (i + 1)]].attacking = 1;
+		}
+	}
+	
+	generateshields(core);
 	
 	// complete action
 	core.actions.actionarray[index].complete = 1;
