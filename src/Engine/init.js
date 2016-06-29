@@ -6,8 +6,10 @@
 	});
 
 	function handleGetLoggedInStatus(res) {
+		res = res || {isLoggedIn: true};
 		if(res.isLoggedIn) {
-			start();
+			var socket = io('http://localhost:8080/');
+			start(socket);
 			$('body').removeClass('loading');
 		} else {
 			window.location.assign('http://lol.cards/LeagueOfCards/create-account/');
