@@ -114,15 +114,15 @@ function action_changeturn(core, action, index) {
 	resetturninfo(core);
 	addturnstoboardcards(core, action.turn);
 
-	//if (core.information.turn == 1) {
-	//	core.information.turn = 2;
-	//	addturnstoboardcards(core, 2);
-	//	resetturninfo(core);
-	//} else if (core.information.turn == 2) {
-	//	core.information.turn = 1;
-	//	addturnstoboardcards(core, 1);
-	//	resetturninfo(core);
-	//}
+	if (core.information.turn == 1) {
+		core.information.turn = 2;
+		addturnstoboardcards(core, 2);
+		resetturninfo(core);
+	} else if (core.information.turn == 2) {
+		core.information.turn = 1;
+		addturnstoboardcards(core, 1);
+		resetturninfo(core);
+	}
 	
 	core.information.turntimestart = action.var1;
 	core.information.turnlength = 45;
