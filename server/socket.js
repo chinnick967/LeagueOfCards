@@ -14,18 +14,17 @@ module.exports = function (server) {
 		var userId = Math.round(Math.random() * 10000);
 		users++;
 
-		//socket.on('queue:cancel', handleQueueCancel);
+		socket.on('queue:cancel', handleQueueCancel);
 		socket.on('queue:join', joinQueue);
 		socket.on('game:action:submit', handleGameActionSubmit);
+		socket.on('game:chat:submit', handleGameChatSubmit);
 		socket.on('disconnect', handleDisconnect);
 		var currentGame = null;
 
 
 		function handleDisconnect () {
 			users--;
-			if(currentGame) {
-				delete games[currentGame.id];
-			}
+			removeGame();
 		}
 
 		function joinGame (game) {
@@ -93,9 +92,21 @@ module.exports = function (server) {
 			}
 		}
 
+		function handleQueueCancel () {
+			removeGame();
+		}
+		function removeGame () {
+			if(currentGame) {
+				delete games[currentGame.id];
+			}
+			currentGame = null;
+		}
 		function handleGameActionSubmit (data) {
 			socket.broadcast.emit('game:action:submit', { action: data.action });
-			//socket.emit('game:action:submit', { action: data.action });
+		}
+
+		function handleGameChatSubmit (data) {
+			socket.broadcast.emit('game:chat:submit', data);
 		}
 	}
 

@@ -21,7 +21,7 @@ var ctx = canvas.getContext("2d");
 	var assets = {
 		cards: processCards(gameInfo.cards, core)
 	};
-	
+
 	// json object that holds settings
 	var settings = {};
 	
@@ -69,13 +69,17 @@ var ctx = canvas.getContext("2d");
 	core.actions.actionarray = actionarray;
 	core.information.init = 0;
 	core.chat = ChatBox($('chat-box'), core);
+	core.chat.listen();
+	//console.log ('chat thing', core.chat);
+
+	//window.chat2 = core.chat;
 	//core.information.playerID = playerID;
 	
 	// delete this later
 	//core.player1.icon = 'Assets/Ekko.png';
 	//core.player2.icon = 'Assets/teemo.png';
 	//console.log (core);
-	console.log (core);
+	//console.log (core);
 
 	// setup player info
 	setupPlayer(core);

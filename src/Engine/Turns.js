@@ -3,8 +3,6 @@ function startgame(core) {
 	core.information.turn = 0;
 	core.information.turntimestart = 0;
 	core.information.turnlength = 30;
-	
-	//loadedassets++;
 
 }
 
@@ -31,7 +29,7 @@ function changeturntime(core) {
 	if (core.information.turntimer < 0) {
 		core.information.turntimer = 0;
 	}
-	
+
 }
 
 function changeturn(core) {
