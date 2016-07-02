@@ -13,7 +13,7 @@ function drawComponents(core) {
 	drawnames(core);
 	drawattackbutton(core);
 	drawshields(core);
-	
+	// test
 	settime(core);
 
 }
@@ -735,15 +735,16 @@ function drawshields(core) {
 	var canvas = document.getElementById('GameCanvas');
 	var ctx = canvas.getContext("2d");
 	
-	if (typeof(core.mechanics.shields) != 'undefined') {
+	if (typeof(core.mechanics.shields) != 'undefined' && core.mechanics.shields != '') {
+		
 			for (var i = 0; i < core.mechanics.shields.length; i++) {
 				var shield = core.mechanics.shields[i];
-				
+
 				ctx.save();
 				
 				ctx.globalAlpha = .5;
 				
-				ctx.strokeStyle = '#882D60';
+				ctx.strokeStyle = shield.linecolor;
 				ctx.lineWidth = core.information.pwidth / 4;
 				ctx.beginPath();
 				ctx.moveTo(core.information.pwidth * (shield.startleft + 2.5), core.information.pheight * (shield.starttop + 5));

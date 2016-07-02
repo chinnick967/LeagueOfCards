@@ -1,5 +1,5 @@
 function checkactions(core) {
-//test
+
 	if (core.information.loaded == true) {
 		Api.checkActions(core.information.gameid, core.information.player).then(function(actions){
 

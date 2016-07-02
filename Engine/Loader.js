@@ -27,7 +27,8 @@ core.player2.icon,
 'Assets/Sprites/rune6.png',
 'Assets/Sprites/coins2.png',
 'Assets/rengar.png',
-'Assets/braumshield.png'
+'Assets/braumshield.png',
+'Assets/defenseicon.png'
 ];
 
 // assets array plus one for loading the player information and plus 8 for loading cards plus 1 for each hand plus one for setting gold plus 1 for gameinfo/settings plus 1 for loading towers plus 1 for actions array
@@ -113,6 +114,7 @@ function addtoassets(core, current, img) {
 	if (current == 18) {core.assets.coins = img;}
 	if (current == 19) {core.assets.rengar = img;}
 	if (current == 20) {core.assets.shield = img;}
+	if (current == 21) {core.assets.defenseicon = img;}
 	
 }
 
@@ -284,7 +286,6 @@ function gethand(core, deck) {
 		var topcard = deck.length - 1;
 		
 		if (core.information.player == 1) {
-			console.log('Player 1 deck', deck[topcard]);
 			core.player1.hand.push(deck[topcard]);
 		} else {
 			core.player2.hand.push(deck[topcard]);
@@ -326,8 +327,8 @@ function boardprep(core) {
 
 function setgold(core) {
 
-	core.player1.gold = 3;
-	core.player2.gold = 3;
+	core.player1.gold = 13;
+	core.player2.gold = 13;
 	
 	core.player1.goldincome = 1;
 	core.player2.goldincome = 1;
