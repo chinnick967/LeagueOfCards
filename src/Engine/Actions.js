@@ -2,55 +2,14 @@ function checkactions(core) {
 	core.socket.on('game:action:submit', handleGameActions);
 
 	function handleGameActions (data) {
-		console.log('handle game actions', data);
-
-		//data.actions.forEach(function (action) {
 			data.action.complete = 0;
 			data.action.running = 0;
 			core.actions.actionarray.push(data.action);
-		//});
 	}
-
-//test
-//	if (core.information.loaded == true) {
-//		Api.checkActions(core.information.gameid, core.information.player).then(function(actions){
-//
-//			if (actions.length != 0) {
-//
-//				for (var i = 0; i < actions.length; i++) {
-//
-//					var actionobject = actions[i];
-//
-//					actionobject.complete = 0;
-//					actionobject.running = 0;
-//					core.actions.actionarray.push(actionobject);
-//
-//				}
-//
-//			}
-//
-//			setTimeout(function(){ checkactions(core); }, 100);
-//
-//		});
-//
-//	} else {
-//
-//		setTimeout(function(){ checkactions(core); }, 100);
-//
-//	}
-
 }
 
 function submitaction(core, action) {
 	core.socket.emit('game:action:submit', {action:action});
-	//Api.submitActions(core.information.gameid, action).then(function(result){
-	//
-	//	});
-	//
-	/*$.post( "Engine/ServerScripts/SubmitAction.php", {gameID: core.information.gameid, action: action}, function( result ) {
-			console.log(result);
-	});*/
-	
 }
 
 /*

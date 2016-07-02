@@ -1266,13 +1266,13 @@ function addattackers(core) {
 	
 	if (core.information.player == 1) {
 		for (var i = 6; i <= 10; i++) {
-			if (core.board['s' + i] != '' && typeof(core.board['s' + i]) != 'undefined') {
+			if (core.board['s' + i] != '' && typeof(core.board['s' + i]) != 'undefined' && core.board['s' + i].attacking == 1) {
 				array.push(i);
 			}
 		}
 	} else if (core.information.player == 2) {
 		for (var i = 16; i <= 20; i++) {
-			if (core.board['s' + i] != '' && typeof(core.board['s' + i]) != 'undefined') {
+			if (core.board['s' + i] != '' && typeof(core.board['s' + i]) != 'undefined' && core.board['s' + i].attacking == 1) {
 				array.push(i);
 			}
 		}
@@ -1328,6 +1328,7 @@ function createshield(core, position) {
 		shield.top = 12 + adjust;
 	}
 	
+	shield.linecolor = '#' + ("000000" + Math.random().toString(16).slice(2, 8).toUpperCase()).slice(-6);
 	shield.width = 5;
 	shield.height = 10;
 	
@@ -1335,20 +1336,65 @@ function createshield(core, position) {
 	shield.starttop = shield.top;
 	
 	shield.drag = function() {
-			shield.left = core.information.xoffset - 2.5;
-			shield.top = core.information.yoffset - 5;
+			this.left = core.information.xoffset - 2.5;
+			this.top = core.information.yoffset - 5;
 	}
 	
 	$("#GameCanvas").mousedown(function(){
-		if (core.information.xoffset >= shield.left && core.information.xoffset <= shield.left + 5 && core.information.yoffset >= shield.top && shield.top <= shield.top + 10) {
+		if (core.information.xoffset >= shield.left && core.information.xoffset <= shield.left + 5 && core.information.yoffset >= shield.top && core.information.yoffset <= shield.top + 10) {
 			shield.interval = setInterval(function(){ shield.drag(); }, 10);
+			shield.defending = 0;
+			shield.intervalflag = true;
 		}
 	});
 	
 	$("#GameCanvas").mouseup(function(){
-	    clearInterval(shield.interval);
+		if (shield.intervalflag) {
+			clearInterval(shield.interval);
+			shield.lockposition();
+			shield.intervalflag = false;
+		}
 	});
 	
+	$("#GameCanvas").mouseleave(function() {
+		if (shield.intervalflag) {
+			clearInterval(shield.interval);
+			shield.lockposition();
+			shield.intervalflag = false;
+		}
+	});
+	
+	shield.lockposition = function() {
+		
+		if (typeof(core.board['s' + core.information.currentslothover]) != 'undefined') {
+			if (core.board['s' + core.information.currentslothover].attacking == 1 && checkshieldpositions(core, core.information.currentslothover)) {
+				shield.defending = core.information.currentslothover;
+			} else {
+				shield.defending = 0;
+				shield.left = shield.startleft;
+				shield.top = shield.starttop;
+			}
+		} else {
+			shield.defending = 0;
+			shield.left = shield.startleft;
+			shield.top = shield.starttop;
+		}
+	}
+	
 	return shield;
+	
+}
+
+function checkshieldpositions(core, drop_position) {
+	
+	for (var i = 0; i < core.mechanics.shields.length; i++) {
+		
+		if (core.mechanics.shields[i].defending == drop_position) {
+			return false;
+		}
+		
+	}
+	
+	return true;
 	
 }
