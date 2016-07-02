@@ -14,7 +14,7 @@ function drawcard(core, card, width, left, top, rotation, hover) {
 	
 	if (typeof(card) != 'undefined' && card != '') {
 	
-		var asset = card.asset;
+		var asset = core.sprites.cards[card.refName];
 		var type = card.type;
 		
 		// set the card height based off the width
@@ -475,7 +475,8 @@ function playcard(core, card) {
         
 		// play card action
 		var action = {};
-		action.name = 'PlayCard', action.sendingplayer = '1', action.receivingplayer = '2', action.var1 = card.cardID, action.var2 = core.information.currentslothover;
+
+		action.name = 'PlayCard', action.sendingplayer = '1', action.receivingplayer = '2', action.refName = card.refName, action.var2 = core.information.currentslothover;
 		submitaction(core, action);
 		
 		// get board left and top for the animation and then play the animation
@@ -515,7 +516,7 @@ function playcard(core, card) {
 		
 		// play card action
 		var action = {};
-		action.name = 'PlayCard', action.sendingplayer = '1', action.receivingplayer = '2', action.var1 = card.cardID, action.var2 = core.information.currentslothover;
+		action.name = 'PlayCard', action.sendingplayer = '1', action.receivingplayer = '2', action.refName = card.refName, action.var2 = core.information.currentslothover;
 		submitaction(core, action);
 		
 		// get board left and top for the animation and then play the animation
@@ -556,7 +557,7 @@ function playcard(core, card) {
 		
 		// play card action
 		var action = {};
-		action.name = 'PlayCard', action.sendingplayer = '2', action.receivingplayer = '1', action.var1 = card.cardID, action.var2 = core.information.currentslothover;
+		action.name = 'PlayCard', action.sendingplayer = '2', action.receivingplayer = '1', action.refName = card.refName, action.var2 = core.information.currentslothover;
 		submitaction(core, action);
 		
 		// get board left and top for the animation and then play the animation
@@ -596,7 +597,7 @@ function playcard(core, card) {
 		
 		// play card action
 		var action = {};
-		action.name = 'PlayCard', action.sendingplayer = '2', action.receivingplayer = '1', action.var1 = card.cardID, action.var2 = core.information.currentslothover;
+		action.name = 'PlayCard', action.sendingplayer = '2', action.receivingplayer = '1', action.refName = card.refName, action.var2 = core.information.currentslothover;
 		submitaction(core, action);
 		
 		// get board left and top for the animation and then play the animation

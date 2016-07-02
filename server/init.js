@@ -1,6 +1,7 @@
 const db = require('./config/db');
 const socketConfig = require('./socket');
 const global = require('./global');
+const path = require('path');
 
 module.exports = function (server) {
 	Promise
@@ -20,6 +21,23 @@ function loadCards () {
 		connection.end();
 		return res;
 	}).then(function (data) {
-		return data[0];
+		return data[0].map(savedCard => {
+			var card = {};
+			card.cardID = savedCard.CardID;
+			card.attack = savedCard.Attack;
+			card.defense = savedCard.Defense;
+			card.magicresist = savedCard.MagicResist;
+			card.armor = savedCard.Armor;
+			card.cost = savedCard.Cost;
+			card.type = savedCard.Type;
+			card.name = savedCard.Name;
+			card.asset = savedCard.Asset;
+			card.damagetype = savedCard.DamageType;
+			card.refName = path.parse(savedCard.Image).name;
+
+
+
+			return card;
+		});
 	});
 }

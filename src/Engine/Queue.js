@@ -2,7 +2,7 @@
 var playerID = Math.round (Math.random () * 10000000);
 var ping = new Audio ('Assets/ping.wav');
 
-function start(socket) {
+function start(core) {
 	var inQueue = false;
 	var $playButton = $ ('#playbutton');
 	var $timer = $ ('#matchtimer');
@@ -12,7 +12,7 @@ function start(socket) {
 	var timer = null;
 
 	$playButton.on ('click', handleClick);
-	socket.on ('game:found', handleGameFound);
+	core.socket.on ('game:found', handleGameFound);
 
 	function handleClick() {
 		if (inQueue) {
@@ -23,7 +23,9 @@ function start(socket) {
 	}
 
 	function handleGameFound(gameInfo) {
-		init();
+		if(!inQueue) return;
+		// set game info
+		init(core, gameInfo);
 		timer.cancel();
 		$timer.text('Match Found!');
 		ping.play();
@@ -45,14 +47,14 @@ function start(socket) {
 			.text ('')
 			.hide();
 		inQueue = false;
-		socket.emit ('queue:cancel');
+		core.socket.emit ('queue:cancel');
 		timer.cancel ();
 	}
 
 	function joinQueue() {
 		inQueue = true;
 		$playButton.text ('Cancel');
-		socket.emit ('queue:join');
+		core.socket.emit ('queue:join');
 		timer = GameTimer (onTimerChange);
 		timer.start ();
 		$timer

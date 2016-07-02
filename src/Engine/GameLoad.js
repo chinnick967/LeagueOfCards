@@ -1,4 +1,4 @@
-function init() {
+function init(core, gameInfo) {
 	
 var canvas = document.getElementById('GameCanvas');
 var ctx = canvas.getContext("2d");
@@ -9,9 +9,18 @@ var ctx = canvas.getContext("2d");
 	information.height = canvas.height;
 	information.pwidth = canvas.width / 100;
 	information.pheight = canvas.height / 100;
+	information.player = gameInfo.player;
+	information.enemyplayer = gameInfo.enemyPlayer;
+	information.gameid = gameInfo.gameId;
+	information.player1ID = gameInfo.player1Id;
+	information.player2ID = gameInfo.player2Id;
+	information.starttime = gameInfo.startTime;
+	information.playerID = gameInfo.playerId;
 	
 	// json object that holds assets
-	var assets = {};
+	var assets = {
+		cards: processCards(gameInfo.cards, core)
+	};
 	
 	// json object that holds settings
 	var settings = {};
@@ -20,8 +29,12 @@ var ctx = canvas.getContext("2d");
 	var animation = [];
 	
 	// json objects that holds settings
-	var player1 = {};
-	var player2 = {};
+	var player1 = {
+		icon: 'ekko'
+	};
+	var player2 = {
+		icon: 'teemo'
+	};
 	
 	// json objects that hold board information
 	var board = {};
@@ -35,8 +48,14 @@ var ctx = canvas.getContext("2d");
 	// json that holds game mechanics
 	var mechanics = {};
 
+	// Array that holds game actions
+	var actionarray = [];
+
 	// json object that holds core json objects
-	var core = {};
+
+	// ***NOTE*** Core is created in init.js
+	// var core = {};
+	//console.log()
 	core.information = information;
 	core.assets = assets;
 	core.settings = settings;
@@ -45,18 +64,21 @@ var ctx = canvas.getContext("2d");
 	core.animation = animation;
 	core.board = board;
 	core.actions = actions;
-	core.sounds = sounds;
+	//core.sounds = sounds;
 	core.mechanics = mechanics;
-	
+	core.actions.actionarray = actionarray;
 	core.information.init = 0;
-	core.information.playerID = playerID;
+	core.chat = ChatBox($('chat-box'), core);
+	//core.information.playerID = playerID;
 	
 	// delete this later
-	core.player1.icon = 'Assets/Ekko.png';
-	core.player2.icon = 'Assets/teemo.png';
-	
-	// asset loading function
-	loadassets(core);
+	//core.player1.icon = 'Assets/Ekko.png';
+	//core.player2.icon = 'Assets/teemo.png';
+	//console.log (core);
+	console.log (core);
+
+	// setup player info
+	setupPlayer(core);
 
     	// init functions
 	core.settings.sound = 4;
@@ -64,19 +86,27 @@ var ctx = canvas.getContext("2d");
 	mouseinit(core);
 	//setInterval(function(){ redraw(core); }, 16);
 	redraw(core);
-	
+	startgame(core);
+	// adds coin animations
+	setTimeout(function(){ addanimation(core, 'goldcoin', 1.8, 34, var1 = '', var2 = '', var3 = ''); }, 1000);
+	setTimeout(function(){ addanimation(core, 'goldcoin', 1.8, 61.6, var1 = '', var2 = '', var3 = ''); }, 1000);
+	setTimeout(function(){ addanimation(core, 'silvercoin', 2.3, 38.2, var1 = '', var2 = '', var3 = ''); }, 1000);
+	setTimeout(function(){ addanimation(core, 'silvercoin', 2.3, 58.2, var1 = '', var2 = '', var3 = ''); }, 1000);
+
 	// start check for actions
 	checkactions(core);
 
-	// set the variable for the first run after loading
-	core.information.firstrun = 1;
+	//// set the variable for the first run after loading
+	//core.information.firstrun = 1;
+
+
 	
 }
 
 function redraw(core) {
 
 	// checks that are images are loaded
-	if (core.information.loaded == true) {
+	//if (core.information.loaded == true) {
 	
 		var canvas = document.getElementById('GameCanvas');
 		var ctx = canvas.getContext("2d");
@@ -107,38 +137,32 @@ function redraw(core) {
 		turntracker(core);
 		
 		// if first run, start game
-		if (core.information.firstrun == 1) {
-			startgame(core);
-			// adds coin animations
-			setTimeout(function(){ addanimation(core, 'goldcoin', 1.8, 34, var1 = '', var2 = '', var3 = ''); }, 1000);
-			setTimeout(function(){ addanimation(core, 'goldcoin', 1.8, 61.6, var1 = '', var2 = '', var3 = ''); }, 1000);
-			setTimeout(function(){ addanimation(core, 'silvercoin', 2.3, 38.2, var1 = '', var2 = '', var3 = ''); }, 1000);
-			setTimeout(function(){ addanimation(core, 'silvercoin', 2.3, 58.2, var1 = '', var2 = '', var3 = ''); }, 1000);
+		//if (core.information.firstrun == 1) {
 			// run background music (temporarily just for player 1)
 			/*if (core.information.player == 1) {
 				core.sounds.tracks[0].volume(0.5);
 				core.sounds.tracks[0].play();
 				core.sounds.tracks[0].loop();
 			}*/
-		}
+		//}
 		
 		// set first run to 1
-		core.information.firstrun = 0;
+		//core.information.firstrun = 0;
 		
-	} else {
-	
-		loadprogress(core);
-	
-	}
+	//} else {
+	//
+	//	loadprogress(core);
+	//
+	//}
 	
 	// post loaded init
-	if (core.information.loaded == true && core.information.init == 0) {
-	
-		core.information.init = 1;
-		
-		
-	
-	}
+	//if (core.information.loaded == true && core.information.init == 0) {
+	//
+	//	core.information.init = 1;
+	//
+	//
+	//
+	//}
 	
 	// redraw
 	setTimeout(function(){ redraw(core); }, 5);

@@ -2,7 +2,8 @@ var utils = (function () {
 
 	return {
 		interpolate: interpolate,
-		isBool: isBool
+		isBool: isBool,
+		loadImage: loadImage
 	};
 
 	function interpolate (str, data) {
@@ -22,6 +23,16 @@ var utils = (function () {
 
 	function isBool (val) {
 		return typeof val === 'boolean' || val instanceof Boolean;
+	}
+
+	function loadImage (url) {
+		return new Promise(function (resolve) {
+			var image = new Image();
+			image.onload = function () {
+				resolve(image);
+			};
+			image.src = url;
+		});
 	}
 
 }());

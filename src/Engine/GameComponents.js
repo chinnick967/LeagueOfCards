@@ -188,9 +188,9 @@ var ctx = canvas.getContext("2d");
 	ctx.shadowBlur = 20;
 	
 	if (core.information.turn == 1 || core.information.turn == 0) {
-		ctx.drawImage(core.assets.bluetimer, core.information.pwidth * 42.5, 0, core.information.pwidth * 15, core.information.pheight * 22);
+		ctx.drawImage(core.sprites.icons.bluetimer, core.information.pwidth * 42.5, 0, core.information.pwidth * 15, core.information.pheight * 22);
 	} else {
-		ctx.drawImage(core.assets.redtimer, core.information.pwidth * 42.5, 0, core.information.pwidth * 15, core.information.pheight * 22);
+		ctx.drawImage(core.sprites.icons.redtimer, core.information.pwidth * 42.5, 0, core.information.pwidth * 15, core.information.pheight * 22);
 	}
 	ctx.shadowBlur = 0;
 	
@@ -204,9 +204,9 @@ var ctx = canvas.getContext("2d");
 	ctx.shadowBlur = 20;
 	
 	if (core.information.turn == 1 || core.information.turn == 0 || core.information.turn == 3) {
-		ctx.drawImage(core.assets.bluetimer, core.information.pwidth * 42.5, 0, core.information.pwidth * 15, core.information.pheight * 22);
+		ctx.drawImage(core.sprites.icons.bluetimer, core.information.pwidth * 42.5, 0, core.information.pwidth * 15, core.information.pheight * 22);
 	} else if (core.information.turn == 2 || core.information.turn == 4) {
-		ctx.drawImage(core.assets.redtimer, core.information.pwidth * 42.5, 0, core.information.pwidth * 15, core.information.pheight * 22);
+		ctx.drawImage(core.sprites.icons.redtimer, core.information.pwidth * 42.5, 0, core.information.pwidth * 15, core.information.pheight * 22);
 	}
 	ctx.shadowBlur = 0;
 
@@ -237,7 +237,7 @@ var ctx = canvas.getContext("2d");
 		
 		if (core.information.focus != 'hand') {
 		
-		ctx.drawImage(core.assets.threecards, core.information.pwidth * 45, core.information.pheight * core.information.threecardstop, core.information.pwidth * 10, core.information.pheight * 16);
+		ctx.drawImage(core.sprites.icons.threecards, core.information.pwidth * 45, core.information.pheight * core.information.threecardstop, core.information.pwidth * 10, core.information.pheight * 16);
 		
 		}
 		
@@ -270,8 +270,8 @@ function drawPlayerIcons(core) {
 var canvas = document.getElementById('GameCanvas');
 var ctx = canvas.getContext("2d");
 
-	ctx.drawImage(core.player1.icon, core.information.pwidth * 2, core.information.pheight * 1, core.information.pwidth * 4, core.information.pheight * 7);
-	ctx.drawImage(core.player2.icon, core.information.pwidth * 94, core.information.pheight * 1, core.information.pwidth * 4, core.information.pheight * 7);
+	ctx.drawImage(core.sprites.playerIcons[core.player1.icon], core.information.pwidth * 2, core.information.pheight * 1, core.information.pwidth * 4, core.information.pheight * 7);
+	ctx.drawImage(core.sprites.playerIcons[core.player2.icon], core.information.pwidth * 94, core.information.pheight * 1, core.information.pwidth * 4, core.information.pheight * 7);
 	
 }
 
@@ -282,8 +282,8 @@ var ctx = canvas.getContext("2d");
 
 ctx.shadowColor = 'black';	
 ctx.shadowBlur = 5;
-ctx.drawImage(core.assets.settings, core.information.pwidth * 91, core.information.pheight * 93, core.information.pwidth * 3.5, core.information.pheight * 6);
-ctx.drawImage(core.assets.fullscreen, core.information.pwidth * 95.5, core.information.pheight * 93, core.information.pwidth * 3.5, core.information.pheight * 6);
+ctx.drawImage(core.sprites.icons.settings, core.information.pwidth * 91, core.information.pheight * 93, core.information.pwidth * 3.5, core.information.pheight * 6);
+ctx.drawImage(core.sprites.icons.fullscreen, core.information.pwidth * 95.5, core.information.pheight * 93, core.information.pwidth * 3.5, core.information.pheight * 6);
 	
 }
 
@@ -537,49 +537,49 @@ var ctx = canvas.getContext("2d");
 	if (core.player1.currenttower > 1) {
 		ctx.globalAlpha = .4;
 	}
-	ctx.drawImage(core.assets.tower, core.information.pwidth * 35.5, core.information.pheight * 7, core.information.pwidth * 2, core.information.pheight * 3.5);
+	ctx.drawImage(core.sprites.icons.tower, core.information.pwidth * 35.5, core.information.pheight * 7, core.information.pwidth * 2, core.information.pheight * 3.5);
 	ctx.globalAlpha = 1;
 	
 	if (core.player1.currenttower > 2) {
 		ctx.globalAlpha = .4;
 	}
-	ctx.drawImage(core.assets.tower, core.information.pwidth * 37.5, core.information.pheight * 7, core.information.pwidth * 2, core.information.pheight * 3.5);
+	ctx.drawImage(core.sprites.icons.tower, core.information.pwidth * 37.5, core.information.pheight * 7, core.information.pwidth * 2, core.information.pheight * 3.5);
 	ctx.globalAlpha = 1;
 	
 	if (core.player1.currenttower > 3) {
 		ctx.globalAlpha = .4;
 	}
-	ctx.drawImage(core.assets.tower, core.information.pwidth * 39.5, core.information.pheight * 7, core.information.pwidth * 2, core.information.pheight * 3.5);
+	ctx.drawImage(core.sprites.icons.tower, core.information.pwidth * 39.5, core.information.pheight * 7, core.information.pwidth * 2, core.information.pheight * 3.5);
 	ctx.globalAlpha = 1;
 	
 	if (core.player1.currenttower > 4) {
 		ctx.globalAlpha = .4;
 	}
-	ctx.drawImage(core.assets.nexus, core.information.pwidth * 42, core.information.pheight * 7, core.information.pwidth * 2, core.information.pheight * 3.5);
+	ctx.drawImage(core.sprites.icons.nexus, core.information.pwidth * 42, core.information.pheight * 7, core.information.pwidth * 2, core.information.pheight * 3.5);
 	ctx.globalAlpha = 1;
 	
 	if (core.player2.currenttower > 1) {
 		ctx.globalAlpha = .4;
 	}
-	ctx.drawImage(core.assets.tower, core.information.pwidth * 62.5, core.information.pheight * 7, core.information.pwidth * 2, core.information.pheight * 3.5);
+	ctx.drawImage(core.sprites.icons.tower, core.information.pwidth * 62.5, core.information.pheight * 7, core.information.pwidth * 2, core.information.pheight * 3.5);
 	ctx.globalAlpha = 1;
 	
 	if (core.player2.currenttower > 2) {
 		ctx.globalAlpha = .4;
 	}
-	ctx.drawImage(core.assets.tower, core.information.pwidth * 60.5, core.information.pheight * 7, core.information.pwidth * 2, core.information.pheight * 3.5);
+	ctx.drawImage(core.sprites.icons.tower, core.information.pwidth * 60.5, core.information.pheight * 7, core.information.pwidth * 2, core.information.pheight * 3.5);
 	ctx.globalAlpha = 1;
 
 	if (core.player2.currenttower > 3) {
 		ctx.globalAlpha = .4;
 	}
-	ctx.drawImage(core.assets.tower, core.information.pwidth * 58.5, core.information.pheight * 7, core.information.pwidth * 2, core.information.pheight * 3.5);
+	ctx.drawImage(core.sprites.icons.tower, core.information.pwidth * 58.5, core.information.pheight * 7, core.information.pwidth * 2, core.information.pheight * 3.5);
 	ctx.globalAlpha = 1;
 	
 	if (core.player2.currenttower > 4) {
 		ctx.globalAlpha = .4;
 	}
-	ctx.drawImage(core.assets.nexus, core.information.pwidth * 56, core.information.pheight * 7, core.information.pwidth * 2, core.information.pheight * 3.5);
+	ctx.drawImage(core.sprites.icons.nexus, core.information.pwidth * 56, core.information.pheight * 7, core.information.pwidth * 2, core.information.pheight * 3.5);
 	ctx.globalAlpha = 1;
 
 }
@@ -589,9 +589,9 @@ function drawstaticons(core) {
 var canvas = document.getElementById('GameCanvas');
 var ctx = canvas.getContext("2d");
 
-	//ctx.drawImage(core.assets.gold, core.information.pwidth * 34.3, core.information.pheight * 2.5, core.information.pwidth * 2, core.information.pheight * 3.5);
-	//ctx.drawImage(core.assets.goldincome, core.information.pwidth * 38, core.information.pheight * 2.5, core.information.pwidth * 1.5, core.information.pheight * 2.8);
-        //ctx.drawImage(core.assets.cardsicon, core.information.pwidth * 41.5, core.information.pheight * 2.3, core.information.pwidth * 1.2, core.information.pheight * 3.3);
+	//ctx.drawImage(core.sprites.icons.gold, core.information.pwidth * 34.3, core.information.pheight * 2.5, core.information.pwidth * 2, core.information.pheight * 3.5);
+	//ctx.drawImage(core.sprites.icons.goldincome, core.information.pwidth * 38, core.information.pheight * 2.5, core.information.pwidth * 1.5, core.information.pheight * 2.8);
+        //ctx.drawImage(core.sprites.icons.cardsicon, core.information.pwidth * 41.5, core.information.pheight * 2.3, core.information.pwidth * 1.2, core.information.pheight * 3.3);
         ctx.shadowColor = 'black';
         ctx.shadowBlur = 1;
 
@@ -717,7 +717,7 @@ function drawattackbutton(core) {
 			ctx.shadowColor = 'orange';
 		}
 		
-		ctx.drawImage(core.assets.rengar, core.information.pwidth * 42.5, core.information.pheight * 23, core.information.pwidth * 17, core.information.pheight * 22);
+		ctx.drawImage(core.sprites.icons.rengar, core.information.pwidth * 42.5, core.information.pheight * 23, core.information.pwidth * 17, core.information.pheight * 22);
 		
 		ctx.fillStyle = 'white';
 		ctx.font = core.information.pwidth * 4 + "px comicFont";
@@ -751,12 +751,12 @@ function drawshields(core) {
 				ctx.closePath();
 				ctx.stroke();
 				
-				ctx.drawImage(core.assets.shield, core.information.pwidth * shield.startleft, core.information.pheight * shield.starttop, core.information.pwidth * shield.width, core.information.pheight * shield.height);
+				ctx.drawImage(core.sprites.icons.shield, core.information.pwidth * shield.startleft, core.information.pheight * shield.starttop, core.information.pwidth * shield.width, core.information.pheight * shield.height);
 				ctx.globalAlpha = 1;
 				
 				ctx.shadowBlur = 5;
 				ctx.shadowColor = 'white';
-				ctx.drawImage(core.assets.shield, core.information.pwidth * shield.left, core.information.pheight * shield.top, core.information.pwidth * shield.width, core.information.pheight * shield.height);
+				ctx.drawImage(core.sprites.icons.shield, core.information.pwidth * shield.left, core.information.pheight * shield.top, core.information.pwidth * shield.width, core.information.pheight * shield.height);
 				
 				ctx.restore();
 			}
