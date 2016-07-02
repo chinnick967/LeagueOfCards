@@ -31,7 +31,7 @@ var ctx = canvas.getContext("2d");
 		
 	}
 	// Draw the sound bar image
-	ctx.drawImage(core.assets.soundimg, core.information.pwidth * 4.5, core.information.pheight * 93, core.information.pwidth * 5, core.information.pheight * 6);
+	ctx.drawImage(core.sprites.icons.soundimg, core.information.pwidth * 4.5, core.information.pheight * 93, core.information.pwidth * 5, core.information.pheight * 6);
 
 }
 

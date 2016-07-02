@@ -3,8 +3,6 @@ function startgame(core) {
 	core.information.turn = 0;
 	core.information.turntimestart = 0;
 	core.information.turnlength = 30;
-	
-	loadedassets++;
 
 }
 
@@ -31,11 +29,11 @@ function changeturntime(core) {
 	if (core.information.turntimer < 0) {
 		core.information.turntimer = 0;
 	}
-	
+
 }
 
 function changeturn(core) {
-	
+
 	if (core.information.turn == 1) {
 		core.information.turn = 2;
 		addturnstoboardcards(core, 2);
@@ -45,14 +43,14 @@ function changeturn(core) {
 		addturnstoboardcards(core, 1);
 		resetturninfo(core);
 	}
-	
+
 	core.information.turntimestart = core.information.time;
 	core.information.turnlength = 45;
-	
+
 	var action = {};
 	action.name = 'changeturn', action.sendingplayer = core.information.player, action.receivingplayer = core.information.enemyplayer, action.var1 = core.information.time;
 	submitaction(core, action);
-	
+
 }
 
 function defenseturn(core, starttime) {
