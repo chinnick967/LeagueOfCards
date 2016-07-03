@@ -90,9 +90,6 @@ function drawCardSlots(core) {
 }
 
 function drawSlot(core, boardslot, top, left, color) {
-	
-var canvas = document.getElementById('GameCanvas');
-var ctx = canvas.getContext("2d");
 
         if (typeof(boardslot) == 'undefined' || boardslot == '') {
 	
@@ -119,9 +116,6 @@ var ctx = canvas.getContext("2d");
 }
 
 function drawHealthBars(core) {
-	
-var canvas = document.getElementById('GameCanvas');
-var ctx = canvas.getContext("2d");
 
 var percentage = 0;
 var healthwidth = 0;
@@ -172,9 +166,6 @@ var healthwidth = 0;
 }
 
 function drawTimer(core) {
-	
-var canvas = document.getElementById('GameCanvas');
-var ctx = canvas.getContext("2d");
 
 	ctx.shadowBlur = 0;
 	
@@ -225,9 +216,6 @@ var ctx = canvas.getContext("2d");
 }
 
 function drawHandIcon(core) {
-	
-var canvas = document.getElementById('GameCanvas');
-var ctx = canvas.getContext("2d");
 
 	if (typeof(core.information.threecardstop) == 'undefined') {
 			
@@ -266,9 +254,6 @@ var ctx = canvas.getContext("2d");
 }
 
 function drawPlayerIcons(core) {
-	
-var canvas = document.getElementById('GameCanvas');
-var ctx = canvas.getContext("2d");
 
 	ctx.drawImage(core.sprites.playerIcons[core.player1.icon], core.information.pwidth * 2, core.information.pheight * 1, core.information.pwidth * 4, core.information.pheight * 7);
 	ctx.drawImage(core.sprites.playerIcons[core.player2.icon], core.information.pwidth * 94, core.information.pheight * 1, core.information.pwidth * 4, core.information.pheight * 7);
@@ -276,9 +261,6 @@ var ctx = canvas.getContext("2d");
 }
 
 function drawSettingsIcon(core) {
-	
-var canvas = document.getElementById('GameCanvas');
-var ctx = canvas.getContext("2d");
 
 ctx.shadowColor = 'black';	
 ctx.shadowBlur = 5;
@@ -288,9 +270,6 @@ ctx.drawImage(core.sprites.icons.fullscreen, core.information.pwidth * 95.5, cor
 }
 
 function drawButtons(core) {
-	
-var canvas = document.getElementById('GameCanvas');
-var ctx = canvas.getContext("2d");
 
 	// End Turn Button
 	ctx.shadowBlur = 5;
@@ -321,9 +300,6 @@ var ctx = canvas.getContext("2d");
 }
 
 function drawboard(core) {
-
-var canvas = document.getElementById('GameCanvas');
-var ctx = canvas.getContext("2d");
 
 var counter = 1;
 
@@ -502,8 +478,6 @@ var counter = 1;
 
 function drawstats(core) {
 
-var canvas = document.getElementById('GameCanvas');
-var ctx = canvas.getContext("2d");
 	// stat container
 	ctx.beginPath();
 	ctx.moveTo(core.information.pwidth * 34, core.information.pheight * 11);
@@ -528,9 +502,6 @@ var ctx = canvas.getContext("2d");
 }
 
 function drawtowers(core) {
-
-var canvas = document.getElementById('GameCanvas');
-var ctx = canvas.getContext("2d");
 
 	checkcurrenttower(core);
 	
@@ -586,9 +557,6 @@ var ctx = canvas.getContext("2d");
 
 function drawstaticons(core) {
 
-var canvas = document.getElementById('GameCanvas');
-var ctx = canvas.getContext("2d");
-
 	//ctx.drawImage(core.sprites.icons.gold, core.information.pwidth * 34.3, core.information.pheight * 2.5, core.information.pwidth * 2, core.information.pheight * 3.5);
 	//ctx.drawImage(core.sprites.icons.goldincome, core.information.pwidth * 38, core.information.pheight * 2.5, core.information.pwidth * 1.5, core.information.pheight * 2.8);
         //ctx.drawImage(core.sprites.icons.cardsicon, core.information.pwidth * 41.5, core.information.pheight * 2.3, core.information.pwidth * 1.2, core.information.pheight * 3.3);
@@ -634,9 +602,7 @@ var ctx = canvas.getContext("2d");
 }
 
 function drawstatnumbers(core) {
-	
-var canvas = document.getElementById('GameCanvas');
-var ctx = canvas.getContext("2d");
+
 		// variable to track text length of stats
 		var slength;
 
@@ -663,9 +629,6 @@ var ctx = canvas.getContext("2d");
 }
 
 function drawnames(core) {
-	
-var canvas = document.getElementById('GameCanvas');
-var ctx = canvas.getContext("2d");
 
 	var name1 = core.information.player1ID;
 	var name2 = core.information.player2ID;
@@ -702,9 +665,6 @@ function settime(core) {
 
 function drawattackbutton(core) {
 	
-	var canvas = document.getElementById('GameCanvas');
-	var ctx = canvas.getContext("2d");
-	
 	if (core.information.turn == core.information.player && checkboardturns(core)) {
 		
 		ctx.save();
@@ -731,9 +691,6 @@ function drawattackbutton(core) {
 }
 
 function drawshields(core) {
-	
-	var canvas = document.getElementById('GameCanvas');
-	var ctx = canvas.getContext("2d");
 	
 	if (typeof(core.mechanics.shields) != 'undefined' && core.mechanics.shields != '') {
 		

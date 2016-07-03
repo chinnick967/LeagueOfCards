@@ -6,9 +6,6 @@ General Engine Functions
 */
 
 function drawcard(core, card, width, left, top, rotation, hover) {
-
-	var canvas = document.getElementById('GameCanvas');
-	var ctx = canvas.getContext("2d");
 	
 	var adjust = 0;
 	
@@ -421,9 +418,6 @@ function previewcard(core, card) {
 }
 
 function dragcard(core) {
-
-	var canvas = document.getElementById('GameCanvas');
-	var ctx = canvas.getContext("2d");
 	
 	if (core.information.focus == 'hand' && core.information.mousedown == 1 && (core.information.dragcard == '' || typeof(core.information.dragcard) == 'undefined')) {
 	
@@ -880,9 +874,6 @@ function adjusthand(core) {
 
 function drawcardback(core, card, left, top, width, height, rotation) {
 	
-	var canvas = document.getElementById('GameCanvas');
-	var ctx = canvas.getContext("2d");
-	
 	ctx.save();
 	
 	// translate to the center of the card
@@ -902,9 +893,6 @@ function drawcardback(core, card, left, top, width, height, rotation) {
 }
 
 function getboardposition(core, position) {
-	
-	var canvas = document.getElementById('GameCanvas');
-	var ctx = canvas.getContext("2d");
 	
 	switch(position) {
     case 1:

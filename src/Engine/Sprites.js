@@ -16,9 +16,6 @@ function shieldsprite(core, animation, time) {
 	// 960 wide (5 across) x 768 height (4 down)
 	// Math: each is 192 wide, 192 tall
 
-	var canvas = document.getElementById('GameCanvas');
-	var ctx = canvas.getContext("2d");
-
 	var frame = getframe(time, animation.animationlength, 20);
 	var clipx = getclipx(192, 5, frame);
 	var clipy = getclipy(192, 5, frame);
@@ -41,9 +38,6 @@ function shieldsprite(core, animation, time) {
 
 function playcardsprite(core, animation, time){
 
-	var canvas = document.getElementById('GameCanvas');
-	var ctx = canvas.getContext("2d");
-
 	var frame = getframe(time, animation.animationlength, 20);
 	var clipx = getclipx(192, 5, frame);
 	var clipy = getclipy(192, 5, frame);
@@ -54,9 +48,6 @@ function playcardsprite(core, animation, time){
 }
 
 function goldcoinsprite(core, animation, time) {
-
-	var canvas = document.getElementById('GameCanvas');
-	var ctx = canvas.getContext("2d");
 
 	var frame = getframe(time, animation.animationlength, 8);
 
@@ -103,9 +94,6 @@ function goldcoinsprite(core, animation, time) {
 }
 
 function silvercoinsprite(core, animation, time) {
-
-	var canvas = document.getElementById('GameCanvas');
-	var ctx = canvas.getContext("2d");
 
 	var frame = getframe(time, animation.animationlength, 8);
 

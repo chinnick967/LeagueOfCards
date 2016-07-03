@@ -1,8 +1,5 @@
 function init(core, gameInfo) {
 	
-var canvas = document.getElementById('GameCanvas');
-var ctx = canvas.getContext("2d");
-	
 	// json object that holds general game information
 	var information = {};
 	information.width = canvas.width;
@@ -116,10 +113,6 @@ function redraw(core) {
 
 	// checks that are images are loaded
 	//if (core.information.loaded == true) {
-
-		var canvas = document.getElementById('GameCanvas');
-		var ctx = canvas.getContext("2d");
-
 		// clear canvas for redrawing
 		canvas.width = core.information.width;
 

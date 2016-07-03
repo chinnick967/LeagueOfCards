@@ -48,9 +48,6 @@ function addanimation(core, type, top, left, var1 = 'none', var2 = 'none', var3 
 
 function cardhealthanimation(core, animation, index) {
 	
-	var canvas = document.getElementById('GameCanvas');
-	var ctx = canvas.getContext("2d");
-	
 	var amount = var1;
 	
 	// current animation time
@@ -88,9 +85,6 @@ function playcardanimation(core, animation, index) {
 	/* Notes
 	
 	*/
-
-	var canvas = document.getElementById('GameCanvas');
-	var ctx = canvas.getContext("2d");
 	
 	// current animation time
 	var time = core.information.time - animation.starttime;
@@ -109,9 +103,6 @@ function infinitegoldcoinanimation(core, animation, index) {
 	/* Notes
 	
 	*/
-
-	var canvas = document.getElementById('GameCanvas');
-	var ctx = canvas.getContext("2d");
 	
 	// current animation time
 	var time = core.information.time - animation.starttime;
@@ -130,9 +121,6 @@ function infinitesilvercoinanimation(core, animation, index) {
 	/* Notes
 	
 	*/
-
-	var canvas = document.getElementById('GameCanvas');
-	var ctx = canvas.getContext("2d");
 	
 	// current animation time
 	var time = core.information.time - animation.starttime;
