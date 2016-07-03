@@ -688,14 +688,15 @@ var ctx = canvas.getContext("2d");
 		
 	ctx.globalAlpha = 1;
 }
-
+//var x = 0;
 function settime(core) {
-	
+
 	var date = new Date();
+
 	// time is UTC from start of game to current UTC, javascript date converted to seconds instead of milliseconds
-	var time = date.getTime() / 1000 - core.information.starttime;
+	var time = (date.getTime() - core.information.starttime) / 1000;
 	time = time.toFixed(2);
-	
+
 	core.information.time = time;
 	
 }

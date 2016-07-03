@@ -1,9 +1,11 @@
 var utils = (function () {
 
+	var time = 0;
 	return {
 		interpolate: interpolate,
 		isBool: isBool,
-		loadImage: loadImage
+		loadImage: loadImage,
+		runEveryCall: runEveryCall
 	};
 
 	function interpolate (str, data) {
@@ -33,6 +35,12 @@ var utils = (function () {
 			};
 			image.src = url;
 		});
+	}
+	function runEveryCall (cb, interval) {
+		time++;
+		if(time / interval === Math.floor(time / interval)) {
+			cb();
+		}
 	}
 
 }());

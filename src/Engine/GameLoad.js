@@ -16,7 +16,13 @@ var ctx = canvas.getContext("2d");
 	information.player2ID = gameInfo.player2Id;
 	information.starttime = gameInfo.startTime;
 	information.playerID = gameInfo.playerId;
-	
+
+
+	information.turn = gameInfo.turn.player;
+	information.turnType = gameInfo.turn.type;
+	information.turnstart = gameInfo.turn.start + 2000; // Temp fix for initial felay on server.
+	information.turnlength = gameInfo.turn.interval;
+
 	// json object that holds assets
 	var assets = {
 		cards: processCards(gameInfo.cards, core)
@@ -24,10 +30,10 @@ var ctx = canvas.getContext("2d");
 
 	// json object that holds settings
 	var settings = {};
-	
+
 	// array that holds animation vars
 	var animation = [];
-	
+
 	// json objects that holds settings
 	var player1 = {
 		icon: 'ekko'
@@ -35,16 +41,16 @@ var ctx = canvas.getContext("2d");
 	var player2 = {
 		icon: 'teemo'
 	};
-	
+
 	// json objects that hold board information
 	var board = {};
-	
+
 	// json object that holds the actions information
 	var actions = {};
-	
+
 	// json that holds sounds
 	var sounds = {};
-	
+
 	// json that holds game mechanics
 	var mechanics = {};
 
@@ -74,7 +80,7 @@ var ctx = canvas.getContext("2d");
 
 	//window.chat2 = core.chat;
 	//core.information.playerID = playerID;
-	
+
 	// delete this later
 	//core.player1.icon = 'Assets/Ekko.png';
 	//core.player2.icon = 'Assets/teemo.png';
@@ -90,7 +96,7 @@ var ctx = canvas.getContext("2d");
 	mouseinit(core);
 	//setInterval(function(){ redraw(core); }, 16);
 	redraw(core);
-	startgame(core);
+	startTimer(core);
 	// adds coin animations
 	setTimeout(function(){ addanimation(core, 'goldcoin', 1.8, 34, var1 = '', var2 = '', var3 = ''); }, 1000);
 	setTimeout(function(){ addanimation(core, 'goldcoin', 1.8, 61.6, var1 = '', var2 = '', var3 = ''); }, 1000);
@@ -104,42 +110,43 @@ var ctx = canvas.getContext("2d");
 	//core.information.firstrun = 1;
 
 
-	
+
 }
 
 function redraw(core) {
 
 	// checks that are images are loaded
 	//if (core.information.loaded == true) {
-	
+
 		var canvas = document.getElementById('GameCanvas');
 		var ctx = canvas.getContext("2d");
-		
+
 		// clear canvas for redrawing
 		canvas.width = core.information.width;
-		
+
 		// draw sound bars
 		drawSound(core);
-		
+
 		// check users current hover position on the board
 		//currentboardpositionhover(core);
-		
+
 		// draw game components
 		drawComponents(core);
-		
+
 		// draws animation effects
 		drawanimations(core);
-		
+
 		// draws the hand outside the components because the previewcard function has to draw after animations or the coins sit on top of it
 		drawhand(core);
 		previewboardcard(core);
-		
+
 		// runs actions
 		runactions(core);
-		
+
 		// track turn info
-		turntracker(core);
-		
+	changeturntime(core);
+		//turntracker(core);
+
 		// if first run, start game
 		//if (core.information.firstrun == 1) {
 			// run background music (temporarily just for player 1)

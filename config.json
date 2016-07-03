@@ -1,9 +1,9 @@
 {
-  "database": "",
-  "host": "",
-  "port": 0,
+  "database": "lolcards_gameclient",
+  "host": "localhost",
+  "port": 8889,
   "user": {
-    "name": "",
+    "name": "roo2",
     "password": ""
   }
 }

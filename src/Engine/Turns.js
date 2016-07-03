@@ -1,33 +1,54 @@
-function startgame(core) {
 
-	core.information.turn = 0;
-	core.information.turntimestart = 0;
-	core.information.turnlength = 30;
 
+
+
+
+
+function startTimer(core) {
+	var info = core.information;
+	//core.information.turn = 0;
+	//core.information.turntimestart = 0;
+	//core.information.turnlength = 10;
+
+	core.socket.on('game:turnTimer:change', function (data) {
+		console.log('game:turnTimer:change', data);
+		info.turn = data.player;
+		info.turnType = data.type;
+		info.turntimestart = (Date.now() - data.start) / 1000;
+		info.turnstart = data.start;
+		info.turnLength = data.interval;
+		window.time2 = false;
+		addturnstoboardcards(core, data.player);
+		resetturninfo(core);
+	});
 }
 
-function turntracker(core) {
-	
-	changeturntime(core);
-	
-	if (core.information.turn == 0 && core.information.turntimer == 0) {
-		core.information.turn = 1;
-		core.information.turntimestart = core.information.time;
-		core.information.turnlength = 45;
-	} else if (core.information.turn == 1 && core.information.turn == core.information.player && core.information.turntimer == 0) {
-		changeturn(core);
-	} else if (core.information.turn == 2 && core.information.turn == core.information.player && core.information.turntimer == 0) {
-		changeturn(core);
-	}
-	
-}
+//function turntracker(core) {
+//
+//	changeturntime(core);
+//
+//	if (core.information.turn == 0 && core.information.turntimer == 0) {
+//		core.information.turn = 1;
+//		core.information.turntimestart = core.information.time;
+//		core.information.turnlength = 45;
+//	} else if (core.information.turn == 1 && core.information.turn == core.information.player && core.information.turntimer == 0) {
+//		changeturn(core);
+//	} else if (core.information.turn == 2 && core.information.turn == core.information.player && core.information.turntimer == 0) {
+//		changeturn(core);
+//	}
+//
+//}
 
 function changeturntime(core) {
-	
-	core.information.turntimer = core.information.turnlength - (core.information.time - core.information.turntimestart);
-	
-	if (core.information.turntimer < 0) {
-		core.information.turntimer = 0;
+	var info = core.information;
+	info.turntimer = info.turnlength - ((Date.now() - info.turnstart) / 1000);
+	if(!window.time2) {
+		window.time2 = true;
+		console.log(Date.now() - info.turnstart, info.turnstart);
+	}
+
+	if (info.turntimer < 0) {
+		info.turntimer = 0;
 	}
 
 }

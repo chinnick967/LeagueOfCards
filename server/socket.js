@@ -1,25 +1,26 @@
 const socketIo = require ('socket.io');
 const uuid = require ('node-uuid');
 const global = require('./global');
+const Interval = require('./Interval');
+
 
 module.exports = function (server) {
 	var io = socketIo.listen (server);
 	var games = {};
 	var users = 0;
 
-
 	io.sockets.on ('connection', handleConnection);
 
 	function handleConnection(socket) {
-		var userId = Math.round(Math.random() * 10000);
 		users++;
+		var userId = Math.round(Math.random() * 10000);
+		var currentGame = null;
 
 		socket.on('queue:cancel', handleQueueCancel);
 		socket.on('queue:join', joinQueue);
 		socket.on('game:action:submit', handleGameActionSubmit);
 		socket.on('game:chat:submit', handleGameChatSubmit);
 		socket.on('disconnect', handleDisconnect);
-		var currentGame = null;
 
 
 		function handleDisconnect () {
@@ -27,21 +28,31 @@ module.exports = function (server) {
 			removeGame();
 		}
 
+		function startTimer (game) {
+			game.timers.main = new Interval(function () {
+				if(currentGame) {
+					game.turn.player = game.turn.player === 1 ? 2: 1;
+					game.turn.interval = 10;
+					game.turn.type = 'TURN'; // ATTACK | TURN | DEFENSE | 'MULLIGAN'
+					game.turn.start = Date.now();
+					io.to(game.id).emit('game:turnTimer:change', game.turn);
+				}
+			}, 10000);
+			game.timers.main.start();
+		}
+
 		function joinGame (game) {
-			game.turn = 1;
 			game.players[1].socket = socket;
 			game.players[1].user = userId;
 			game.players[1].status = 'joined';
 			game.players[1].data = {};
 			game.status = 'full';
-
 			socket.join(game.id);
-			var message = {
-				player1: game.players[0].user,
-				player2: game.players[1].user
-			};
+
+			startTimer(game);
 			game.creator.emit('game:found', generateGameFoundResponse(true));
 			game.creator.broadcast.emit('game:found', generateGameFoundResponse(false));
+
 
 			function generateGameFoundResponse (isPlayer1) {
 				return {
@@ -52,13 +63,15 @@ module.exports = function (server) {
 					startTime: game.startTime,
 					player1Id: game.players[0].user,
 					player2Id: game.players[1].user,
-					playerId: userId
+					playerId: userId,
+					turn: game.turn
 				}
 			}
 		}
 
 		function createGame() {
 			var gameId = uuid.v4 ();
+			socket.join(gameId);
 
 			games[gameId] = {
 				players: [{
@@ -70,13 +83,23 @@ module.exports = function (server) {
 					status: 'waiting',
 					socket: null
 				}],
-				startTime: null,
+				startTime: Date.now(),
 				id: gameId,
 				creator: socket,
 				creationDate: Date.now (),
-				status: 'waiting'
+				status: 'waiting',
+				ready: 0,
+				started: false,
+				turn: {
+					player: null,
+					interval: 10,
+					type: 'TURN',
+					start: Date.now()
+				},
+				timers: {
+					main: null
+				}
 			};
-			socket.join(gameId);
 			return games[gameId];
 		}
 
@@ -97,7 +120,18 @@ module.exports = function (server) {
 		}
 		function removeGame () {
 			if(currentGame) {
-				delete games[currentGame.id];
+
+
+				if(games[currentGame.id].turnTimer) {
+					games[currentGame.id].turnTimer.end();
+				}
+
+				setTimeout(function () {
+					if(currentGame) {
+						delete games[currentGame.id];
+						currentGame = null;
+					}
+				});
 			}
 			currentGame = null;
 		}
