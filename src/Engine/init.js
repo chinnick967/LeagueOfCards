@@ -9,7 +9,7 @@ $ (function () {
 			loadsounds();
 			loadAssets ()
 				.then (function (res) {
-					core.socket = io ('http://localhost:8080/');
+					core.socket = io ('http://localhost:8081/');
 
 					start (core);
 					$ ('body').removeClass ('loading');

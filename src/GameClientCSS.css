@@ -49,7 +49,8 @@ src: url(Assets/lifecraft.ttf);
 
 body {
 
-background-image: url('Assets/clientbackground.jpg');
+background-color: #1c262a;
+/*background-image: url('Assets/clientbackground.jpg');*/
 
 }
 
@@ -97,7 +98,7 @@ height: 30px;
 position: absolute;
 left: 0px;
 right: 0px;
-top: 50px;
+top: 65px;
 margin-left: auto;
 margin-right: auto;
 width: 1000px;
@@ -110,17 +111,18 @@ height: 50px;
 position: relative;
 width: 130px;
 height: 50px;
-background-color: #282828;
+ background-color: #1a2327;
 color: white;
+font-size: 22px;
 margin-right: 50px;
--webkit-box-shadow: 0px 0px 13px 0px rgba(0,0,0,0.75);
--moz-box-shadow: 0px 0px 13px 0px rgba(0,0,0,0.75);
-box-shadow: 0px 0px 13px 0px rgba(0,0,0,0.75);
+-webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+-moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
 border-radius: 5px;
 text-align: center;
 line-height: 50px;
 font-family: myFont;
-font-size: 22px;
+text-shadow: 0 -1px 0 #888;
 float: left;
 
 }
@@ -152,9 +154,38 @@ box-shadow: 0px 0px 13px 0px rgba(0,0,0,0.75);
 
 #QueueContainer {
 
-background-image: url('PageAssets/queuebackground.jpg');
+background-color: #161d20;
+/*background-image: url('PageAssets/queuebackground.jpg');*/
 z-index: 2;
 
+}
+
+#messagebox {
+
+position: absolute;
+width: 250px;
+height: 70px;
+left: 720px;
+top: -10px;
+border-style: solid;
+border-color: rgba(48, 219, 80, 0.5);
+border-radius: 10px;
+-webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+-moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+background-color: #161d20;
+
+}
+
+#messagecontainer {
+    color: rgba(48, 219, 80, 0.5);
+    position: absolute;
+    width: 230px;
+    height: 50px;
+    top: 10px;
+    left: 10px;
+    font-family: myFont;
+    font-size: 12px;
 }
 
 .noselect {
@@ -168,6 +199,72 @@ user-select: none;           /* non-prefixed version, currently
 							  not supported by any browser */
 }
 
+#username {
+    position: relative;
+    height: 100%;
+    display: inline-block;
+    line-height: 45px;
+    margin-right: 10px;
+}
+
+#level {
+    position: absolute;
+    top: 0px;
+    width: 200px;
+    height: 45px;
+    right: 550px;
+}
+
+#leveltext {
+    position: absolute;
+    top: 2px;
+    width: 100%;
+    text-align: center;
+}
+
+#levelprogressbackground {
+    position: absolute;
+    top: 25px;
+    width: 200px;
+    height: 10px;
+    left: 0px;
+    right: 0px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #161d20;
+}
+
+#levelprogress {
+    position: absolute;
+    top: 25px;
+    width: 80px;
+    height: 10px;
+    left: 0px;
+    background-color: #74E13F;
+    -webkit-box-shadow: inset 0px 0px 5px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: inset 0px 0px 5px 0px rgba(0,0,0,0.75);
+    box-shadow: inset 0px 0px 5px 0px rgba(0,0,0,0.75);
+}
+
+#influencepoints {
+    display: inline-block;
+    position: absolute;
+    right: 0px;
+    width: 120px;
+    height: 45px;
+}
+
+#ipicon {
+    position: absolute;
+    top: 10px;
+    left: 0px;
+}
+
+#ippointstext {
+    position: absolute;
+    top: 12px;
+    left: 30px;
+}
 
 #playbutton {
 
@@ -179,7 +276,7 @@ margin-left: auto;
 margin-right: auto;
 width: 200px;
 height: 50px;
-background-color: #236167;
+background-color: rgba(48, 219, 80, 0.5);;
 text-align: center;
 font-family: myFont;
 line-height: 50px;
@@ -238,6 +335,64 @@ border-radius: 15px;
 max-width: 200px;
 }
 
+#banner {
+
+position: absolute;
+top: 0px;
+left: 0px;
+height: 45px;
+width: 100%;
+background-color: rgba(48, 219, 80, 0.5);
+
+}
+
+#innerbanner {
+
+position: relative;
+margin-left: auto;
+margin-right: auto;
+width: 1000px;
+height: 45px;
+
+}
+
+#getip {
+    position: absolute;
+    right: 140px;
+}
+
+#getdaily {
+    position: absolute;
+    right: 300px;
+    width: 150px;
+}
+
+.bannerbutton {
+
+position: relative;
+display: inline-block;
+width: 130px;
+height: 100%;
+background-color:#161d20;
+color: white;
+font-size: 22px;
+-webkit-box-shadow: 0px 0px 13px 0px rgba(0,0,0,0.75);
+-moz-box-shadow: 0px 0px 13px 0px rgba(0,0,0,0.75);
+box-shadow: 0px 0px 13px 0px rgba(0,0,0,0.75);
+text-align: center;
+line-height: 45px;
+font-family: myFont;
+text-shadow: 0 -1px 0 #888;
+
+}
+
+.bannerbutton:hover {
+
+cursor: pointer;
+opacity: .9;
+
+}
+
 /* CHAT BOX CSS */
 .chat-box {
     position: absolute;
@@ -280,7 +435,7 @@ max-width: 200px;
 
 .chat-box .message-container .message {
     color: white;
-    font-size: .7em;
+    font-size: .8em;
 }
 
 .chat-box footer {

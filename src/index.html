@@ -4,7 +4,7 @@
 <link rel="stylesheet" type="text/css" href="GameClientCSS.css">
 <link rel="stylesheet" type="text/css" href="Loading.css">
 
-	<script src="http://localhost:8080/socket.io/socket.io.js"></script>
+	<script src="/socket.io/socket.io.js"></script>
 	<script src="https://code.jquery.com/jquery-2.2.2.min.js" integrity="sha256-36cp2Co+/62rEAAYHLmRCPIych47CvdM+uTBJwSzWjI=" crossorigin="anonymous"></script>
 	<script src="Engine/Assets.js"></script>
     <script type="text/javascript" src="Engine/Utils.js"></script>
@@ -29,10 +29,31 @@
 
 <body class="loading">
 <main>
+	<div id='banner'>
+			<div id='innerbanner'>
+				<div id='username'>Welcome, Katrian</div>
+				<div id='level'>
+					<div id='leveltext'>15</div>
+					<div id='levelprogressbackground'></div>
+					<div id='levelprogress'></div>
+				</div>
+				<div id='getip' class='bannerbutton'>Claim IP</div>
+				<div id='getdaily' class='bannerbutton'>Daily Bonus</div>
+				<div id='influencepoints'>
+					<img id='ipicon' src='Assets/IpPoints.png' />
+					<div id='ippointstext'>2,988</div>
+				</div>
+			</div>
+	</div>
 	<div id='navigation'>
 		<div id='playtab' class='button'>Play</div>
 		<div id='packstab' class='button'>Packs</div>
 		<div id='decktab' class='button'>Decks</div>
+		<div id='tradetab' class='button'>Trade</div>
+
+		<div id="messagebox">
+			<div id='messagecontainer'>During this first phase of open beta the only feature available is the Play Button, with preset decks. Enjoy!</div>
+		</div>
 	</div>
 	<div id='QueueContainer' class='container noselect'>
 		<div id='playbutton'>Play</div>

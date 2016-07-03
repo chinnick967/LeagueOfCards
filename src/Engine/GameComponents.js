@@ -269,9 +269,10 @@ function drawPlayerIcons(core) {
 	
 var canvas = document.getElementById('GameCanvas');
 var ctx = canvas.getContext("2d");
-
+	
 	ctx.drawImage(core.sprites.playerIcons[core.player1.icon], core.information.pwidth * 2, core.information.pheight * 1, core.information.pwidth * 4, core.information.pheight * 7);
 	ctx.drawImage(core.sprites.playerIcons[core.player2.icon], core.information.pwidth * 94, core.information.pheight * 1, core.information.pwidth * 4, core.information.pheight * 7);
+
 	
 }
 

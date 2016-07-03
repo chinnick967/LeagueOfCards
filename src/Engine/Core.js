@@ -573,7 +573,7 @@ function playcard(core, card) {
 		card: card.name
 		});
 	
-	} else if (core.information.player == 2 && core.information.currentslothover >= 10 && core.information.currentslothover <= 15 && card.type == 'Spell' && core.player2.gold >= card.cost) {
+	} else if (core.information.player == 2 && core.information.currentslothover >= 11 && core.information.currentslothover <= 15 && card.type == 'Spell' && core.player2.gold >= card.cost) {
 	
 		// remove card from hand
 		removecardfromhand(core);
@@ -1397,4 +1397,56 @@ function checkshieldpositions(core, drop_position) {
 	
 	return true;
 	
+}
+
+function battlecards(attacker, defender) {
+	
+	// takes two cards, attacking card and defending card and returns a json
+
+	// damage attacker
+	if (attacker.damagetype == 'physical') {
+			damage = attacker.attack - defender.armor;
+	} else if (attacker.damagetype == 'magic') {
+		damage = attacker.attack - defender.magicresist;
+	} else if (attacker.damagetype == 'mixed') {
+		if (defender.magicresist <= defender.armor) {
+			damage = attacker.attack - defender.magicresist;
+		} else if (defender.armor <= defender.magicresist) {
+			damage = attacker.attack - defender.armor;
+		} else {
+			damage = attacker.attack - defender.armor;
+		}
+	}
+
+	if (damage >= 0) {
+		damagecard(defender, damage);
+	} else {
+		damagecard(defender, 0);
+	}
+
+	// damage defender
+	if (attacker.damagetype == 'physical') {
+			damage = attacker.attack - attacker.armor;
+	} else if (attacker.damagetype == 'magic') {
+		damage = attacker.attack - attacker.magicresist;
+	} else if (attacker.damagetype == 'mixed') {
+		if (attacker.magicresist <= attacker.armor) {
+			damage = attacker.attack - attacker.magicresist;
+		} else if (attacker.armor <= attacker.magicresist) {
+			damage = attacker.attack - attacker.armor;
+		} else {
+			damage = attacker.attack - attacker.armor;
+		}
+	}
+
+	if (damage >= 0) {
+		damagecard(attacker, damage);
+	} else {
+		damagecard(attacker, 0);
+	}
+	
+}
+
+function damagecard(card, damage) {
+	card.health -= damage;
 }

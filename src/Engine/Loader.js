@@ -352,8 +352,8 @@ function boardprep(core) {
 
 function setgold(core) {
 
-	core.player1.gold = 10000003;
-	core.player2.gold = 10000003;
+	core.player1.gold = 99;
+	core.player2.gold = 99;
 	
 	core.player1.goldincome = 1;
 	core.player2.goldincome = 1;
