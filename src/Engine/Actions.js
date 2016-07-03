@@ -64,16 +64,11 @@ function actionsorter(core, action, index) {
 }
 
 function action_playcard(core, action, index) {
-	
-	//var card = core.assets.cards[action.refName];
 
 	var card = core.assets.cards.filter(function (card) {
 		return card.refName === action.refName;
 	})[0];
-	console.log (card);
-
-	//console.log(core.assets.cards);
-	//alert();
+	
 	// add card to position on board
 	setTimeout(function(){
 		addtoboard(core, card, parseInt(action.var2));

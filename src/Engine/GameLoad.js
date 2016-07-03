@@ -56,8 +56,6 @@ function init(core, gameInfo) {
 	// json object that holds core json objects
 
 	// ***NOTE*** Core is created in init.js
-	// var core = {};
-	//console.log()
 	core.information = information;
 	core.assets = assets;
 	core.settings = settings;
@@ -66,28 +64,18 @@ function init(core, gameInfo) {
 	core.animation = animation;
 	core.board = board;
 	core.actions = actions;
-	//core.sounds = sounds;
 	core.mechanics = mechanics;
 	core.actions.actionarray = actionarray;
 	core.information.init = 0;
 	core.chat = ChatBox($('chat-box'), core);
 	core.chat.listen();
-	//console.log ('chat thing', core.chat);
-
-	//window.chat2 = core.chat;
-	//core.information.playerID = playerID;
-
-	// delete this later
-	//core.player1.icon = 'Assets/Ekko.png';
-	//core.player2.icon = 'Assets/teemo.png';
-	//console.log (core);
-	//console.log (core);
 
 	// setup player info
 	setupPlayer(core);
 
-    	// init functions
+	// init functions
 	core.settings.sound = 4;
+	
 	soundinit(core);
 	mouseinit(core);
 	//setInterval(function(){ redraw(core); }, 16);
@@ -102,17 +90,9 @@ function init(core, gameInfo) {
 	// start check for actions
 	checkactions(core);
 
-	//// set the variable for the first run after loading
-	//core.information.firstrun = 1;
-
-
-
 }
 
 function redraw(core) {
-
-	// checks that are images are loaded
-	//if (core.information.loaded == true) {
 		// clear canvas for redrawing
 		canvas.width = core.information.width;
 
@@ -137,34 +117,6 @@ function redraw(core) {
 
 		// track turn info
 		changeturntime(core);
-
-		// if first run, start game
-		//if (core.information.firstrun == 1) {
-			// run background music (temporarily just for player 1)
-			/*if (core.information.player == 1) {
-				core.sounds.tracks[0].volume(0.5);
-				core.sounds.tracks[0].play();
-				core.sounds.tracks[0].loop();
-			}*/
-		//}
-		
-		// set first run to 1
-		//core.information.firstrun = 0;
-		
-	//} else {
-	//
-	//	loadprogress(core);
-	//
-	//}
-	
-	// post loaded init
-	//if (core.information.loaded == true && core.information.init == 0) {
-	//
-	//	core.information.init = 1;
-	//
-	//
-	//
-	//}
 	
 	// redraw
 	setTimeout(function(){ redraw(core); }, 5);
