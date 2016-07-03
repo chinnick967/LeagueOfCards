@@ -115,9 +115,6 @@ function infinitegoldcoinanimation(core, animation, index) {
 	
 	// current animation time
 	var time = core.information.time - animation.starttime;
-	//utils.runEveryCall(function () {
-	//	console.log(time, core.information.time, animation.starttime);
-	//}, 50);
 	animation.animationlength = .8;
 	
 	goldcoinsprite(core, animation, time);

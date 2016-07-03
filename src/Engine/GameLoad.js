@@ -17,7 +17,6 @@ var ctx = canvas.getContext("2d");
 	information.starttime = gameInfo.startTime;
 	information.playerID = gameInfo.playerId;
 
-
 	information.turn = gameInfo.turn.player;
 	information.turnType = gameInfo.turn.type;
 	information.turnstart = gameInfo.turn.start + 2000; // Temp fix for initial felay on server.
@@ -144,8 +143,7 @@ function redraw(core) {
 		runactions(core);
 
 		// track turn info
-	changeturntime(core);
-		//turntracker(core);
+		changeturntime(core);
 
 		// if first run, start game
 		//if (core.information.firstrun == 1) {

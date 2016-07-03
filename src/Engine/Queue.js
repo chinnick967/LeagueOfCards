@@ -24,12 +24,11 @@ function start(core) {
 
 	function handleGameFound(gameInfo) {
 		if(!inQueue) return;
-		console.log(gameInfo);
 		// set game info
 		init(core, gameInfo);
 		timer.cancel();
 		$timer.text('Match Found!');
-		//ping.play();
+		ping.play();
 		$loadingBar.animate({
 			width: '100%'
 		}, 500);

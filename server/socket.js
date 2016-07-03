@@ -3,7 +3,6 @@ const uuid = require ('node-uuid');
 const global = require('./global');
 const Interval = require('./Interval');
 
-
 module.exports = function (server) {
 	var io = socketIo.listen (server);
 	var games = {};
@@ -21,7 +20,6 @@ module.exports = function (server) {
 		socket.on('game:action:submit', handleGameActionSubmit);
 		socket.on('game:chat:submit', handleGameChatSubmit);
 		socket.on('disconnect', handleDisconnect);
-
 
 		function handleDisconnect () {
 			users--;
@@ -52,7 +50,6 @@ module.exports = function (server) {
 			startTimer(game);
 			game.creator.emit('game:found', generateGameFoundResponse(true));
 			game.creator.broadcast.emit('game:found', generateGameFoundResponse(false));
-
 
 			function generateGameFoundResponse (isPlayer1) {
 				return {
@@ -88,7 +85,6 @@ module.exports = function (server) {
 				creator: socket,
 				creationDate: Date.now (),
 				status: 'waiting',
-				ready: 0,
 				started: false,
 				turn: {
 					player: null,
@@ -120,8 +116,6 @@ module.exports = function (server) {
 		}
 		function removeGame () {
 			if(currentGame) {
-
-
 				if(games[currentGame.id].turnTimer) {
 					games[currentGame.id].turnTimer.end();
 				}
