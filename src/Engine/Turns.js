@@ -6,7 +6,7 @@ function startTimer(core) {
 		info.turnType = data.type;
 		info.turntimestart = (Date.now() - data.start) / 1000;
 		info.turnstart = data.start;
-		info.turnLength = data.interval;
+		info.turnlength = data.interval;
 		addturnstoboardcards(core, data.player);
 		resetturninfo(core);
 	});
@@ -24,17 +24,17 @@ function changeturntime(core) {
 
 function defenseturn(core, starttime) {
 	
-	if (core.information.turn == 1) {
-		core.information.turn = 4;
-	} else {
-		core.information.turn = 3;
-	}
+	// if (core.information.turn == 1) {
+	// 	core.information.turn = 4;
+	// } else {
+	// 	core.information.turn = 3;
+	// }
 	
 	// set endtime for resuming previous turn afterwards
-	core.information.endtime = starttime;
+	// core.information.endtime = starttime;
 	
-	core.information.turntimestart = starttime;
-	core.information.turnlength = 25;
+	// core.information.turntimestart = starttime;
+	// core.information.turnlength = 25;
 	
 }
 

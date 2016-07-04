@@ -3,6 +3,10 @@ const uuid = require ('node-uuid');
 const global = require('./global');
 const Interval = require('./Interval');
 
+const MULLIGAN_INTERVAL = 10;
+const TURN_INTERVAL = 10;
+const DEFENSE_INTERVAL = 10;
+
 module.exports = function (server) {
 	var io = socketIo.listen (server);
 	var games = {};
@@ -26,28 +30,11 @@ module.exports = function (server) {
 			removeGame();
 		}
 
-		function startTimer (game) {
-			game.timers.main = new Interval(function () {
-				if(currentGame) {
-					game.turn.player = game.turn.player === 1 ? 2: 1;
-					game.turn.interval = 10;
-					game.turn.type = 'TURN'; // ATTACK | TURN | DEFENSE | 'MULLIGAN'
-					game.turn.start = Date.now();
-					io.to(game.id).emit('game:turnTimer:change', game.turn);
-				}
-			}, 10000);
-			game.timers.main.start();
-		}
-
-		function joinGame (game) {
-			game.players[1].socket = socket;
-			game.players[1].user = userId;
-			game.players[1].status = 'joined';
-			game.players[1].data = {};
-			game.status = 'full';
-			socket.join(game.id);
-
-			startTimer(game);
+		function startGame (game) {
+			var timers = game.timers;
+			timers.mulligan = setTimeout(function () {
+				startTimer(game);
+			}, (MULLIGAN_INTERVAL * 1000));
 			game.creator.emit('game:found', generateGameFoundResponse(true));
 			game.creator.broadcast.emit('game:found', generateGameFoundResponse(false));
 
@@ -64,6 +51,46 @@ module.exports = function (server) {
 					turn: game.turn
 				}
 			}
+		}
+
+		function startTimer (game) {
+			var timers = game.timers;
+			sendTurn(game, 'TURN', TURN_INTERVAL);
+			timers.main = new Interval(function () {
+				sendTurn(game, 'TURN', TURN_INTERVAL);
+			}, (TURN_INTERVAL * 1000));
+			timers.main.start();
+		}
+
+		function startDefenseTimer (game) {
+			var timers = game.timers;
+			timers.main.pause();
+			sendTurn(game, 'defense', DEFENSE_INTERVAL);
+			setTimeout(function () {
+				sendTurn(game, 'turn', Math.round(timers.main.timeLeft / 1000));
+				timers.main.continue();
+			}, (DEFENSE_INTERVAL * 1000));
+		}
+
+		function sendTurn (game, type, interval, player) {
+			if(currentGame) {
+				game.turn.player = player || (game.turn.player === 1 ? 2: 1);
+				game.turn.interval = interval;
+				game.turn.type = (type || 'turn').toUpperCase(); // TURN | DEFENSE | MULLIGAN
+				game.turn.start = Date.now();
+				io.to(game.id).emit('game:turnTimer:change', game.turn);
+			}
+		}
+
+		function joinGame (game) {
+			game.players[1].socket = socket;
+			game.players[1].user = userId;
+			game.players[1].status = 'joined';
+			game.players[1].data = {};
+			game.status = 'full';
+			socket.join(game.id);
+
+			startGame(game);
 		}
 
 		function createGame() {
@@ -88,12 +115,14 @@ module.exports = function (server) {
 				started: false,
 				turn: {
 					player: null,
-					interval: 10,
-					type: 'TURN',
+					interval: MULLIGAN_INTERVAL,
+					type: 'MULLIGAN',
 					start: Date.now()
 				},
 				timers: {
-					main: null
+					main: null,
+					defense: null,
+					mulligan: null
 				}
 			};
 			return games[gameId];
@@ -130,7 +159,12 @@ module.exports = function (server) {
 			currentGame = null;
 		}
 		function handleGameActionSubmit (data) {
-			socket.broadcast.emit('game:action:submit', { action: data.action });
+			var action = data.action;
+			var game = games[currentGame.id];
+			if(action.name === 'Attack') {
+				startDefenseTimer(game);
+			}
+			socket.broadcast.emit('game:action:submit', { action: action });
 		}
 
 		function handleGameChatSubmit (data) {
