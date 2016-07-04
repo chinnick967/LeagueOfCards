@@ -1,8 +1,5 @@
 function drawSound(core) {
 
-var canvas = document.getElementById('GameCanvas');
-var ctx = canvas.getContext("2d");
-
 	if (core.settings.sound >= 1) {
 		
 		ctx.fillStyle = 'rgba(215, 44, 44, 0.5)';

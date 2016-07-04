@@ -1,9 +1,7 @@
 function mouseinit(core) {
 
 	$('#GameCanvas').mousemove(function(m) {
-		
 		var c = document.getElementById('GameCanvas');
-		var ctx = c.getContext("2d");
 		var width = c.width;
 		var height = c.height;
 		

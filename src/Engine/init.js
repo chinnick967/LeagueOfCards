@@ -1,4 +1,8 @@
+var canvas = null;
+var ctx = null;
 $ (function () {
+	canvas = document.getElementById('GameCanvas');
+	ctx = canvas.getContext('2d');
 	var core = {};
 	Api.getLoggedInStatus ()
 		.then (handleGetLoggedInStatus);

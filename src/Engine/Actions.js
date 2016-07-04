@@ -58,51 +58,17 @@ function actionsorter(core, action, index) {
 		
 		action_handadjust(core, action, index);
 		
-	} else if (action.name == 'changeturn') {
-		
-		action_changeturn(core, action, index);
-		
 	} else if (action.name == 'Attack') {
 		action_attack(core, action, index);
 	}
-	
-}
-
-function action_changeturn(core, action, index) {
-	core.information.turn = action.turn;
-	resetturninfo(core);
-	addturnstoboardcards(core, action.turn);
-
-	if (core.information.turn == 1) {
-		core.information.turn = 2;
-		addturnstoboardcards(core, 2);
-		resetturninfo(core);
-	} else if (core.information.turn == 2) {
-		core.information.turn = 1;
-		addturnstoboardcards(core, 1);
-		resetturninfo(core);
-	}
-	
-	core.information.turntimestart = action.var1;
-	core.information.turnlength = 45;
-	
-	// complete action
-	core.actions.actionarray[index].complete = 1;
-	core.actions.actionarray[index].running = 0;
-	
 }
 
 function action_playcard(core, action, index) {
-	
-	//var card = core.assets.cards[action.refName];
 
 	var card = core.assets.cards.filter(function (card) {
 		return card.refName === action.refName;
 	})[0];
-	console.log (card);
-
-	//console.log(core.assets.cards);
-	//alert();
+	
 	// add card to position on board
 	setTimeout(function(){
 		addtoboard(core, card, parseInt(action.var2));
