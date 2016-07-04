@@ -36,7 +36,7 @@ module.exports = function (server) {
 				startTimer(game);
 			}, (MULLIGAN_INTERVAL * 1000));
 			game.creator.emit('game:found', generateGameFoundResponse(true));
-			game.creator.broadcast.emit('game:found', generateGameFoundResponse(false));
+			game.creator.broadcast.to(game.id).emit('game:found', generateGameFoundResponse(false));
 
 			function generateGameFoundResponse (isPlayer1) {
 				return {
@@ -164,11 +164,11 @@ module.exports = function (server) {
 			if(action.name === 'Attack') {
 				startDefenseTimer(game);
 			}
-			socket.broadcast.emit('game:action:submit', { action: action });
+			socket.broadcast.to(game.id).emit('game:action:submit', { action: action });
 		}
 
 		function handleGameChatSubmit (data) {
-			socket.broadcast.emit('game:chat:submit', data);
+			socket.broadcast.to(currentGame.id).emit('game:chat:submit', data);
 		}
 	}
 
