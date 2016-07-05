@@ -24,7 +24,6 @@ function processCards (cards, core) {
 		cards = [cards];
 	}
 
-	//console.log(core.sprites.icons);
 	return cards.map(function (card) {
 		card.back = core.sprites.icons.cardback;
 		card.activated = 0;
@@ -40,7 +39,6 @@ function getdeck(core) {
 	core.player1.deck = [];
 	core.player2.deck = [];
 	var counter = 0;
-	console.log(core.assets.cards);
 	for (var i = 0; i <= 60; i++) {
 		var savedCard = core.assets.cards[counter];
 		var card = {};
@@ -110,7 +108,6 @@ function gethand(core, deck) {
 		var topcard = deck.length - 1;
 		
 		if (core.information.player == 1) {
-			console.log('Player 1 deck', deck[topcard]);
 			core.player1.hand.push(deck[topcard]);
 		} else {
 			core.player2.hand.push(deck[topcard]);

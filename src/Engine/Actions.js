@@ -43,11 +43,9 @@ function runactions(core) {
 }
 
 function actionsorter(core, action, index) {
-	//console.log (action);
-
+	
 	if (action.name == 'PlayCard') {
-		//console.log (action);
-
+	
 		action_playcard(core, action, index);
 		
 	} else if (action.name == 'GoldAdjust') {

@@ -67,7 +67,7 @@ function soundinit(core) {
 		if (core.information.xoffset >= 4.3 && core.information.xoffset <= 5.5 && core.information.yoffset >= 96 && core.information.yoffset <= 98) {
 			
 			document.getElementById("GameCanvas").style.cursor = "pointer";
-			alert('hi');
+
 		}
 		
 		else if (core.information.xoffset >= 5.6 && core.information.xoffset <= 6.9 && core.information.yoffset >= 94.5 && core.information.yoffset <= 98) {

@@ -1,6 +1,6 @@
 const mysql = require ('mysql2/promise');
 const config = require('../../config.json');
-
+const chalk = require('chalk');
 module.exports = function () {
 	return mysql.createConnection ({
 		host: config.host,
@@ -9,10 +9,17 @@ module.exports = function () {
 		database: config.database,
 		port: config.port
 	}).then(function (connection) {
-		console.log('Connected to database.');
+		console.log(chalk.green(
+			'Connected to database.'
+		));
 		return connection;
 	}, function (err) {
-		console.error('Failed to connect to database', err);
+		console.log(chalk.red([
+			'Failed to connect to database.',
+			'------------------------------',
+			err,
+			JSON.stringify(err, null, 2)
+		].join('\n')));
 		return Promise.reject(err);
 	});
 };
