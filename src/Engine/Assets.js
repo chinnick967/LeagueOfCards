@@ -79,6 +79,7 @@ var assets = {
     },
     "sprites": {
         "auraheal": "Assets/Sprites/auraheal.png",
+        "blast": "Assets/Sprites/blast.png",
         "buff": "Assets/Sprites/buff.png",
         "coins": "Assets/Sprites/coins.png",
         "droplet": "Assets/Sprites/droplet.png",
@@ -106,6 +107,9 @@ var assets = {
         "blueorb": "Assets/Sprites/blueorb.jpg",
         "frostflake": "Assets/Sprites/frostflake.jpg",
         "splash": "Assets/Sprites/splash.jpg",
+        "slash": "Assets/Sprites/slash.png",
+        "swipe": "Assets/Sprites/swipe.png",
+        "swipe3": "Assets/Sprites/swipe3.png",
         "stardust": "Assets/Sprites/stardust.jpg"
     },
     "icons": {
@@ -126,6 +130,7 @@ var assets = {
         "soundimg": "Assets/Icons/soundimg.png",
         "threecards": "Assets/Icons/threecards.png",
         "tower": "Assets/Icons/tower.png",
+        "purpletimer": "Assets/Icons/purpletimer.png",
         "braumshield": "Assets/Icons/braumshield.jpg"
     }
 };

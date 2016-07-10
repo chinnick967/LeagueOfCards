@@ -217,14 +217,18 @@ user-select: none;           /* non-prefixed version, currently
 
 #leveltext {
     position: absolute;
-    top: 2px;
-    width: 100%;
+    left: 230px;
+    top: 7px;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
     text-align: center;
+    font-size: 23px;
 }
 
 #levelprogressbackground {
     position: absolute;
-    top: 25px;
+    top: 18px;
     width: 200px;
     height: 10px;
     left: 0px;
@@ -236,7 +240,7 @@ user-select: none;           /* non-prefixed version, currently
 
 #levelprogress {
     position: absolute;
-    top: 25px;
+    top: 18px;
     width: 80px;
     height: 10px;
     left: 0px;
@@ -389,8 +393,36 @@ text-shadow: 0 -1px 0 #888;
 .bannerbutton:hover {
 
 cursor: pointer;
-opacity: .9;
+color: rgba(48, 219, 80, 0.5);
 
+}
+
+#aff {
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    margin-left: auto;
+    margin-right: auto;
+    top: 750px;
+    width: 985px;
+    height: 250px;
+}
+
+.amazon {
+    display: inline-block;
+    position: relative;
+    margin-left: 15px;
+}
+
+#googlebanner {
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    margin-left: auto;
+    margin-right: auto;
+    top: 1000px;
+    width: 985px;
+    height: 150px;
 }
 
 /* CHAT BOX CSS */

@@ -178,25 +178,11 @@ function drawTimer(core) {
 	ctx.shadowColor = 'black';
 	ctx.shadowBlur = 20;
 	
-	if (core.information.turn == 1 || core.information.turn == 0) {
+	if (core.information.turn == 1 && core.information.turnType != 'MULLIGAN') {
 		ctx.drawImage(core.sprites.icons.bluetimer, core.information.pwidth * 42.5, 0, core.information.pwidth * 15, core.information.pheight * 22);
+	} else if (core.information.turnType == 'MULLIGAN'){
+		ctx.drawImage(core.sprites.icons.purpletimer, core.information.pwidth * 42.5, 0, core.information.pwidth * 15, core.information.pheight * 22);
 	} else {
-		ctx.drawImage(core.sprites.icons.redtimer, core.information.pwidth * 42.5, 0, core.information.pwidth * 15, core.information.pheight * 22);
-	}
-	ctx.shadowBlur = 0;
-	
-	// timer background
-	ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
-	ctx.beginPath();
-	ctx.arc(core.information.pwidth * 50, core.information.pheight * 11.3, core.information.pwidth * 4.3, 0, 2 * Math.PI);
-	ctx.fill();
-	
-	ctx.shadowColor = 'black';
-	ctx.shadowBlur = 20;
-	
-	if (core.information.turn == 1 || core.information.turn == 0 || core.information.turn == 3) {
-		ctx.drawImage(core.sprites.icons.bluetimer, core.information.pwidth * 42.5, 0, core.information.pwidth * 15, core.information.pheight * 22);
-	} else if (core.information.turn == 2 || core.information.turn == 4) {
 		ctx.drawImage(core.sprites.icons.redtimer, core.information.pwidth * 42.5, 0, core.information.pwidth * 15, core.information.pheight * 22);
 	}
 	ctx.shadowBlur = 0;
@@ -254,11 +240,8 @@ function drawHandIcon(core) {
 }
 
 function drawPlayerIcons(core) {
-
 	ctx.drawImage(core.sprites.playerIcons[core.player1.icon], core.information.pwidth * 2, core.information.pheight * 1, core.information.pwidth * 4, core.information.pheight * 7);
-	ctx.drawImage(core.sprites.playerIcons[core.player2.icon], core.information.pwidth * 94, core.information.pheight * 1, core.information.pwidth * 4, core.information.pheight * 7);
-
-	
+	ctx.drawImage(core.sprites.playerIcons[core.player2.icon], core.information.pwidth * 94, core.information.pheight * 1, core.information.pwidth * 4, core.information.pheight * 7);	
 }
 
 function drawSettingsIcon(core) {
@@ -504,7 +487,7 @@ function drawstats(core) {
 
 function drawtowers(core) {
 
-	checkcurrenttower(core);
+	changetower(core);
 	
 	if (core.player1.currenttower > 1) {
 		ctx.globalAlpha = .4;
@@ -666,7 +649,7 @@ function settime(core) {
 
 function drawattackbutton(core) {
 	
-	if (core.information.turn == core.information.player && checkboardturns(core)) {
+	if (core.information.turn == core.information.player && checkboardturns(core) && core.information.turnType == 'TURN' && core.information.attacked != 1) {
 		
 		ctx.save();
 		

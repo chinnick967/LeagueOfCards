@@ -78,6 +78,10 @@ function drawcard(core, card, width, left, top, rotation, hover) {
 			adjust = ctx.measureText(card.attack).width / 2;
 			ctx.fillText(card.attack, core.information.pwidth * (left + (width * .787)) - adjust, core.information.pheight * (top + (height * .483)));
 
+			if (card.defense < card.maxhealth) {
+				ctx.fillStyle = '#AA3939';
+			}
+
 			// card defense
 			ctx.font= core.information.pwidth * width / 9.375 + "px lifecraft";
 			adjust = ctx.measureText(card.defense).width / 2;
@@ -85,6 +89,8 @@ function drawcard(core, card, width, left, top, rotation, hover) {
 			
 			ctx.shadowBlur = 15;
 			ctx.shadowColor = 'black';
+
+			ctx.fillStyle = 'white';
 			
 			// card armor
 			ctx.font= core.information.pwidth * width / 12.5 + "px lifecraft";
@@ -158,11 +164,19 @@ function drawhand(core) {
 			drawcard(core, core.player2.hand[6], 15, 60 + core.animation.h7left, 73 + core.animation.handtop + core.animation.h7top, 35, core.animation.h7hover); // 7
 		
 		}
-		
-		// hide chatbox
-		var cbox = document.getElementsByClassName("chat-box");
-		cbox[0].style.display = 'none';
-		core.chat.show(true);
+
+		// show empty hand message if hand is empty, show chatbox if not empty
+		if (gethandlength(core) == 0) {
+			ctx.fillStyle = 'white';
+			ctx.font= core.information.pwidth * 4 + "px lifecraft";
+			var adjust = ctx.measureText('Hand Empty').width / 2;
+			ctx.fillText('Hand Empty', core.information.pwidth * 50 - adjust, core.information.pheight * 90);
+		} else {
+			// hide chatbox
+			var cbox = document.getElementsByClassName("chat-box");
+			cbox[0].style.display = 'none';
+			core.chat.show(true);
+		}
 	
 	}
 
@@ -823,30 +837,6 @@ function previewboardcard(core) {
 
 }
 
-function checkcurrenttower(core) {
-	
-	if (core.player1.tier1health == 0 && core.player1.currenttower == 1) {
-		core.player1.currenttower += 1;	
-	} else if (core.player1.tier2health == 0 && core.player1.currenttower == 2) {
-		core.player1.currenttower += 1;	
-	} else if (core.player1.tier3health == 0 && core.player1.currenttower == 3) {
-		core.player1.currenttower += 1;	
-	} else if (core.player1.nexushealth == 0 && core.player1.currenttower == 4) {
-		core.player1.currenttower += 1;	
-	}
-	
-	if (core.player2.tier1health == 0 && core.player2.currenttower == 1) {
-		core.player2.currenttower += 1;	
-	} else if (core.player2.tier2health == 0 && core.player2.currenttower == 2) {
-		core.player2.currenttower += 1;	
-	} else if (core.player2.tier3health == 0 && core.player2.currenttower == 3) {
-		core.player2.currenttower += 1;	
-	} else if (core.player2.nexushealth == 0 && core.player2.currenttower == 4) {
-		core.player2.currenttower += 1;	
-	}
-	
-}
-
 function adjusthand(core) {
 	
 	if (core.information.player == 1) {
@@ -1154,16 +1144,26 @@ function setattacker(core) {
 }
 
 function resetturninfo(core) {
-	core.board.s6.attacking = 0;
-	core.board.s7.attacking = 0;
-	core.board.s8.attacking = 0;
-	core.board.s9.attacking = 0;
-	core.board.s10.attacking = 0;
-	core.board.s16.attacking = 0;
-	core.board.s17.attacking = 0;
-	core.board.s18.attacking = 0;
-	core.board.s19.attacking = 0;
-	core.board.s20.attacking = 0;
+	if (core.information.turnType != 'DEFENSE') {
+		core.board.s6.attacking = 0;
+		core.board.s7.attacking = 0;
+		core.board.s8.attacking = 0;
+		core.board.s9.attacking = 0;
+		core.board.s10.attacking = 0;
+		core.board.s16.attacking = 0;
+		core.board.s17.attacking = 0;
+		core.board.s18.attacking = 0;
+		core.board.s19.attacking = 0;
+		core.board.s20.attacking = 0;
+
+		core.mechanics.shields = '';
+		document.getElementById('GameCanvas').style.boxShadow = 'none';
+	}
+
+	// goes into effect when other player's turn starts
+	if (core.information.turnType == 'TURN' && core.information.turn != core.information.player) {
+		core.information.attacked = 0;
+	}
 }
 
 function checkforattackers(core) {
@@ -1243,6 +1243,9 @@ function declareattack(core) {
 		
 		// game screen effect
 		document.getElementById('GameCanvas').style.boxShadow = 'inset 0px 0px 75px 24px rgba(94,84,94,1)';
+
+		// prevent another attack this turn
+		core.information.attacked = 1;
 		
 	}
 	
@@ -1302,9 +1305,81 @@ function generateshields(core) {
 	
 }
 
+function getdefenders(core) {
+
+	var defenders = [];
+	var shields = core.mechanics.shields;
+
+	for (var i = 0; i < shields.length; i++) {
+		var defender = {};
+
+		defender.attacker = core.mechanics.shields[i].defending;
+		defender.defender = core.mechanics.shields[i].position;
+
+		defenders.push(defender);
+	}
+
+	return defenders;
+}
+
+function getunblockedattackers(core) {
+
+	var attackers = core.information.attackers;
+	var defenders = getdefenders(core);
+	var flag = 0;
+	var unblockedarray = [];
+	
+	for (var i = 0; i < attackers.length; i++) {
+		
+		var attacker = attackers[i];
+		
+		flag = 0;
+		// check if attacker is being defended against, if found set flag equal to 1
+		for (var j = 0; j < defenders.length; j++) {
+			if (attacker == defenders[j].attacker) {
+				flag = 1;
+			}
+		}
+		// if attacker hasnt been blocked, set it as an unblocked attacker
+		if (flag == 0) {
+			unblockedarray.push(attacker);
+		}
+	}
+	
+	return unblockedarray;
+
+}
+
+function senddefenders(core) {
+
+	if (core.information.turn == core.information.player && core.information.turnType == 'DEFENSE') {
+
+		// get defenders
+		var defenders = getdefenders(core);
+		// create action
+		var action = {};
+		action.name = 'Defend', action.sendingplayer = core.information.player, action.receivingplayer = core.information.enemyplayer;
+
+		for (var i = 0; i < defenders.length; i++) {
+			action['var' + (i + 1)] = defenders[i];
+		}
+		
+		action['var6'] = getunblockedattackers(core);
+		
+		// send defense action
+		submitaction(core, action);
+		// call function to run defense on this end
+		defend(core, action);
+
+	}
+
+}
+
 function createshield(core, position) {
 	
 	var shield = {};
+
+	shield.position = position;
 	
 	if (position >= 6 && position <= 10) {
 		var adjust = (position - 6) * 16;
@@ -1315,6 +1390,8 @@ function createshield(core, position) {
 		shield.left = 61;
 		shield.top = 12 + adjust;
 	}
+
+	shield.defending = 0;
 	
 	shield.linecolor = '#' + ("000000" + Math.random().toString(16).slice(2, 8).toUpperCase()).slice(-6);
 	shield.width = 5;
@@ -1387,16 +1464,127 @@ function checkshieldpositions(core, drop_position) {
 	
 }
 
-function battlecards(attacker, defender) {
+function defend(core, action) {
 	
-	// takes two cards, attacking card and defending card and returns a json
+	recursivedefense(core, action, 1);
 
+}
+
+function recursivedefense(core, action, i) {
+	setTimeout(function(){
+			if (typeof(action['var' + i]) != 'undefined' && action['var' + i].attacker != 0) {
+			// set attacker and defender board position for animation
+			core.board['s' + action['var' + i].attacker].boardposition = action['var' + i].attacker;
+			core.board['s' + action['var' + i].defender].boardposition = action['var' + i].defender;
+
+			// battle cards
+			battlecards(core, core.board['s' + action['var' + i].attacker], core.board['s' + action['var' + i].defender]);
+			}
+
+			// run again
+			if (typeof(action['var' + (i + 1)]) != 'undefined' &&  action['var' + (i + 1)] != '' && i != 5) {
+				recursivedefense(core, action, i + 1);
+			} else {
+				// attack tower after
+				towerattack(core, action, action['var6']);
+			}
+	}, 500);
+}
+
+function towerattack(core, action, unblockedattackers) {
+
+	var damage = 0;
+	var towerdamage;
+
+	var defendingplayer = action['sendingplayer'];
+
+	// calculate tower damage dealt back to each attacker
+	if (defendingplayer == 1) {
+		if (core.player1.currenttower == 1) {
+			towerdamage = 1;
+		} else if (core.player1.currenttower == 2) {
+			towerdamage = 2;
+		} else if (core.player1.currenttower == 3) {
+			towerdamage = 3;
+		} else if (core.player1.currenttower == 4) {
+			towerdamage = 0;
+		}
+	} else if (defendingplayer == 2) {
+		if (core.player2.currenttower == 1) {
+			towerdamage = 1;
+		} else if (core.player2.currenttower == 2) {
+			towerdamage = 2;
+		} else if (core.player2.currenttower == 3) {
+			towerdamage = 3;
+		} else if (core.player2.currenttower == 4) {
+			towerdamage = 0;
+		}
+	}
+
+	// calculate total damage from all unblocked attackers, and deal damage to each one
+	for (var i = 0; i < unblockedattackers.length; i++) {
+		
+		var attacker = core.board['s' + unblockedattackers[i]];
+
+		damage += attacker.attack;
+		damagecard(core, attacker, towerdamage);
+	}
+
+	// adjust damage if more than current health
+	if (core.information.player == 1 && core.player1.currenthealth < damage) {
+		damage = core.player1.currenthealth;
+	} else if (core.information.player == 2 && core.player2.currenthealth < damage) {
+		damage = core.player2.currenthealth;
+	}
+
+	// damage tower
+	if (damage > 0) {
+		if (defendingplayer == 1) {
+			damagetower(core, damage, 1);
+			addanimation(core, 'cardhealth', 4, 4, var1 = -1 * damage, var2 = 'right', var3 = '');
+			addanimation(core, 'attack', -6, -2, var1 = '', var2 = '', var3 = '');
+		} else {
+			damagetower(core, damage, 2);
+			addanimation(core, 'cardhealth', 4, 96, var1 = -1 * damage, var2 = 'left', var3 = '');
+			addanimation(core, 'attack', -6, 90, var1 = '', var2 = '', var3 = '');
+		}
+	}
+
+}
+
+function damagetower(core, damage, player) {
+
+	// ran, so reduce damage left by one
+	damage -= 1;
+
+	if (player == 1) {
+		if (core.player1.currenthealth == 1) {
+			damage = 0;
+		}
+		core.player1.currenthealth -= 1;
+		if (damage > 0) {
+			setTimeout(function(){ damagetower(core, damage, player) }, 100);
+		}
+	} else if (player == 2) {
+		if (core.player2.currenthealth == 1) {
+			damage = 0;
+		}
+		core.player2.currenthealth -= 1;
+		if (damage > 0) {
+			setTimeout(function(){ damagetower(core, damage, player) }, 100);
+		}
+	}
+
+}
+
+function battlecards(core, attacker, defender) {
+	
 	// damage attacker
-	if (attacker.damagetype == 'physical') {
+	if (attacker.damagetype == 'Physical') {
 			damage = attacker.attack - defender.armor;
-	} else if (attacker.damagetype == 'magic') {
+	} else if (attacker.damagetype == 'Magic') {
 		damage = attacker.attack - defender.magicresist;
-	} else if (attacker.damagetype == 'mixed') {
+	} else if (attacker.damagetype == 'Mixed') {
 		if (defender.magicresist <= defender.armor) {
 			damage = attacker.attack - defender.magicresist;
 		} else if (defender.armor <= defender.magicresist) {
@@ -1404,37 +1592,120 @@ function battlecards(attacker, defender) {
 		} else {
 			damage = attacker.attack - defender.armor;
 		}
+	} else if (attacker.damagetype == 'True') {
+		damage = attacker.attack;
 	}
 
 	if (damage >= 0) {
-		damagecard(defender, damage);
+		setTimeout(function(){ damagecard(core, defender, damage); }, 300);
 	} else {
-		damagecard(defender, 0);
+		setTimeout(function(){ damagecard(core, defender, damage); }, 300);
 	}
+
+	getboardposition(core, attacker.boardposition);
+	addanimation(core, 'attack', core.information.topposition - 5, core.information.leftposition, var1 = '', var2 = '', var3 = '');
 
 	// damage defender
-	if (attacker.damagetype == 'physical') {
-			damage = attacker.attack - attacker.armor;
-	} else if (attacker.damagetype == 'magic') {
-		damage = attacker.attack - attacker.magicresist;
-	} else if (attacker.damagetype == 'mixed') {
-		if (attacker.magicresist <= attacker.armor) {
-			damage = attacker.attack - attacker.magicresist;
-		} else if (attacker.armor <= attacker.magicresist) {
-			damage = attacker.attack - attacker.armor;
+	if (defender.damagetype == 'Physical') {
+			damage = defender.attack - attacker.armor;
+	} else if (defender.damagetype == 'Magic') {
+		damage = defender.attack - attacker.magicresist;
+	} else if (defender.damagetype == 'Mixed') {
+		if (defender.magicresist <= attacker.armor) {
+			damage = defender.attack - attacker.magicresist;
+		} else if (defender.armor <= attacker.magicresist) {
+			damage = defender.attack - attacker.armor;
 		} else {
-			damage = attacker.attack - attacker.armor;
+			damage = defender.attack - attacker.armor;
 		}
+	} else if (defender.damagetype == 'True') {
+		damage = defender.attack;
 	}
 
+	getboardposition(core, defender.boardposition);
+	addanimation(core, 'attack', core.information.topposition - 5, core.information.leftposition, var1 = '', var2 = '', var3 = '');
+
 	if (damage >= 0) {
-		damagecard(attacker, damage);
+		setTimeout(function(){ damagecard(core, attacker, damage); }, 300);
 	} else {
-		damagecard(attacker, 0);
+		setTimeout(function(){ damagecard(core, attacker, 0); }, 300);
 	}
 	
 }
 
-function damagecard(card, damage) {
-	card.health -= damage;
+function damagecard(core, card, damage) {
+	
+	card.defense -= damage;
+	
+	// damage card animation
+	getboardposition(core, card.boardposition);
+	addanimation(core, 'cardhealth', core.information.topposition - 5, core.information.leftposition, var1 = -1 * damage, var2 = 'left', var3 = '');
+}
+
+function checkfordestroyedcard(core) {
+
+	for (var i = 6; i <= 10; i++) {
+		if (core.board['s' + i].defense <= 0) {
+			destroycard(core, i);
+		}
+	}
+
+	for (var i = 16; i <= 20; i++) {
+		if (core.board['s' + i].defense <= 0) {
+			destroycard(core, i);
+		}
+	}
+}
+
+function destroycard(core, position) {
+
+	if (position >= 1 && position <= 10) {
+		core.player1.graveyard.push(core.board['s' + position]);
+	} else {
+		core.player2.graveyard.push(core.board['s' + position]);
+	}
+
+	// insert destroyed card animation
+
+	core.board['s' + position] = '';
+}
+
+function changetower(core) {
+
+	if (core.player1.currenthealth <= 0) {
+		core.player1.currenttower++;
+		resettowerhealth(core);
+	}
+
+	if (core.player2.currenthealth <= 0) {
+		core.player2.currenttower++;
+		resettowerhealth(core);
+	}
+	
+}
+
+function resettowerhealth(core) {
+
+	if (core.player1.currenttower == 2) {
+		core.player1.currentmaxhealth = 10;
+		core.player1.currenthealth = 10;
+	} else if (core.player1.currenttower == 3) {
+		core.player1.currentmaxhealth = 15;
+		core.player1.currenthealth = 15;
+	} else if (core.player1.currenttower == 4) {
+		core.player1.currentmaxhealth = 20;
+		core.player1.currenthealth = 20;
+	}
+
+	if (core.player2.currenttower == 2) {
+		core.player2.currentmaxhealth = 10;
+		core.player2.currenthealth = 10;
+	} else if (core.player2.currenttower == 3) {
+		core.player2.currentmaxhealth = 15;
+		core.player2.currenthealth = 15;
+	} else if (core.player2.currenttower == 4) {
+		core.player2.currentmaxhealth = 20;
+		core.player2.currenthealth = 20;
+	}
+
 }

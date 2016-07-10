@@ -58,6 +58,8 @@ function actionsorter(core, action, index) {
 		
 	} else if (action.name == 'Attack') {
 		action_attack(core, action, index);
+	} else if (action.name == 'Defend') {
+		action_defend(core, action, index);
 	}
 }
 
@@ -67,18 +69,26 @@ function action_playcard(core, action, index) {
 		return card.refName === action.refName;
 	})[0];
 	
-	// add card to position on board
+	if (action.firstrun != 1) {
+		// add card to position on board
+		setTimeout(function(){
+			addtoboard(core, card, parseInt(action.var2));
+		}, 500);
+	}
+	
+	if (action.firstrun != 1) {
+		// get board left and top for the animation and then play the animation
+		getboardposition(core, parseInt(action.var2));
+		addanimation(core, 'playcard', core.information.topposition - 15, core.information.leftposition - 6, var1 = 90, var2 = '', var3 = '');
+	}
+
+	action.firstrun = 1;
+	
 	setTimeout(function(){
-		addtoboard(core, card, parseInt(action.var2));
+		// complete action, delayed so card is played before action ends
+		core.actions.actionarray[index].complete = 1;
+		core.actions.actionarray[index].running = 0;
 	}, 500);
-	
-	// get board left and top for the animation and then play the animation
-	getboardposition(core, parseInt(action.var2));
-	addanimation(core, 'playcard', core.information.topposition - 15, core.information.leftposition - 6, var1 = 90, var2 = '', var3 = '');
-	
-	// complete action
-	core.actions.actionarray[index].complete = 1;
-	core.actions.actionarray[index].running = 0;
 	
 }
 
@@ -110,14 +120,28 @@ function action_attack(core, action, index) {
 	
 	// change to defense turn
 	defenseturn(core, action.var6);
+
+	core.information.attackers = [];
 	
 	for (var i = 0; i <= 4; i++) {
 		if (action['var' + (i + 1)] != '' && typeof(action['var' + (i + 1)]) != 'undefined') {
 			core.board['s' + action['var' + (i + 1)]].attacking = 1;
+			core.information.attackers.push(action['var' + (i + 1)]);
 		}
 	}
 	
 	generateshields(core);
+	
+	// complete action
+	core.actions.actionarray[index].complete = 1;
+	core.actions.actionarray[index].running = 0;
+	
+}
+
+function action_defend(core, action, index) {
+	
+	// defend
+	defend(core, action);
 	
 	// complete action
 	core.actions.actionarray[index].complete = 1;

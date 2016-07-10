@@ -117,7 +117,10 @@ function redraw(core) {
 
 		// track turn info
 		changeturntime(core);
-	
+		
+		// check for destroyed cards on the board
+		checkfordestroyedcard(core);
+		
 	// redraw
 	setTimeout(function(){ redraw(core); }, 5);
 	

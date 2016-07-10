@@ -36,6 +36,26 @@ function shieldsprite(core, animation, time) {
 
 }
 
+function explodesprite(core, animation, time) {
+
+	var frame = getframe(time, animation.animationlength, 30);
+	var clipx = getclipx(192, 5, frame);
+	var clipy = getclipy(192, 5, frame);
+
+	// ctx.drawimage(image, clipx, clipy, clipwidth, clipheight, xcoord, ycoord, width, height);
+	ctx.drawImage(core.sprites.sprites.blast, clipx, clipy, 192, 192, core.information.pwidth * animation.left, core.information.pheight * animation.top, core.information.pwidth * 15, core.information.pheight * 25);
+}
+
+function attacksprite(core, animation, time) {
+
+	var frame = getframe(time, animation.animationlength, 30);
+	var clipx = getclipx(192, 5, frame);
+	var clipy = getclipy(192, 5, frame);
+
+	// ctx.drawimage(image, clipx, clipy, clipwidth, clipheight, xcoord, ycoord, width, height);
+	ctx.drawImage(core.sprites.sprites.swipe3, clipx, clipy, 192, 192, core.information.pwidth * animation.left, core.information.pheight * animation.top, core.information.pwidth * 15, core.information.pheight * 25);
+}
+
 function playcardsprite(core, animation, time){
 
 	var frame = getframe(time, animation.animationlength, 20);

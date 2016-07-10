@@ -17,8 +17,10 @@ function mouseinit(core) {
 	    core.information.mouseup = 0;
 		
 		// click functions
-		setattacker(core);
-		declareattack(core);
+		if (core.information.attacked != 1) {
+			setattacker(core);
+			declareattack(core);
+		}
 	});
 	
 	$("#GameCanvas").mouseup(function(){

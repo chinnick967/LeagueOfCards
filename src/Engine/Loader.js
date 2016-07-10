@@ -15,6 +15,10 @@ function setupPlayer(core) {
 
 	// set the player's towers
 	settowers(core);
+
+	// create a graveyard array for each player
+	core.player1.graveyard = [];
+	core.player2.graveyard = [];
 }
 
 function processCards (cards, core) {
@@ -28,6 +32,7 @@ function processCards (cards, core) {
 		card.back = core.sprites.icons.cardback;
 		card.activated = 0;
 		card.turns = 0;
+		card.maxhealth = card.defense;
 
 		return card;
 	});
@@ -45,6 +50,7 @@ function getdeck(core) {
 		card.cardID = savedCard.cardID;
 		card.attack = savedCard.attack;
 		card.defense = savedCard.defense;
+		card.maxhealth = card.defense;
 		card.magicresist = savedCard.magicresist;
 		card.armor = savedCard.armor;
 		card.cost = savedCard.cost;

@@ -2,6 +2,10 @@ function startTimer(core) {
 	var info = core.information;
 
 	core.socket.on('game:turnTimer:change', function (data) {
+
+		// send defenders for defense turn before changing turn
+		senddefenders(core);
+
 		info.turn = data.player;
 		info.turnType = data.type;
 		info.turntimestart = (Date.now() - data.start) / 1000;
@@ -9,6 +13,7 @@ function startTimer(core) {
 		info.turnlength = data.interval;
 		addturnstoboardcards(core, data.player);
 		resetturninfo(core);
+		addanimation(core, 'turn', 2, 43, var1 = core.information.turn, var2 = '', var3 = '');
 	});
 }
 
