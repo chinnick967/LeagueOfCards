@@ -160,6 +160,35 @@ z-index: 2;
 
 }
 
+#EndGameContainer {
+    display: flex;
+    flex-direction: row;
+    z-index: -5;
+    background-color: #161d20;
+    opacity: 1;
+    transition: opacity 500ms;
+}
+
+#EndGameContainer.hidden {
+    opacity: 0;
+}
+
+#EndGameContainer .status , #EndGameContainer .content {
+    width: 50%;
+}
+#EndGameContainer .status img.victory, #EndGameContainer .status img.defeat {
+    display: none;
+    max-width: 100%;
+}
+
+#EndGameContainer.victory .status img.victory{
+    display: block;
+}
+
+#EndGameContainer.defeat .status img.defeat{
+    display: block;
+}
+
 #messagebox {
 
 position: absolute;
