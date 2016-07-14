@@ -208,34 +208,28 @@ function drawHandIcon(core) {
 			
 			core.information.threecardstop = 87;
 
+			setInterval(function(){ 
+
+				if (core.information.threecardstop <= 87) {
+					core.information.threecardstopflag = true;
+				} else if (core.information.threecardstop >= 90) {
+					core.information.threecardstopflag = false;
+				}
+				
+				if (core.information.threecardstopflag == true) {
+					core.information.threecardstop += .07;
+				} else if (core.information.threecardstopflag == false) {
+					core.information.threecardstop -= .07;
+				}
+			
+			}, 10);
+
 		}
 		
 		if (core.information.focus != 'hand') {
 		
-		ctx.drawImage(core.sprites.icons.threecards, core.information.pwidth * 45, core.information.pheight * core.information.threecardstop, core.information.pwidth * 10, core.information.pheight * 16);
+			ctx.drawImage(core.sprites.icons.threecards, core.information.pwidth * 45, core.information.pheight * core.information.threecardstop, core.information.pwidth * 10, core.information.pheight * 16);
 		
-		}
-		
-		if (core.information.threecardstop == 87) {
-			
-			core.information.threecardstopflag = true;
-			
-		} else if (core.information.threecardstop >= 90) {
-			
-			core.information.threecardstopflag = false;
-			
-		}
-		
-		if (core.information.threecardstopflag == true) {
-			
-			core.information.threecardstop += .05;
-			
-		}
-		
-		else if (core.information.threecardstopflag == false) {
-			
-			core.information.threecardstop -= .05;
-			
 		}
 	
 }

@@ -9,7 +9,7 @@ function mouseinit(core) {
 
 		core.information.xoffset = (m.offsetX / core.information.pwidth);
 		core.information.yoffset = (m.offsetY / core.information.pheight);
-
+		
 	});
 	mouseEmitter.on('down', function(){
 		core.information.mousedown = 1;
