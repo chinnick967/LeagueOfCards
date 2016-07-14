@@ -1,4 +1,4 @@
-function init(core, gameInfo) {
+function init(gameInfo) {
 	
 	// json object that holds general game information
 	var information = {};
@@ -16,13 +16,11 @@ function init(core, gameInfo) {
 
 	information.turn = gameInfo.turn.player;
 	information.turnType = gameInfo.turn.type;
-	information.turnstart = gameInfo.turn.start + 2000; // Temp fix for initial felay on server.
+	information.turnstart = gameInfo.turn.start; // Temp fix for initial felay on server.
 	information.turnlength = gameInfo.turn.interval;
 
 	// json object that holds assets
-	var assets = {
-		cards: processCards(gameInfo.cards, core)
-	};
+	// var assets = ;
 
 	// json object that holds settings
 	var settings = {};
@@ -56,8 +54,11 @@ function init(core, gameInfo) {
 	// json object that holds core json objects
 
 	// ***NOTE*** Core is created in init.js
+	core = {};
 	core.information = information;
-	core.assets = assets;
+	core.assets = {
+		cards: []
+	};
 	core.settings = settings;
 	core.player1 = player1;
 	core.player2 = player2;
@@ -69,13 +70,19 @@ function init(core, gameInfo) {
 	core.information.init = 0;
 	core.chat = ChatBox($('chat-box'), core);
 	core.chat.listen();
+	core.animateTimerActive = true;
+	core.sprites = ASSETS.SPRITES;
+	core.sounds = ASSETS.SOUNDS;
+	// init functions
+	core.settings.sound = 4;
+	core.assets.cards = processCards(gameInfo.cards, core);
 
+	EndGame.trackGameEnd(core);
+	
 	// setup player info
 	setupPlayer(core);
 
-	// init functions
-	core.settings.sound = 4;
-	
+
 	soundinit(core);
 	mouseinit(core);
 	//setInterval(function(){ redraw(core); }, 16);
@@ -117,13 +124,21 @@ function redraw(core) {
 
 		// track turn info
 		changeturntime(core);
-		
+
 		// check for destroyed cards on the board
 		checkfordestroyedcard(core);
 
-		requestAnimationFrame(function(){ redraw(core); });
-		
-	// redraw
-	//setTimeout(function(){ redraw(core); }, 5);
+		core.animateTimerActive && requestAnimationFrame(function(){ redraw(core); });
 	
+}
+
+
+function closeGameSockets () {
+	Object.keys(socket._callbacks)
+		.filter(eventName => eventName.startsWith('$game:') && eventName !== '$game:found')
+		.map(eventName => eventName.substr(1, eventName.length))
+		.forEach(eventName => {
+			console.log (eventName);
+			socket.removeAllListeners(eventName);
+		});
 }

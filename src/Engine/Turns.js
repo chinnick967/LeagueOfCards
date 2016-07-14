@@ -1,7 +1,7 @@
 function startTimer(core) {
 	var info = core.information;
 
-	core.socket.on('game:turnTimer:change', function (data) {
+	socket.on('game:turnTimer:change', function (data) {
 
 		// send defenders for defense turn before changing turn
 		senddefenders(core);

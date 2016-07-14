@@ -852,6 +852,34 @@ function previewboardcard(core) {
 
 }
 
+function checkcurrenttower(core) {
+	
+	if (core.player1.tier1health == 0 && core.player1.currenttower == 1) {
+		core.player1.currenttower += 1;	
+	} else if (core.player1.tier2health == 0 && core.player1.currenttower == 2) {
+		core.player1.currenttower += 1;	
+	} else if (core.player1.tier3health == 0 && core.player1.currenttower == 3) {
+		core.player1.currenttower += 1;	
+	} else if (core.player1.nexushealth == 0 && core.player1.currenttower == 4) {
+		core.player1.currenttower += 1;	
+	} else if(core.player1.nexushealth == 0) {
+		EndGame.fireEndGame(core, 1);
+	}
+	
+	if (core.player2.tier1health == 0 && core.player2.currenttower == 1) {
+		core.player2.currenttower += 1;	
+	} else if (core.player2.tier2health == 0 && core.player2.currenttower == 2) {
+		core.player2.currenttower += 1;	
+	} else if (core.player2.tier3health == 0 && core.player2.currenttower == 3) {
+		core.player2.currenttower += 1;	
+	} else if (core.player2.nexushealth == 0 && core.player2.currenttower == 4) {
+		core.player2.currenttower += 1;	
+	} else if(core.player2.nexushealth == 0) {
+		EndGame.fireEndGame(core, 2);
+	}
+
+}
+
 function adjusthand(core) {
 	
 	if (core.information.player == 1) {

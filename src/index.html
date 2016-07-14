@@ -1,30 +1,7 @@
 <html>
 
 <head>
-<link rel="stylesheet" type="text/css" href="GameClientCSS.css">
-<link rel="stylesheet" type="text/css" href="Loading.css">
-
-	<script src="/socket.io/socket.io.js"></script>
-	<script src="https://code.jquery.com/jquery-2.2.2.min.js" integrity="sha256-36cp2Co+/62rEAAYHLmRCPIych47CvdM+uTBJwSzWjI=" crossorigin="anonymous"></script>
-	<script src="Engine/Assets.js"></script>
-    <script type="text/javascript" src="Engine/Utils.js"></script>
-    <script type="text/javascript" src="Engine/Api.js"></script>
-<script type="text/javascript" src="Engine/GameLoad.js"></script>
-<script type="text/javascript" src="Engine/Core.js"></script>
-<script type="text/javascript" src="Engine/Sound.js"></script>
-<script type="text/javascript" src="Engine/Mouse.js"></script>
-<script type="text/javascript" src="Engine/GameComponents.js"></script>
-<script type="text/javascript" src="Engine/Loader.js"></script>
-<script type="text/javascript" src="Engine/Queue.js"></script>
-<script type="text/javascript" src="Engine/Animations.js"></script>
-<script type="text/javascript" src="Engine/Actions.js"></script>
-<script type="text/javascript" src="Engine/Turns.js"></script>
-<script type="text/javascript" src="Engine/Sprites.js"></script>
-<script type="text/javascript" src="Engine/Chat/ChatBox.js"></script>
-<script type="text/javascript" src="Engine/Chat/Constants.js"></script>
-<script type="text/javascript" src="Engine/Init.js"></script>
-
-
+	<link rel="stylesheet" type="text/css" href="index.css">
 </head>
 
 <body class="loading">
@@ -55,9 +32,20 @@
 			<div id='messagecontainer'>During this first phase of open beta the only feature available is the Play Button, with preset decks. Enjoy!</div>
 		</div>
 	</div>
+	<div id="EndGameContainer" class="container hidden victory noselect">
+		<div class="status">
+			<img class="victory" src="Assets/victory.png" />
+			<img class="defeat" src="Assets/defeat.png" />
+		</div>
+		<div class="content flex flex-row">
+			<h3 class="text-center">Game Stats</h3>
+			<div class="stats-content coming-soon"></div>
+			<button type="button" class="close btn btn-blue">Close</button>
+		</div>
+	</div>
 	<div id='QueueContainer' class='container noselect'>
 		<div id='playbutton'>Play</div>
-		<div id='matchtimer'>Match Found!</div>
+		<div id='matchtimer' class="text-center">Match Found!</div>
 		<div id='loadingbar'></div>
 	</div>
 	<div id='GameContainer' class='container'>
@@ -302,5 +290,28 @@
 		<div class="hex-brick h3"></div>
 	</div>
 </div>
+<script src="/socket.io/socket.io.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+<script src="Engine/Assets.js"></script>
+<script type="text/javascript" src="Engine/EventEmitter/EventEmitter.js"></script>
+
+<script type="text/javascript" src="Engine/Utils.js"></script>
+<script type="text/javascript" src="Engine/Api.js"></script>
+<script type="text/javascript" src="Engine/GameLoad.js"></script>
+<script type="text/javascript" src="Engine/Core.js"></script>
+<script type="text/javascript" src="Engine/Sound.js"></script>
+<script type="text/javascript" src="Engine/Mouse.js"></script>
+<script type="text/javascript" src="Engine/GameComponents.js"></script>
+<script type="text/javascript" src="Engine/Loader.js"></script>
+<script type="text/javascript" src="Engine/Queue.js"></script>
+<script type="text/javascript" src="Engine/Animations.js"></script>
+<script type="text/javascript" src="Engine/Actions.js"></script>
+<script type="text/javascript" src="Engine/Turns.js"></script>
+<script type="text/javascript" src="Engine/Sprites.js"></script>
+<script type="text/javascript" src="Engine/Chat/ChatBox.js"></script>
+<script type="text/javascript" src="Engine/Chat/Constants.js"></script>
+<script type="text/javascript" src="Engine/Init.js"></script>
+<script type="text/javascript" src="Engine/EndGame.js"></script>
+
 </body>
 </html>

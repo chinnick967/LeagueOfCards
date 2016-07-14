@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h3>User count: <span id="user"></span></h3>
+<pre></pre>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    (function () {
+        var pre = document.querySelector('pre');
+        var user = document.querySelector('#user');
+        var socket = io('/games');
+        socket.on('games:list', function (data) {
+            pre.innerText = JSON.stringify(data.games, null, 2);
+            user.innterText = data.players
+        });
+    })();
+</script>
+</body>
+</html>

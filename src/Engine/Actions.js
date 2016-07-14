@@ -1,5 +1,5 @@
 function checkactions(core) {
-	core.socket.on('game:action:submit', handleGameActions);
+	socket.on('game:action:submit', handleGameActions);
 
 	function handleGameActions (data) {
 			data.action.complete = 0;
@@ -9,7 +9,7 @@ function checkactions(core) {
 }
 
 function submitaction(core, action) {
-	core.socket.emit('game:action:submit', {action:action});
+	socket.emit('game:action:submit', {action:action});
 }
 
 /*
