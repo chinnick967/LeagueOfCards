@@ -1,27 +1,27 @@
-body .socket{
+body {
+  .socket {
     display: none;
-}
-body.loading {
+  }
+  &.loading {
     background: #1e1e1e;
-}
-body.loading .socket{
-    display: block;
-}
-
-body.loading > main {
-    display: none;
+    .socket {
+      display: block;
+    }
+    > main {
+      display: none;
+    }
+  }
 }
 
 .socket {
-    width: 200px;
-    height: 200px;
-    position: absolute;
-    left: 50%;
-    margin-left: -100px;
-    top: 50%;
-    margin-top: -100px;
-}
-.socket .hex-brick {
+  width: 200px;
+  height: 200px;
+  position: absolute;
+  left: 50%;
+  margin-left: -100px;
+  top: 50%;
+  margin-top: -100px;
+  .hex-brick {
     background: #abf8ff;
     width: 30px;
     height: 17px;
@@ -30,254 +30,269 @@ body.loading > main {
     animation-name: fade;
     animation-duration: 2s;
     animation-iteration-count: infinite;
-}
-.socket .h2 {
+  }
+  .h2 {
     transform: rotate(60deg);
-}
-.socket .h3 {
+  }
+  .h3 {
     transform: rotate(-60deg);
-}
-.socket .gel {
+  }
+  .gel {
     height: 30px;
     width: 30px;
     transition: all .3s;
     position: absolute;
     top: 50%;
     left: 50%;
-}
-.socket .center-gel {
+  }
+  .center-gel {
     margin-left: -15px;
     margin-top: -15px;
     animation-name: pulse;
     animation-duration: 2s;
     animation-iteration-count: infinite;
-}
-.socket .c1 {
+  }
+  .c1 {
     margin-left: -47px;
     margin-top: -15px;
-}
-.socket .c2 {
+  }
+  .c2 {
     margin-left: -31px;
     margin-top: -43px;
-}
-.socket .c3 {
+  }
+  .c3 {
     margin-left: 1px;
     margin-top: -43px;
-}
-.socket .c4 {
+  }
+  .c4 {
     margin-left: 17px;
     margin-top: -15px;
-}
-.socket .c5 {
+  }
+  .c5 {
     margin-left: -31px;
     margin-top: 13px;
-}
-.socket .c6 {
+  }
+  .c6 {
     margin-left: 1px;
     margin-top: 13px;
-}
-.socket .c7 {
+  }
+  .c7 {
     margin-left: -63px;
     margin-top: -43px;
-}
-.socket .c8 {
+  }
+  .c8 {
     margin-left: 33px;
     margin-top: -43px;
-}
-.socket .c9 {
+  }
+  .c9 {
     margin-left: -15px;
     margin-top: 41px;
-}
-.socket .c10 {
+  }
+  .c10 {
     margin-left: -63px;
     margin-top: 13px;
-}
-.socket .c11 {
+  }
+  .c11 {
     margin-left: 33px;
     margin-top: 13px;
-}
-.socket .c12 {
+  }
+  .c12 {
     margin-left: -15px;
     margin-top: -71px;
-}
-.socket .c13 {
+  }
+  .c13 {
     margin-left: -47px;
     margin-top: -71px;
-}
-.socket .c14 {
+  }
+  .c14 {
     margin-left: 17px;
     margin-top: -71px;
-}
-.socket .c15 {
+  }
+  .c15 {
     margin-left: -47px;
     margin-top: 41px;
-}
-.socket .c16 {
+  }
+  .c16 {
     margin-left: 17px;
     margin-top: 41px;
-}
-.socket .c17 {
+  }
+  .c17 {
     margin-left: -79px;
     margin-top: -15px;
-}
-.socket .c18 {
+  }
+  .c18 {
     margin-left: 49px;
     margin-top: -15px;
-}
-.socket .c19 {
+  }
+  .c19 {
     margin-left: -63px;
     margin-top: -99px;
-}
-.socket .c20 {
+  }
+  .c20 {
     margin-left: 33px;
     margin-top: -99px;
-}
-.socket .c21 {
+  }
+  .c21 {
     margin-left: 1px;
     margin-top: -99px;
-}
-.socket .c22 {
+  }
+  .c22 {
     margin-left: -31px;
     margin-top: -99px;
-}
-.socket .c23 {
+  }
+  .c23 {
     margin-left: -63px;
     margin-top: 69px;
-}
-.socket .c24 {
+  }
+  .c24 {
     margin-left: 33px;
     margin-top: 69px;
-}
-.socket .c25 {
+  }
+  .c25 {
     margin-left: 1px;
     margin-top: 69px;
-}
-.socket .c26 {
+  }
+  .c26 {
     margin-left: -31px;
     margin-top: 69px;
-}
-.socket .c27 {
+  }
+  .c27 {
     margin-left: -79px;
     margin-top: -15px;
-}
-.socket .c28 {
+  }
+  .c28 {
     margin-left: -95px;
     margin-top: -43px;
-}
-.socket .c29 {
+  }
+  .c29 {
     margin-left: -95px;
     margin-top: 13px;
-}
-.socket .c30 {
+  }
+  .c30 {
     margin-left: 49px;
     margin-top: 41px;
-}
-.socket .c31 {
+  }
+  .c31 {
     margin-left: -79px;
     margin-top: -71px;
-}
-.socket .c32 {
+  }
+  .c32 {
     margin-left: -111px;
     margin-top: -15px;
-}
-.socket .c33 {
+  }
+  .c33 {
     margin-left: 65px;
     margin-top: -43px;
-}
-.socket .c34 {
+  }
+  .c34 {
     margin-left: 65px;
     margin-top: 13px;
-}
-.socket .c35 {
+  }
+  .c35 {
     margin-left: -79px;
     margin-top: 41px;
-}
-.socket .c36 {
+  }
+  .c36 {
     margin-left: 49px;
     margin-top: -71px;
-}
-.socket .c37 {
+  }
+  .c37 {
     margin-left: 81px;
     margin-top: -15px;
-}
-.socket .r1 {
+  }
+  .r1 {
     animation-name: pulse;
     animation-duration: 2s;
     animation-iteration-count: infinite;
     animation-delay: .2s;
-}
-.socket .r1 > .hex-brick {
-    animation-name: fade;
-    animation-duration: 2s;
-    animation-iteration-count: infinite;
-    animation-delay: .2s;
-}
-.socket .r2 {
+    > .hex-brick {
+      animation-name: fade;
+      animation-duration: 2s;
+      animation-iteration-count: infinite;
+      animation-delay: .2s;
+    }
+  }
+  .r2 {
     animation-name: pulse;
     animation-duration: 2s;
     animation-iteration-count: infinite;
     animation-delay: .4s;
-}
-.socket .r2 > .hex-brick {
-    animation-name: fade;
-    animation-duration: 2s;
-    animation-iteration-count: infinite;
-    animation-delay: .4s;
-}
-.socket .r3 {
+    > .hex-brick {
+      animation-name: fade;
+      animation-duration: 2s;
+      animation-iteration-count: infinite;
+      animation-delay: .4s;
+    }
+  }
+  .r3 {
     animation-name: pulse;
     animation-duration: 2s;
     animation-iteration-count: infinite;
     animation-delay: .6s;
-}
-.socket .r3 > .hex-brick {
-    animation-name: fade;
-    animation-duration: 2s;
-    animation-iteration-count: infinite;
-    animation-delay: .6s;
+    > .hex-brick {
+      animation-name: fade;
+      animation-duration: 2s;
+      animation-iteration-count: infinite;
+      animation-delay: .6s;
+    }
+  }
 }
 
 @keyframes pulse {
-    0% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(0.01);
-    }
-    100% {
-        transform: scale(1);
-    }
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(0.01);
+  }
+
+  100% {
+    transform: scale(1);
+  }
 }
+
+
 @keyframes fade {
-    0% {
-        background: #abf8ff;
-    }
-    50% {
-        background: #90bbbf;
-    }
-    100% {
-        background: #abf8ff;
-    }
+  0% {
+    background: #abf8ff;
+  }
+
+  50% {
+    background: #90bbbf;
+  }
+
+  100% {
+    background: #abf8ff;
+  }
 }
+
+
 @-webkit-keyframes pulse {
-    0% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(0.01);
-    }
-    100% {
-        transform: scale(1);
-    }
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(0.01);
+  }
+
+  100% {
+    transform: scale(1);
+  }
 }
+
+
 @-webkit-keyframes fade {
-    0% {
-        background: #abf8ff;
-    }
-    50% {
-        background: #389ca6;
-    }
-    100% {
-        background: #abf8ff;
-    }
+  0% {
+    background: #abf8ff;
+  }
+
+  50% {
+    background: #389ca6;
+  }
+
+  100% {
+    background: #abf8ff;
+  }
 }

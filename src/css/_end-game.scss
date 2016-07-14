@@ -1,0 +1,100 @@
+$transition: 500ms;
+$padding: 20px;
+
+@mixin transform ($val, $x:"50%", $y:"50%") {
+  -webkit-transform: $val;
+  -moz-transform: $val;
+  -ms-transform: $val;
+  -o-transform: $val;
+  transform: $val;
+
+  -webkit-transform-origin: unquote($x) unquote($y);
+  -moz-transform-origin: unquote($x) unquote($y);
+  -ms-transform-origin: unquote($x) unquote($y);
+  -o-transform-origin: unquote($x) unquote($y);
+  transform-origin: unquote($x) unquote($y);
+}
+
+  #QueueContainer, #GameContainer, #EndGameContainer{
+    box-sizing: border-box;
+  }
+
+#EndGameContainer {
+  display: flex;
+  background-color: $backgroundColorDarker;
+  flex-direction: row;
+  z-index: -5;
+  background-color: $backgroundColorDarker;
+  opacity: 1;
+  transition: opacity $transition;
+  padding: $padding;
+  max-width: 1000px;
+  max-height: 562px;
+
+  &.hidden {
+    opacity: 0;
+  }
+
+  > * {
+    width: 50%;
+  }
+  .show-victory, .show-defeat {
+    display: none;
+  }
+  .status {
+    display:flex;
+    flex-grow: 1;
+    align-items: center;
+    justify-content: center;
+
+    img.victory, img.defeat {
+      margin: auto;
+      display: none;
+      max-width: 100%;
+    }
+  }
+
+  &.victory {
+
+    .status img.victory {
+      display: block;
+    }
+  }
+
+  &.defeat {
+    .status img.defeat {
+      display: block;
+    }
+  }
+  .content {
+    padding: $padding;
+
+    .stats-content {
+      margin: auto 10px;
+      flex-grow: 1;
+    }
+
+    button.close {
+      align-self: flex-end;
+    }
+  }
+}
+
+.coming-soon {
+  opacity: .5;
+  position:relative;
+  &::after {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    text-align:center;
+    vertical-align: middle;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 5em;
+    opacity: .5;
+    content: 'Coming Soon';
+
+  }
+}

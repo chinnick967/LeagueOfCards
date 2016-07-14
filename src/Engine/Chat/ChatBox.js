@@ -30,14 +30,14 @@ var ChatBox = function (node, core) {
 	}
 
 	function listen () {
-		core.socket.on('game:chat:submit', function (data) {
+		socket.on('game:chat:submit', function (data) {
 			appendMessage(data);
 		});
 	}
 
 	function post (msg, data) {
 		appendMessage({message: msg, data: data});
-		core.socket.emit('game:chat:submit', {message: msg, data: data});
+		socket.emit('game:chat:submit', {message: msg, data: data});
 	}
 
 	function clear () {
