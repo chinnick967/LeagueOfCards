@@ -1,45 +1,11 @@
-@font-face {
-  font-family: myFont;
-  src: url(Assets/trebuchet_ms.ttf);
-}
-
-
-@font-face {
-  font-family: comicFont;
-  src: url(Assets/fightingspirit.ttf);
-}
-
-
-@font-face {
-  font-family: action;
-  src: url(Assets/action.ttf);
-}
-
-
-@font-face {
-  font-family: lifecraft;
-  src: url(Assets/lifecraft.ttf);
-}
-
+@import 'variables';
 
 body {
   font-family: comicFont;
   src: url(Assets/fightingspirit.ttf);
-  background-color: #1c262a;
+  background-color: $backgroundColor;
   /*background-image: url('Assets/clientbackground.jpg');*/
 }
-
-@font-face {
-  font-family: action;
-  src: url(Assets/action.ttf);
-}
-
-
-@font-face {
-  font-family: lifecraft;
-  src: url(Assets/lifecraft.ttf);
-}
-
 
 #GameCanvas, #GameBackground {
   position: absolute;
@@ -84,8 +50,8 @@ body {
   width: 130px;
   height: 50px;
   background-color: #1a2327;
-  color: white;
-  font-size: 22px;
+  color: $primaryTextColor;
+  font-size: $fontSize;
   margin-right: 50px;
   -webkit-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
   -moz-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
@@ -119,39 +85,10 @@ body {
 }
 
 #QueueContainer {
-  background-color: #161d20;
+  background-color: $backgroundColorDarker;
   /*background-image: url('PageAssets/queuebackground.jpg');*/
   z-index: 2;
 }
-
-/*#EndGameContainer {*/
-/*display: flex;*/
-/*flex-direction: row;*/
-/*z-index: -5;*/
-/*background-color: #161d20;*/
-/*opacity: 1;*/
-/*transition: opacity 500ms;*/
-/*}*/
-
-/*#EndGameContainer.hidden {*/
-/*opacity: 0;*/
-/*}*/
-
-/*#EndGameContainer .status , #EndGameContainer .content {*/
-/*width: 50%;*/
-/*}*/
-/*#EndGameContainer .status img.victory, #EndGameContainer .status img.defeat {*/
-/*display: none;*/
-/*max-width: 100%;*/
-/*}*/
-
-/*#EndGameContainer.victory .status img.victory{*/
-/*display: block;*/
-/*}*/
-
-/*#EndGameContainer.defeat .status img.defeat{*/
-/*display: block;*/
-/*}*/
 
 #messagebox {
   position: absolute;
@@ -160,16 +97,16 @@ body {
   left: 720px;
   top: -10px;
   border-style: solid;
-  border-color: rgba(48, 219, 80, 0.5);
+  border-color: $primaryColor;
   border-radius: 10px;
   -webkit-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
   -moz-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
   box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
-  background-color: #161d20;
+  background-color: $backgroundColorDarker;
 }
 
 #messagecontainer {
-  color: rgba(48, 219, 80, 0.5);
+  color: $secondaryTextColor;
   position: absolute;
   width: 230px;
   height: 50px;
@@ -231,7 +168,7 @@ body {
   right: 0px;
   margin-left: auto;
   margin-right: auto;
-  background-color: #161d20;
+  background-color: $backgroundColorDarker;
 }
 
 #levelprogress {
@@ -275,12 +212,12 @@ body {
   margin-right: auto;
   width: 200px;
   height: 50px;
-  background-color: rgba(48, 219, 80, 0.5);
+  background-color: $primaryColor;
   text-align: center;
   font-family: myFont;
   line-height: 50px;
-  font-size: 22px;
-  color: white;
+  font-size: $fontSize;
+  color: $primaryTextColor;
   -webkit-box-shadow: 0px 0px 13px 0px rgba(0, 0, 0, 0.75);
   -moz-box-shadow: 0px 0px 13px 0px rgba(0, 0, 0, 0.75);
   box-shadow: 0px 0px 13px 0px rgba(0, 0, 0, 0.75);
@@ -329,7 +266,7 @@ body {
   left: 0px;
   height: 45px;
   width: 100%;
-  background-color: rgba(48, 219, 80, 0.5);
+  background-color: $primaryColor;
 }
 
 #innerbanner {
@@ -356,9 +293,9 @@ body {
   display: inline-block;
   width: 130px;
   height: 100%;
-  background-color: #161d20;
-  color: white;
-  font-size: 22px;
+  background-color: $backgroundColorDarker;
+  color: $primaryTextColor;
+  font-size: $fontSize;
   -webkit-box-shadow: 0px 0px 13px 0px rgba(0, 0, 0, 0.75);
   -moz-box-shadow: 0px 0px 13px 0px rgba(0, 0, 0, 0.75);
   box-shadow: 0px 0px 13px 0px rgba(0, 0, 0, 0.75);
@@ -368,7 +305,7 @@ body {
   text-shadow: 0 -1px 0 #888;
   &:hover {
     cursor: pointer;
-    color: rgba(48, 219, 80, 0.5);
+    color: $primaryColor;
   }
 }
 
@@ -438,7 +375,7 @@ body {
       /* IE6-9 */
     }
     .message {
-      color: white;
+      color: $primaryTextColor;
       font-size: .8em;
     }
   }
@@ -448,7 +385,7 @@ body {
     background-color: rgba(0, 0, 0, 0.5);
     text-align: center;
     line-height: 20px;
-    color: white;
+    color: $primaryTextColor;
     cursor: pointer;
     max-width: 100%;
     &::after {

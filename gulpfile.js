@@ -25,6 +25,8 @@ gulp.task('sass', function () {
 		.pipe(gulp.dest(config.sass.dest))
 });
 
+gulp.task('build', ['sass']);
+
 gulp.task('default', function () {
 	gulp.watch(config.sass.src, ['sass']);
 });
