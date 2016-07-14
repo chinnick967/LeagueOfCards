@@ -1,0 +1,8 @@
+#EndGameContainer .content {
+  padding: 20px; }
+  #EndGameContainer .content .stats-content {
+    flex-grow: 1; }
+  #EndGameContainer .content button.close {
+    align-self: flex-end; }
+
+/*# sourceMappingURL=end-game-tab.css.map */

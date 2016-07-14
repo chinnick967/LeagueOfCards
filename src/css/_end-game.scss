@@ -1,0 +1,193 @@
+$transition: 500ms;
+$padding: 20px;
+
+@mixin transform ($val, $x:"50%", $y:"50%") {
+  -webkit-transform: $val;
+  -moz-transform: $val;
+  -ms-transform: $val;
+  -o-transform: $val;
+  transform: $val;
+
+  -webkit-transform-origin: unquote($x) unquote($y);
+  -moz-transform-origin: unquote($x) unquote($y);
+  -ms-transform-origin: unquote($x) unquote($y);
+  -o-transform-origin: unquote($x) unquote($y);
+  transform-origin: unquote($x) unquote($y);
+}
+
+//
+//.container {
+//  background-color: #161d20;
+//  display: flex;
+//  align-items: flex-start;
+//  justify-content: center;
+//  -webkit-box-shadow: 0px 0px 13px 0px rgba(0,0,0,0.75);
+//  -moz-box-shadow: 0px 0px 13px 0px rgba(0,0,0,0.75);
+//  box-shadow: 0px 0px 13px 0px rgba(0,0,0,0.75);
+//
+//  > * {
+//    position: absolute;
+//    left: 0;
+//    top: 0;
+//    width: 100%;
+//    height: 100%;
+//    opacity: 0;
+//    z-index: 1;
+//    transition: opacity $transition;
+//  }
+//
+  #QueueContainer, #GameContainer, #EndGameContainer{
+    box-sizing: border-box;
+  }
+//
+//  &.tab-queue #QueueContainer {
+//    opacity: 1;
+//  }
+//
+//  &.tab-game #GameContainer {
+//    opacity: 1;
+//  }
+//
+//  &.tab-game-end #EndGameContainer {
+//    opacity: 1;
+//  }
+//}
+//
+//
+//
+//#QueueContainer {
+//  padding: 20px;
+//  display: flex;
+//  flex-direction: column;
+//  align-items: center;
+//  justify-content: flex-start;
+//  background-color: #161d20;
+//  z-index: 2;
+//  width: 100%;
+//  height: 100%;
+//
+//  #playbutton {
+//    width: 200px;
+//    height: 50px;
+//    background-color: rgba(48, 219, 80, 0.5);;
+//    text-align: center;
+//    font-family: myFont;
+//    line-height: 50px;
+//    font-size: 22px;
+//    color: white;
+//    -webkit-box-shadow: 0px 0px 13px 0px rgba(0,0,0,0.75);
+//    -moz-box-shadow: 0px 0px 13px 0px rgba(0,0,0,0.75);
+//    box-shadow: 0px 0px 13px 0px rgba(0,0,0,0.75);
+//
+//    &:hover {
+//      cursor: pointer;
+//      opacity: .8;
+//    }
+//
+//    &:active {
+//
+//      -webkit-box-shadow: inset 0px 0px 11px 0px rgba(0,0,0,0.75);
+//      -moz-box-shadow: inset 0px 0px 11px 0px rgba(0,0,0,0.75);
+//      box-shadow: inset 0px 0px 11px 0px rgba(0,0,0,0.75);
+//
+//    }
+//  }
+//  #matchtimer {
+//    text-align: center;
+//    color: rgba(150, 193, 241, 0.9);
+//    font-size: 20px;
+//    display: none;
+//  }
+//  #loadingbar {
+//    max-width: 200px;
+//    border-radius: 15px;
+//    width: 0px;
+//    height: 20px;
+//    background-color: rgba(114, 113, 231, 0.6);
+//    -webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+//    -moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+//    box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+//  }
+//}
+//
+
+
+#EndGameContainer {
+  display: flex;
+  background-color: #161d20;
+  flex-direction: row;
+  z-index: -5;
+  background-color: #161d20;
+  opacity: 1;
+  transition: opacity $transition;
+  padding: $padding;
+  max-width: 1000px;
+  max-height: 562px;
+
+  &.hidden {
+    opacity: 0;
+  }
+
+  > * {
+    width: 50%;
+  }
+  .show-victory, .show-defeat {
+    display: none;
+  }
+  .status {
+    display:flex;
+    flex-grow: 1;
+    align-items: center;
+    justify-content: center;
+
+    img.victory, img.defeat {
+      margin: auto;
+      display: none;
+      max-width: 100%;
+    }
+  }
+
+  &.victory {
+
+    .status img.victory {
+      display: block;
+    }
+  }
+
+  &.defeat {
+    .status img.defeat {
+      display: block;
+    }
+  }
+  .content {
+    padding: $padding;
+
+    .stats-content {
+      margin: auto 10px;
+      flex-grow: 1;
+    }
+
+    button.close {
+      align-self: flex-end;
+    }
+  }
+}
+
+.coming-soon {
+  opacity: .5;
+  position:relative;
+  &::after {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    text-align:center;
+    vertical-align: middle;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 5em;
+    opacity: .5;
+    content: 'Coming Soon';
+
+  }
+}

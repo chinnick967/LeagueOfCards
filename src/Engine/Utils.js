@@ -1,11 +1,9 @@
 var utils = (function () {
-	// var measureTextContext = document.createElement('canvas').getContext('2d');
+
 	return {
 		interpolate: interpolate,
 		isBool: isBool,
-		loadImage: loadImage,
-		parseStyleBorder: parseStyleBorder,
-		// measureText: measureText
+		loadImage: loadImage
 	};
 
 	function interpolate (str, data) {
@@ -36,18 +34,5 @@ var utils = (function () {
 			image.src = url;
 		});
 	}
-
-	function parseStyleBorder (str) {
-		var list = str.split(' ');
-		return {
-			size: list[0].trim(),
-			color: typeof list[1] === 'string' ? list[1].trim(): null
-		};
-	}
-
-	// function measureText () {
-	// 	ctx.save();
-	// 	ctx.font =
-	// }
 
 }());

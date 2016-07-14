@@ -1,5 +1,5 @@
 function mouseinit(core) {
-	var $GameCanvas = $('GameCanvas');
+	var $GameCanvas = $('#GameCanvas');
 	$GameCanvas.css( 'cursor', 'url(Assets/cursor.png), auto' );
 
 	mouseEmitter.on('move', function(m) {

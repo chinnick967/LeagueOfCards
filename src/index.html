@@ -1,11 +1,7 @@
 <html>
 
 <head>
-<link rel="stylesheet" type="text/css" href="GameClientCSS.css">
-<link rel="stylesheet" type="text/css" href="Loading.css">
-
-
-
+	<link rel="stylesheet" type="text/css" href="index.css">
 </head>
 
 <body class="loading">
@@ -41,13 +37,15 @@
 			<img class="victory" src="Assets/victory.png" />
 			<img class="defeat" src="Assets/defeat.png" />
 		</div>
-		<div class="content">
-			<button type="button" class="close">Close</button>
+		<div class="content flex flex-row">
+			<h3 class="text-center">Game Stats</h3>
+			<div class="stats-content coming-soon"></div>
+			<button type="button" class="close btn btn-blue">Close</button>
 		</div>
 	</div>
 	<div id='QueueContainer' class='container noselect'>
 		<div id='playbutton'>Play</div>
-		<div id='matchtimer'>Match Found!</div>
+		<div id='matchtimer' class="text-center">Match Found!</div>
 		<div id='loadingbar'></div>
 	</div>
 	<div id='GameContainer' class='container'>

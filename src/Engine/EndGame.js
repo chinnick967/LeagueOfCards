@@ -41,6 +41,7 @@ var EndGame = (function () {
 	function hideGameTab () {
 		closeGameSockets();
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
+		mouseEmitter.clear();
 		GameQueue.reset();
 		$('#QueueContainer').show();
 		$('#EndGameContainer')

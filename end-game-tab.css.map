@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AAEE,0BAAS;EACP,OAAO,EAAE,IAAI;EAEb,yCAAe;IACb,SAAS,EAAE,CAAC;EAGd,uCAAa;IACX,UAAU,EAAE,QAAQ",
+"sources": ["end-game-tab.scss"],
+"names": [],
+"file": "end-game-tab.css"
+}

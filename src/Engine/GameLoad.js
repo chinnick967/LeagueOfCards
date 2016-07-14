@@ -78,9 +78,7 @@ function init(gameInfo) {
 	core.assets.cards = processCards(gameInfo.cards, core);
 
 	EndGame.trackGameEnd(core);
-	window.end = function () {
-		EndGame.fireEndGame(core, 1);
-	};
+	
 	// setup player info
 	setupPlayer(core);
 

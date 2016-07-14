@@ -26,7 +26,7 @@ var GameQueue = (function () {
 		// $ ('#matchtimer').text ('');
 		$ ('#loadingbar').css ('width', '0px');
 	}
-	
+
 	function handleGameFound(gameInfo) {
 		if (!inQueue) return;
 		// set game info

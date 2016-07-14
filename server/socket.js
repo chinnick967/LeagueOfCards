@@ -9,7 +9,6 @@ const DEFENSE_INTERVAL = 10;
 
 module.exports = function (server) {
 	var io = socketIo.listen (server);
-
 	var games = {};
 	var users = 0;
 	var gamesSocket = io.of ('/games');
