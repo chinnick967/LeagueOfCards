@@ -53,3 +53,6 @@ Temporary Items
 node_modules
 
 config.json
+
+# app
+src/index.css
