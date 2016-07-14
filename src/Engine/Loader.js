@@ -115,8 +115,10 @@ function gethand(core, deck) {
 		
 		if (core.information.player == 1) {
 			core.player1.hand.push(deck[topcard]);
+			deck.pop();
 		} else {
 			core.player2.hand.push(deck[topcard]);
+			deck.pop();
 		}
 		deck.splice(topcard, 1);
 	}

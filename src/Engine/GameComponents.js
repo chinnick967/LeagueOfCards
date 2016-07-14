@@ -13,6 +13,7 @@ function drawComponents(core) {
 	drawnames(core);
 	drawattackbutton(core);
 	drawshields(core);
+	drawinfolabels(core);
 	// test
 	settime(core);
 
@@ -129,11 +130,11 @@ var healthwidth = 0;
 
 	// blue side health bar
 	ctx.fillStyle = 'black';
-	ctx.fillRect(core.information.pwidth * 7.5, core.information.pheight * 3.6, core.information.pwidth * 24.4, core.information.pheight * 2.1);
+	ctx.fillRect(core.information.pwidth * 7.5, core.information.pheight * 3.4, core.information.pwidth * 24.4, core.information.pheight * 2.5);
 	ctx.fillStyle = 'rgba(78, 144, 254, 0.4)';
 	ctx.fillRect(core.information.pwidth * 7.7, core.information.pheight * 3.8, core.information.pwidth * 24, core.information.pheight * 1.7);
 	ctx.fillStyle = 'rgba(78, 144, 254, 0.8)';
-	ctx.shadowBlur = 2;
+	//ctx.shadowBlur = 2;
 	ctx.fillRect(core.information.pwidth * 7.7, core.information.pheight * 3.8, core.information.pwidth * healthwidth, core.information.pheight * 1.7);
 	
 	// get width of healthbar
@@ -143,11 +144,11 @@ var healthwidth = 0;
 	ctx.shadowBlur = 0;
 	// red side health bar
 	ctx.fillStyle = 'black';
-	ctx.fillRect(core.information.pwidth * 68.1, core.information.pheight * 3.6, core.information.pwidth * 24.4, core.information.pheight * 2.1);
+	ctx.fillRect(core.information.pwidth * 68.1, core.information.pheight * 3.4, core.information.pwidth * 24.4, core.information.pheight * 2.5);
 	ctx.fillStyle = 'rgba(220, 0, 41, 0.4)';
 	ctx.fillRect(core.information.pwidth * 68.3, core.information.pheight * 3.8, core.information.pwidth * 24, core.information.pheight * 1.7);
 	ctx.fillStyle = 'rgba(220, 0, 41, 0.8)';
-	ctx.shadowBlur = 2;
+	//ctx.shadowBlur = 2;
 	ctx.fillRect(core.information.pwidth * 68.3, core.information.pheight * 3.8, core.information.pwidth * healthwidth, core.information.pheight * 1.7);
 	
 	// draw health text
@@ -703,4 +704,62 @@ function drawshields(core) {
 				ctx.restore();
 			}
 	}
+}
+
+function drawinfolabels(core) {
+
+	var message = '';
+
+	ctx.save();
+
+	if (core.information.player == 1) {
+
+		if (core.information.turnType == 'MULLIGAN') {
+			message = 'Select up to 3 cards to replace';
+		} else if (core.information.turn == 1 && core.information.turnType == 'DEFENSE') {
+			message = 'Defend';
+		} else if (core.information.turn == 1 && core.information.turnType == 'TURN') {
+			message = 'Your turn';
+		} else if (core.information.turn == 2) {
+			message = 'Waiting on opponent...';
+		}
+
+		ctx.fillStyle = 'white';
+		ctx.font = core.information.pwidth * 1.5 + "px lifecraft";
+
+		var adjust = ctx.measureText(message).width / 2;
+
+		ctx.shadowBlur = 5;
+		ctx.shadowColor = 'rgba(104, 155, 193, 0.4)';
+		
+		// draw the timer text
+		ctx.fillText(message, core.information.pwidth * 19.3 - adjust, core.information.pheight * 8.5);
+
+	} else if (core.information.player == 2) {
+
+		if (core.information.turnType == 'MULLIGAN') {
+			message = 'Select up to 3 cards to replace';
+		} else if (core.information.turn == 2 && core.information.turnType == 'DEFENSE') {
+			message = 'Defend';
+		} else if (core.information.turn == 2 && core.information.turnType == 'TURN') {
+			message = 'Your turn';
+		} else if (core.information.turn == 1) {
+			message = 'Waiting on opponent...';
+		}
+
+		ctx.fillStyle = 'white';
+		ctx.font = core.information.pwidth * 1.5 + "px lifecraft";
+
+		var adjust = ctx.measureText(message).width / 2;
+
+		ctx.shadowBlur = 5;
+		ctx.shadowColor = 'rgba(235, 0, 0, 0.4)';
+		
+		// draw the timer text
+		ctx.fillText(message, core.information.pwidth * 80.7 - adjust, core.information.pheight * 8.5);
+
+	}
+
+	ctx.restore();
+
 }

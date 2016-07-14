@@ -14,6 +14,11 @@ function startTimer(core) {
 		addturnstoboardcards(core, data.player);
 		resetturninfo(core);
 		addanimation(core, 'turn', 2, 43, var1 = core.information.turn, var2 = '', var3 = '');
+
+		if (core.information.turn == core.information.player && core.information.turnType == 'TURN') {
+			addcardtohand(core, 1);
+		}
+
 	});
 }
 

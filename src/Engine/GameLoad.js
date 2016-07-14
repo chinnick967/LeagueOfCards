@@ -120,8 +120,10 @@ function redraw(core) {
 		
 		// check for destroyed cards on the board
 		checkfordestroyedcard(core);
+
+		requestAnimationFrame(function(){ redraw(core); });
 		
 	// redraw
-	setTimeout(function(){ redraw(core); }, 5);
+	//setTimeout(function(){ redraw(core); }, 5);
 	
 }

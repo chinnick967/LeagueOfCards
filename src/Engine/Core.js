@@ -43,8 +43,9 @@ function drawcard(core, card, width, left, top, rotation, hover) {
 		
 		// attacking effect
 		if (card.attacking == 1) {
-			ctx.shadowColor = 'orange';
-			ctx.shadowBlur = 15;
+			ctx.shadowColor = '#882D60';
+			ctx.shadowBlur = (core.information.time % 2) * 5 + 15;
+			//ctx.shadowBlur = 15;
 			ctx.fillRect(core.information.pwidth * (left + .6), core.information.pheight * (top + .6), core.information.pwidth * (width - 1.2), core.information.pheight * (height - 1.2));
 			ctx.fillRect(core.information.pwidth * (left + .6), core.information.pheight * (top + .6), core.information.pwidth * (width - 1.2), core.information.pheight * (height - 1.2));
 			ctx.fillRect(core.information.pwidth * (left + .6), core.information.pheight * (top + .6), core.information.pwidth * (width - 1.2), core.information.pheight * (height - 1.2));
@@ -188,6 +189,7 @@ function handanimations(core) {
 	if (typeof(core.animation.handcounter) == 'undefined' || core.information.focus != 'hand') {
 		core.animation.handcounter = 0;
 		core.animation.handtop = 15;
+		clearInterval(core.animation.handanimation);
 		
 		core.animation.h1top = 0;
 		core.animation.h1left = 0;
@@ -214,6 +216,21 @@ function handanimations(core) {
 		// show chatbox
 		var cbox = document.getElementsByClassName("chat-box");
 		cbox[0].style.display = 'block';
+	}
+
+	if (core.animation.handcounter == 0 && core.information.focus == 'hand') {
+		core.animation.handcounter++;
+
+		core.animation.handanimation = setInterval(function(){
+			core.animation.handcounter++;
+			if (core.animation.handcounter < 12) {
+				core.animation.handtop -= 2;
+			} else if (core.animation.handcounter >= 12 && core.animation.handcounter <= 17) {
+				core.animation.handtop += 1;
+			} else {
+				clearInterval(core.animation.handanimation);
+			}
+		 }, 10);
 	}
 	
 	// check how many cards are in your hand
@@ -245,17 +262,15 @@ function handanimations(core) {
         } else if (handlength == 5) {
         	h5left += 9;
         } else if (handlength == 6) {
-        	h6left += 10;
+        	h6left += 14.6;
         }
-	
+
 	// top adjustment for hand animation
-	if (core.information.focus == 'hand' && core.animation.handcounter <= 8) {
-		core.animation.handcounter += .5;
-		core.animation.handtop -= 1;
-	} else if (core.information.focus == 'hand' && core.animation.handcounter > 8 && core.animation.handcounter < 13) {
-		core.animation.handcounter += .5;
-		core.animation.handtop += .5;
-	}
+	/*if (core.information.focus == 'hand' && core.animation.handcounter <= .2) {
+		core.animation.handtop = 15 - core.animation.handcounter * 100;
+	} else if (core.information.focus == 'hand' && core.animation.handcounter > .2 && core.animation.handcounter < .21) {
+		core.animation.handtop = 15 + (core.animation.handcounter * 50 - (.2 * 100));
+	}*/
 	
 	// variable to prevent higher card selection
 	var selected = 0;
@@ -715,13 +730,13 @@ function gethandlength(core) {
 	var handcount = 0;
 	
 	if (core.information.player == 1) {
-		for (var i = 0; i < 6; i++) {
+		for (var i = 0; i < 7; i++) {
 			if (core.player1.hand[i] != '' && typeof(core.player1.hand[i]) != 'undefined') {
 				handcount++;
 			}
 		}
 	} else {
-		for (var i = 0; i < 6; i++) {
+		for (var i = 0; i < 7; i++) {
 			if (core.player2.hand[i] != '' && typeof(core.player2.hand[i]) != 'undefined') {
 				handcount++;
 			}
@@ -1529,7 +1544,7 @@ function towerattack(core, action, unblockedattackers) {
 		damage += attacker.attack;
 		damagecard(core, attacker, towerdamage);
 	}
-
+	
 	// adjust damage if more than current health
 	if (core.information.player == 1 && core.player1.currenthealth < damage) {
 		damage = core.player1.currenthealth;
@@ -1545,7 +1560,7 @@ function towerattack(core, action, unblockedattackers) {
 			addanimation(core, 'attack', -6, -2, var1 = '', var2 = '', var3 = '');
 		} else {
 			damagetower(core, damage, 2);
-			addanimation(core, 'cardhealth', 4, 96, var1 = -1 * damage, var2 = 'left', var3 = '');
+			addanimation(core, 'cardhealth', 4, 92, var1 = -1 * damage, var2 = 'left', var3 = '');
 			addanimation(core, 'attack', -6, 90, var1 = '', var2 = '', var3 = '');
 		}
 	}
@@ -1706,6 +1721,38 @@ function resettowerhealth(core) {
 	} else if (core.player2.currenttower == 4) {
 		core.player2.currentmaxhealth = 20;
 		core.player2.currenthealth = 20;
+	}
+
+}
+
+function addcardtohand(core, number) {
+
+	for (var i = 0; i < number; i++) {
+
+		if (core.information.player == 1) {
+			if (gethandlength(core) < 7) {
+				for (var j = 0; j < 7; j++) {
+					if (core.player1.hand[j] == '' || typeof(core.player1.hand[j]) == 'undefined') {
+						var deckcard = core.player1.deck[core.player1.deck.length - 1];
+						core.player1.hand[j] = deckcard;
+						core.player1.deck.pop();
+						j = 7;
+					}
+				}
+			}
+		} else if (core.information.player == 2) {
+			if (gethandlength(core) < 7) {
+				for (var j = 0; j < 7; j++) {
+					if (core.player2.hand[j] == '' || typeof(core.player2.hand[j]) == 'undefined') {
+						var deckcard = core.player2.deck[core.player2.deck.length - 1];
+						core.player2.hand[j] = deckcard;
+						core.player2.deck.pop();
+						j = 7;
+					}
+				}
+			}
+		}
+
 	}
 
 }

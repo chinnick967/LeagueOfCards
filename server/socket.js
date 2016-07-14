@@ -4,7 +4,7 @@ const global = require('./global');
 const Interval = require('./Interval');
 
 const MULLIGAN_INTERVAL = 10;
-const TURN_INTERVAL = 10;
+const TURN_INTERVAL = 11;
 const DEFENSE_INTERVAL = 10;
 
 module.exports = function (server) {
@@ -58,7 +58,7 @@ module.exports = function (server) {
 			sendTurn(game, 'TURN', TURN_INTERVAL);
 			timers.main = new Interval(function () {
 				sendTurn(game, 'TURN', TURN_INTERVAL);
-			}, (TURN_INTERVAL * 1000));
+			}, (TURN_INTERVAL * 1100));
 			timers.main.start();
 		}
 
