@@ -1,4 +1,4 @@
 cmds:
 
-npm run dev
 node .
+gulp
