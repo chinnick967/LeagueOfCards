@@ -709,7 +709,7 @@ function drawinfolabels(core) {
 	if (core.information.player == 1) {
 
 		if (core.information.turnType == 'MULLIGAN') {
-			message = 'Select up to 3 cards to replace';
+			message = 'Select up to ' + core.information.mulligans + ' cards to replace';
 		} else if (core.information.turn == 1 && core.information.turnType == 'DEFENSE') {
 			message = 'Defend';
 		} else if (core.information.turn == 1 && core.information.turnType == 'TURN') {
@@ -724,7 +724,7 @@ function drawinfolabels(core) {
 		var adjust = ctx.measureText(message).width / 2;
 
 		ctx.shadowBlur = 5;
-		ctx.shadowColor = 'rgba(104, 155, 193, 0.4)';
+		ctx.shadowColor = 'black';
 		
 		// draw the timer text
 		ctx.fillText(message, core.information.pwidth * 19.3 - adjust, core.information.pheight * 8.5);
@@ -732,7 +732,7 @@ function drawinfolabels(core) {
 	} else if (core.information.player == 2) {
 
 		if (core.information.turnType == 'MULLIGAN') {
-			message = 'Select up to 3 cards to replace';
+			message = 'Select up to ' + core.information.mulligans + ' cards to replace';
 		} else if (core.information.turn == 2 && core.information.turnType == 'DEFENSE') {
 			message = 'Defend';
 		} else if (core.information.turn == 2 && core.information.turnType == 'TURN') {
@@ -747,7 +747,7 @@ function drawinfolabels(core) {
 		var adjust = ctx.measureText(message).width / 2;
 
 		ctx.shadowBlur = 5;
-		ctx.shadowColor = 'rgba(235, 0, 0, 0.4)';
+		ctx.shadowColor = 'black';
 		
 		// draw the timer text
 		ctx.fillText(message, core.information.pwidth * 80.7 - adjust, core.information.pheight * 8.5);

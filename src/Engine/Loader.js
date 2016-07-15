@@ -16,6 +16,8 @@ function setupPlayer(core) {
 	// set the player's towers
 	settowers(core);
 
+	core.information.mulligans = 3;
+
 	// create a graveyard array for each player
 	core.player1.graveyard = [];
 	core.player2.graveyard = [];

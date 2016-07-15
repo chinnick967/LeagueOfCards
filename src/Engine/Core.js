@@ -224,7 +224,7 @@ function handanimations(core) {
 		core.animation.handanimation = setInterval(function(){
 			core.animation.handcounter++;
 			if (core.animation.handcounter < 12) {
-				core.animation.handtop -= 2;
+				core.animation.handtop -= 1.8;
 			} else if (core.animation.handcounter >= 12 && core.animation.handcounter <= 17) {
 				core.animation.handtop += 1;
 			} else {
@@ -434,7 +434,11 @@ function handanimations(core) {
 		core.animation.h7hover = 0;
 	}
 	
-	dragcard(core);
+	if (core.information.turnType != 'MULLIGAN') {
+		dragcard(core);
+	} else {
+		mulligancard(core);
+	}
 
 }
 
@@ -444,6 +448,28 @@ function previewcard(core, card) {
 		drawcard(core, card, 20, 40, 1, 0, 0);
 	}
 	
+}
+
+function mulligancard(core) {
+
+	if (core.information.focus == 'hand' && core.information.mousedown == 1 && core.information.mulliganed != 1 && core.information.mulligans > 0) {
+			core.information.mulliganed = 1;
+			core.information.mulligans--;
+			if (core.information.player == 1) {
+				core.player1.deck[core.player1.length] = core.information.currenthandselection;
+				shuffledeck(core.player1.deck);
+			} else if (core.information.player == 2) {
+				core.player2.deck[core.player2.length] = core.information.currenthandselection;
+				shuffledeck(core.player2.deck);
+			}
+			removecardfromhand(core)
+			addcardtohand(core, 1);
+	}
+
+	if (core.information.mousedown == 0) {
+		core.information.mulliganed = 0;
+	}
+
 }
 
 function dragcard(core) {

@@ -103,7 +103,7 @@ function redraw(core) {
 		// clear canvas for redrawing
 		//canvas.width = core.information.width;
 		ctx.clearRect(0, 0, 1000, 600);
-
+		
 		// draw sound bars
 		drawSound(core);
 
