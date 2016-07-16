@@ -24,8 +24,10 @@ function animationselector(core, animation, index) {
 		infinitesilvercoinanimation(core, animation, index);
 	} else if (animation.type == 'attack') {
 		attackanimation(core, animation, index);
-	} else if (animation.type = 'turn') {
+	} else if (animation.type == 'turn') {
 		turnanimation(core, animation, index);
+	} else if (animation.type == 'drawcard') {
+		drawanimation(core, animation, index);
 	}
 	
 }
@@ -48,6 +50,48 @@ function addanimation(core, type, top, left, var1 = 'none', var2 = 'none', var3 
 	// add animation to array
 	core.animation.push(animation);
 	
+}
+
+function drawanimation(core, animation, index) {
+
+	var player = animation.var1;
+	// current animation time
+	var time = core.information.time - animation.starttime;
+	animation.animationlength = .4;
+
+	if (typeof(animation.firstrun) == 'undefined') {
+		var rand = Math.floor((Math.random() * 3) + 1);
+
+		if (rand == 1) {
+			animation.card = core.sprites.icons.bluecard;
+		} else if (rand == 2) {
+			animation.card = core.sprites.icons.redcard;
+		} else {
+			animation.card = core.sprites.icons.yellowcard;
+		}
+
+		animation.firstrun = 1;
+
+	}
+
+	if (time <= .4) {
+		if (player == 1) {
+			var x = 38 + (time * 16);
+			var y = 77 + (time * 27);
+		} else {
+			var x = 59.5 - (time * 16);
+			var y = 77 + (time * 27);
+		}
+
+		ctx.save();
+		ctx.globalAlpha = 1 - (time * 2);
+		ctx.drawImage(animation.card, core.information.pwidth * x, core.information.pheight * y, core.information.pwidth * 2.5, core.information.pheight * 7);
+		ctx.restore();
+	}
+
+	if (time >= animation.animationlength) {
+		core.animation[index].complete = 1;
+	}
 }
 
 function turnanimation(core, animation, index) {

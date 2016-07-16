@@ -1,5 +1,5 @@
 function init(gameInfo) {
-	
+	console.log(gameInfo);
 	// json object that holds general game information
 	var information = {};
 	information.width = canvas.width;
@@ -59,6 +59,9 @@ function init(gameInfo) {
 	core.assets = {
 		cards: []
 	};
+	// card effects object
+	core.effects = {};
+
 	core.settings = settings;
 	core.player1 = player1;
 	core.player2 = player2;
@@ -97,6 +100,8 @@ function init(gameInfo) {
 	// start check for actions
 	checkactions(core);
 
+	core.information.interval = setInterval(function(){ runactions(core); }, 10);
+
 }
 
 function redraw(core) {
@@ -119,9 +124,6 @@ function redraw(core) {
 		// draws the hand outside the components because the previewcard function has to draw after animations or the coins sit on top of it
 		drawhand(core);
 		previewboardcard(core);
-
-		// runs actions
-		runactions(core);
 
 		// track turn info
 		changeturntime(core);

@@ -74,12 +74,14 @@ var assets = {
         "ziggs": "Assets/Cards/ziggs.png"
     },
     "playerIcons": {
-        "ekko": "Assets/PlayerIcons/ekko.png",
+        "Ekko": "Assets/PlayerIcons/Ekko.png",
         "teemo": "Assets/PlayerIcons/teemo.png"
     },
     "sprites": {
+        "acid": "Assets/Sprites/acid.png",
         "auraheal": "Assets/Sprites/auraheal.png",
         "blast": "Assets/Sprites/blast.png",
+        "blueblast": "Assets/Sprites/blueblast.png",
         "buff": "Assets/Sprites/buff.png",
         "coins": "Assets/Sprites/coins.png",
         "droplet": "Assets/Sprites/droplet.png",
@@ -90,6 +92,7 @@ var assets = {
         "greenwind": "Assets/Sprites/greenwind.png",
         "light": "Assets/Sprites/light.png",
         "light2": "Assets/Sprites/light2.png",
+        "lightningball": "Assets/Sprites/lightningball.png",
         "magic1": "Assets/Sprites/magic1.png",
         "magic2": "Assets/Sprites/magic2.png",
         "magic3": "Assets/Sprites/magic3.png",
@@ -102,18 +105,21 @@ var assets = {
         "rune4": "Assets/Sprites/rune4.png",
         "rune5": "Assets/Sprites/rune5.png",
         "rune6": "Assets/Sprites/rune6.png",
+        "slash": "Assets/Sprites/slash.png",
+        "smoke": "Assets/Sprites/smoke.png",
         "soraka": "Assets/Sprites/soraka.png",
         "star": "Assets/Sprites/star.png",
+        "swipe": "Assets/Sprites/swipe.png",
+        "swipe2": "Assets/Sprites/swipe2.png",
+        "swipe3": "Assets/Sprites/swipe3.png",
         "blueorb": "Assets/Sprites/blueorb.jpg",
         "frostflake": "Assets/Sprites/frostflake.jpg",
         "splash": "Assets/Sprites/splash.jpg",
-        "slash": "Assets/Sprites/slash.png",
-        "swipe": "Assets/Sprites/swipe.png",
-        "swipe3": "Assets/Sprites/swipe3.png",
         "stardust": "Assets/Sprites/stardust.jpg"
     },
     "icons": {
         "armor": "Assets/Icons/armor.png",
+        "bluecard": "Assets/Icons/bluecard.png",
         "bluetimer": "Assets/Icons/bluetimer.png",
         "cardback": "Assets/Icons/cardback.png",
         "cardsicon": "Assets/Icons/cardsicon.png",
@@ -123,6 +129,8 @@ var assets = {
         "goldincome": "Assets/Icons/goldincome.png",
         "magicresist": "Assets/Icons/magicresist.png",
         "nexus": "Assets/Icons/nexus.png",
+        "purpletimer": "Assets/Icons/purpletimer.png",
+        "redcard": "Assets/Icons/redcard.png",
         "redtimer": "Assets/Icons/redtimer.png",
         "rengar": "Assets/Icons/rengar.png",
         "settings": "Assets/Icons/settings.png",
@@ -130,7 +138,7 @@ var assets = {
         "soundimg": "Assets/Icons/soundimg.png",
         "threecards": "Assets/Icons/threecards.png",
         "tower": "Assets/Icons/tower.png",
-        "purpletimer": "Assets/Icons/purpletimer.png",
+        "yellowcard": "Assets/Icons/yellowcard.png",
         "braumshield": "Assets/Icons/braumshield.jpg"
     }
 };

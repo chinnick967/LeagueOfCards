@@ -65,9 +65,11 @@ function actionsorter(core, action, index) {
 
 function action_playcard(core, action, index) {
 
-	var card = core.assets.cards.filter(function (card) {
+	/*var card = core.assets.cards.filter(function (card) {
 		return card.refName === action.refName;
-	})[0];
+	})[0];*/
+
+	var card = action.var1;
 	
 	if (action.firstrun != 1) {
 		// add card to position on board

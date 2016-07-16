@@ -1,4 +1,11 @@
 function setupPlayer(core) {
+
+	// set the player gold amount
+	setgold(core);
+
+	// create effects
+	createeffects(core);
+
 	//load deck
 	getdeck(core);
 	// prepare the game board
@@ -6,9 +13,6 @@ function setupPlayer(core) {
 
 	//// load game sounds
 	//loadsounds(core);
-
-	// set the player gold amount
-	setgold(core);
 
 	// set players hands count
 	sethandamount(core);
@@ -64,8 +68,10 @@ function getdeck(core) {
 		card.back = core.sprites.icons.cardback;
 		card.activated = 0;
 		card.turns = 0;
-	
-			if (counter != 7) {
+		card.control = core.information.player;
+		card.effect = geteffect(core, card.name, card.control);
+		
+			if (counter != 34) {
 				counter ++;
 			} else {
 				counter = 0;

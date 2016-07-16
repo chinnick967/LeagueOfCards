@@ -43,8 +43,10 @@ function drawcard(core, card, width, left, top, rotation, hover) {
 		
 		// attacking effect
 		if (card.attacking == 1) {
-			ctx.shadowColor = '#882D60';
-			ctx.shadowBlur = (core.information.time % 2) * 5 + 15;
+			ctx.shadowColor = '#AA3939';
+			//ctx.shadowBlur = (parseInt(core.information.time) % 2) * 2 + 15;
+			var counter = (core.information.time % 1 * 100) * (Math.PI / 100);
+			ctx.shadowBlur = (Math.sin(counter) / 2 + .5) * 20;
 			//ctx.shadowBlur = 15;
 			ctx.fillRect(core.information.pwidth * (left + .6), core.information.pheight * (top + .6), core.information.pwidth * (width - 1.2), core.information.pheight * (height - 1.2));
 			ctx.fillRect(core.information.pwidth * (left + .6), core.information.pheight * (top + .6), core.information.pwidth * (width - 1.2), core.information.pheight * (height - 1.2));
@@ -525,7 +527,7 @@ function playcard(core, card) {
 		// play card action
 		var action = {};
 
-		action.name = 'PlayCard', action.sendingplayer = '1', action.receivingplayer = '2', action.refName = card.refName, action.var2 = core.information.currentslothover;
+		action.name = 'PlayCard', action.sendingplayer = '1', action.receivingplayer = '2', action.var1 = card, action.var2 = core.information.currentslothover;
 		submitaction(core, action);
 		
 		// get board left and top for the animation and then play the animation
@@ -540,6 +542,9 @@ function playcard(core, card) {
 			player: core.information.player1ID,
 			card: card.name
 		});
+
+		// check for summon effects
+		setTimeout(function(){ checkeffects(core); }, 600);
 	
 	} else if (core.information.player == 1 && core.information.currentslothover >= 1 && core.information.currentslothover <= 5 && card.type == 'Spell' && core.player1.gold >= card.cost) {
 	
@@ -565,7 +570,7 @@ function playcard(core, card) {
 		
 		// play card action
 		var action = {};
-		action.name = 'PlayCard', action.sendingplayer = '1', action.receivingplayer = '2', action.refName = card.refName, action.var2 = core.information.currentslothover;
+		action.name = 'PlayCard', action.sendingplayer = '1', action.receivingplayer = '2', action.var1 = card, action.var2 = core.information.currentslothover;
 		submitaction(core, action);
 		
 		// get board left and top for the animation and then play the animation
@@ -580,6 +585,9 @@ function playcard(core, card) {
 		player: core.information.player1ID,
 		card: 'a facedown card'
 		});
+
+		// check for summon effects
+		setTimeout(function(){ checkeffects(core); }, 600);
 	
 	
 	} else if (core.information.player == 2 && core.information.currentslothover >= 16 && core.information.currentslothover <= 20 && card.type != 'Spell' && core.player2.gold >= card.cost) {
@@ -606,7 +614,7 @@ function playcard(core, card) {
 		
 		// play card action
 		var action = {};
-		action.name = 'PlayCard', action.sendingplayer = '2', action.receivingplayer = '1', action.refName = card.refName, action.var2 = core.information.currentslothover;
+		action.name = 'PlayCard', action.sendingplayer = '2', action.receivingplayer = '1', action.var1 = card, action.var2 = core.information.currentslothover;
 		submitaction(core, action);
 		
 		// get board left and top for the animation and then play the animation
@@ -621,6 +629,9 @@ function playcard(core, card) {
 		player: core.information.player2ID,
 		card: card.name
 		});
+
+		// check for summon effects
+		setTimeout(function(){ checkeffects(core); }, 600);
 	
 	} else if (core.information.player == 2 && core.information.currentslothover >= 11 && core.information.currentslothover <= 15 && card.type == 'Spell' && core.player2.gold >= card.cost) {
 	
@@ -646,7 +657,7 @@ function playcard(core, card) {
 		
 		// play card action
 		var action = {};
-		action.name = 'PlayCard', action.sendingplayer = '2', action.receivingplayer = '1', action.refName = card.refName, action.var2 = core.information.currentslothover;
+		action.name = 'PlayCard', action.sendingplayer = '2', action.receivingplayer = '1', action.var1 = card, action.var2 = core.information.currentslothover;
 		submitaction(core, action);
 		
 		// get board left and top for the animation and then play the animation
@@ -661,6 +672,9 @@ function playcard(core, card) {
 		player: core.information.player2ID,
 		card: 'a facedown card'
 		});
+
+		// check for summon effects
+		setTimeout(function(){ checkeffects(core); }, 600);
 	
 	}
 
@@ -1793,7 +1807,10 @@ function addcardtohand(core, number) {
 						j = 7;
 					}
 				}
+
+				addanimation(core, 'drawcard', 200, 200, var1 = 1, var2 = 'none', var3 = 'none');
 			}
+
 		} else if (core.information.player == 2) {
 			if (gethandlength(core) < 7) {
 				for (var j = 0; j < 7; j++) {
@@ -1804,7 +1821,10 @@ function addcardtohand(core, number) {
 						j = 7;
 					}
 				}
+
+				addanimation(core, 'drawcard', 200, 200, var1 = 2, var2 = 'none', var3 = 'none');
 			}
+
 		}
 
 	}

@@ -19,5 +19,7 @@ module.exports = [
 	'./src/Engine/Chat/ChatBox.js',
 	'./src/Engine/Chat/Constants.js',
 	'./src/Engine/Init.js',
-	'./src/Engine/EndGame.js'
+	'./src/Engine/EndGame.js',
+	'./src/Engine/Effects.js',
+	'./src/Engine/CardEffects.js'
 ];

@@ -204,7 +204,10 @@ function drawTimer(core) {
 
 function drawHandIcon(core) {
 
-	if (typeof(core.information.threecardstop) == 'undefined') {
+	var counter = (core.information.time % 1 * 100) * (Math.PI / 100);
+	core.information.threecardstop = (Math.sin(counter) / 2 + .5) * 3 + 87;
+
+	/*if (typeof(core.information.threecardstop) == 'undefined') {
 			
 			core.information.threecardstop = 87;
 
@@ -224,7 +227,7 @@ function drawHandIcon(core) {
 			
 			}, 10);
 
-		}
+		}*/
 		
 		if (core.information.focus != 'hand') {
 		

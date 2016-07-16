@@ -51,7 +51,7 @@ gulp.task('sass', function () {
 
 gulp.task('build', ['sass', 'scripts']);
 
-gulp.task('default', ['build'], function () {
+gulp.task('default', function () {
 	watch(['./src/css/*.scss'], function () {
 		run('sass');
 	});

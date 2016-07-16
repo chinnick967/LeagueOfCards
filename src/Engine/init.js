@@ -17,6 +17,7 @@ function AppInit() {
 			loadsounds();
 			loadAssets ()
 				.then (function (res) {
+					console.log(res);
 					socket = io ('http://localhost:8081/');
 					GameQueue.start ();
 					$ ('body').removeClass ('loading');
