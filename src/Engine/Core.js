@@ -11,7 +11,7 @@ function drawcard(core, card, width, left, top, rotation, hover) {
 	
 	if (typeof(card) != 'undefined' && card != '') {
 	
-		var asset = core.sprites.cards[card.refName];
+		var asset = card.asset;
 		var type = card.type;
 		
 		// set the card height based off the width
@@ -57,7 +57,7 @@ function drawcard(core, card, width, left, top, rotation, hover) {
 		// rectangle for box shadow on rotated cards due to Google Chrome bug
 		ctx.fillRect(core.information.pwidth * (left + .6), core.information.pheight * (top + .6), core.information.pwidth * (width - 1.2), core.information.pheight * (height - 1.2));
 		ctx.fillRect(core.information.pwidth * (left + .6), core.information.pheight * (top + .6), core.information.pwidth * (width - 1.2), core.information.pheight * (height - 1.2));
-		
+		console.log(card.asset);
 		// draw the card
 		ctx.drawImage(asset, core.information.pwidth * left, core.information.pheight * top, core.information.pwidth * width, core.information.pheight * height);
 		

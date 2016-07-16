@@ -17,7 +17,6 @@ function AppInit() {
 			loadsounds();
 			loadAssets ()
 				.then (function (res) {
-					console.log(res);
 					socket = io ('http://localhost:8081/');
 					GameQueue.start ();
 					$ ('body').removeClass ('loading');
@@ -39,6 +38,7 @@ function AppInit() {
 				assetsPromise.push (img);
 				img.then (function (res) {
 					ASSETS.SPRITES[key][imageName] = res;
+					//console.log('key: ' + imageName + ' image ' + res);
 				});
 			});
 		});

@@ -74,7 +74,7 @@ var assets = {
         "ziggs": "Assets/Cards/ziggs.png"
     },
     "playerIcons": {
-        "Ekko": "Assets/PlayerIcons/Ekko.png",
+        "ekko": "Assets/PlayerIcons/ekko.png",
         "teemo": "Assets/PlayerIcons/teemo.png"
     },
     "sprites": {

@@ -40,6 +40,12 @@ function processCards (cards, core) {
 		card.turns = 0;
 		card.maxhealth = card.defense;
 
+		// lowercase name and delete space
+		var imagename = card.name.toLowerCase();
+		imagename = imagename.replace(/ /g,'');
+		imagename = imagename.replace(/'/g, '');
+
+		card.asset = core.sprites['cards'][imagename];
 		return card;
 	});
 }
@@ -70,7 +76,7 @@ function getdeck(core) {
 		card.turns = 0;
 		card.control = core.information.player;
 		card.effect = geteffect(core, card.name, card.control);
-		
+		//console.log(savedCard);
 			if (counter != 34) {
 				counter ++;
 			} else {

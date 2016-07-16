@@ -1,5 +1,5 @@
 function init(gameInfo) {
-	console.log(gameInfo);
+	
 	// json object that holds general game information
 	var information = {};
 	information.width = canvas.width;
