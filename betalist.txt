@@ -1,8 +1,8 @@
 Aatrox Poro -- done
 Blue Caster Minion -- done
-Vilemaw
+Vilemaw -- done
 Blue Seige Minion
-Krugs
+Krugs -- done
 Azir
 Sand Soldier
 Blue Melee Minion
@@ -18,6 +18,6 @@ Ashe
 Crystal Arrow
 Frostbite
 Nasus
-Critter
-Gromp
+Critter -- done
+Gromp -- done
 Suicide Frog

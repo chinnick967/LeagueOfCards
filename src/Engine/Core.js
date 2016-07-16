@@ -10,7 +10,7 @@ function drawcard(core, card, width, left, top, rotation, hover) {
 	var adjust = 0;
 	
 	if (typeof(card) != 'undefined' && card != '') {
-	
+		
 		var asset = card.asset;
 		var type = card.type;
 		
@@ -57,7 +57,7 @@ function drawcard(core, card, width, left, top, rotation, hover) {
 		// rectangle for box shadow on rotated cards due to Google Chrome bug
 		ctx.fillRect(core.information.pwidth * (left + .6), core.information.pheight * (top + .6), core.information.pwidth * (width - 1.2), core.information.pheight * (height - 1.2));
 		ctx.fillRect(core.information.pwidth * (left + .6), core.information.pheight * (top + .6), core.information.pwidth * (width - 1.2), core.information.pheight * (height - 1.2));
-		console.log(card.asset);
+		
 		// draw the card
 		ctx.drawImage(asset, core.information.pwidth * left, core.information.pheight * top, core.information.pwidth * width, core.information.pheight * height);
 		
@@ -1750,7 +1750,12 @@ function destroycard(core, position) {
 
 	// insert destroyed card animation
 
+	// remove card from board
 	core.board['s' + position] = '';
+
+	// check for card on death effect
+	checkeffects(core)
+
 }
 
 function changetower(core) {
@@ -1791,6 +1796,14 @@ function resettowerhealth(core) {
 		core.player2.currenthealth = 20;
 	}
 
+}
+
+function developerspecificcard(core, deck, name) {
+	for (var i = 0; i < deck.length; i++) {
+		if (deck[i].name == name) {
+			return i;
+		}
+	}
 }
 
 function addcardtohand(core, number) {

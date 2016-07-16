@@ -70,7 +70,15 @@ function action_playcard(core, action, index) {
 	})[0];*/
 
 	var card = action.var1;
-	
+
+	// get the assets
+	var imagename = card.name.toLowerCase();
+	imagename = imagename.replace(/ /g,'');
+	imagename = imagename.replace(/'/g, '');
+
+	card.asset = core.sprites['cards'][imagename];
+	card.back = core.sprites.icons.cardback;
+
 	if (action.firstrun != 1) {
 		// add card to position on board
 		setTimeout(function(){

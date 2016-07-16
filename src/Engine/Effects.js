@@ -2,23 +2,33 @@ function checkeffects(core) {
 
     // player 1's effects
     for (var i = 6; i <= 10; i++) {
-        checkeffect(core, i);
+        checkeffect(core, core.board['s' + i]);
+    }
+
+    for (var i = 0; i < core.player1.graveyard.length; i++) {
+        checkeffect(core, core.player1.graveyard[i]);
     }
 
     // player 2's effects
     for (var i = 16; i <= 20; i++) {
-        checkeffect(core, i);
+        checkeffect(core, core.board['s' + i]);
+    }
+
+    for (var i = 0; i < core.player2.graveyard.length; i++) {
+        checkeffect(core, core.player2.graveyard[i]);
     }
 
 }
 
-function checkeffect(core, position) {
+function checkeffect(core, card) {
 
-    if (typeof(core.board['s' + position]) != 'undefined' && core.board['s' + position] != '') {
+    if (typeof(card) != 'undefined' && card != '') {
 
-        var effect = core.board['s' + position].effect;
+        var effect = card.effect;
         
         if (effect.trigger == 'summon' && effect.activated == 0) {
+            effect.activate();
+        } else if (effect.trigger == 'death' && effect.activated == 0 && card.defense == 0) {
             effect.activate();
         }
 

@@ -132,7 +132,7 @@ function redraw(core) {
 		checkfordestroyedcard(core);
 
 		core.animateTimerActive && requestAnimationFrame(function(){ redraw(core); });
-	
+
 }
 
 
