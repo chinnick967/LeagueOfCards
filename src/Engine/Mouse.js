@@ -18,6 +18,7 @@ function mouseinit(core) {
 		// click functions
 		if (core.information.attacked != 1) {
 			setattacker(core);
+			declarespell(core, core.board['s' + core.information.currentslothover]);
 			declareattack(core);
 		}
 	});

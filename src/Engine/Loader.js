@@ -25,6 +25,8 @@ function setupPlayer(core) {
 	// create a graveyard array for each player
 	core.player1.graveyard = [];
 	core.player2.graveyard = [];
+
+	core.mechanics.auras = [];
 }
 
 function processCards (cards, core) {
@@ -35,18 +37,35 @@ function processCards (cards, core) {
 	}
 
 	return cards.map(function (card) {
-		card.back = core.sprites.icons.cardback;
-		card.activated = 0;
-		card.turns = 0;
-		card.maxhealth = card.defense;
+
+		var copy = Object.assign({}, card);
+
+		copy.back = core.sprites.icons.cardback;
+		copy.activated = 0;
+		copy.turns = 0;
+		copy.maxhealth = card.defense;
+		copy.cardID = card.cardID;
+		copy.attack = card.attack;
+		copy.defense = card.defense;
+		copy.magicresist = card.magicresist;
+		copy.armor = card.armor;
+		copy.cost = card.cost;
+		copy.type = card.type;
+		copy.name = card.name;
+		
+		copy.damagetype = card.damagetype;
+		copy.refName = card.refName;
+		copy.back = core.sprites.icons.cardback;
+		copy.activated = 0;
+		copy.turns = 0;
 
 		// lowercase name and delete space
 		var imagename = card.name.toLowerCase();
 		imagename = imagename.replace(/ /g,'');
 		imagename = imagename.replace(/'/g, '');
 
-		card.asset = core.sprites['cards'][imagename];
-		return card;
+		copy.asset = core.sprites['cards'][imagename];
+		return copy;
 	});
 }
 
@@ -57,32 +76,16 @@ function getdeck(core) {
 	core.player2.deck = [];
 	var counter = 0;
 	for (var i = 0; i <= 60; i++) {
-		var savedCard = core.assets.cards[counter];
-		var card = {};
-		card.cardID = savedCard.cardID;
-		card.attack = savedCard.attack;
-		card.defense = savedCard.defense;
-		card.maxhealth = card.defense;
-		card.magicresist = savedCard.magicresist;
-		card.armor = savedCard.armor;
-		card.cost = savedCard.cost;
-		card.type = savedCard.type;
-		card.name = savedCard.name;
-		card.asset = savedCard.asset;
-		card.damagetype = savedCard.damagetype;
-		card.refName = savedCard.refName;
-		card.back = core.sprites.icons.cardback;
-		card.activated = 0;
-		card.turns = 0;
-		card.control = core.information.player;
-		card.effect = geteffect(core, card.name, card.control);
+		var card = core.assets.cards[counter];
+
+		//card.asset = savedCard.asset;
 		//console.log(savedCard);
-			if (counter != 34) {
+			if (counter != 39) {
 				counter ++;
 			} else {
 				counter = 0;
 			}
-
+			
 		core.player1.deck[i] = card;
 		core.player2.deck[i] = card;
 	}

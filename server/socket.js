@@ -3,7 +3,7 @@ const uuid = require ('node-uuid');
 const global = require ('./global');
 const Interval = require ('./Interval');
 
-const MULLIGAN_INTERVAL = 10;
+const MULLIGAN_INTERVAL = 4;
 const TURN_INTERVAL = 11;
 const DEFENSE_INTERVAL = 10;
 

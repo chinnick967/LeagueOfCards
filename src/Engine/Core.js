@@ -1,8 +1,7 @@
 /*
 General Engine Functions
 
-
-
+drawcardback(core, core.board.s1, 6.6, 5.5, 8.7, 23.142, 90);
 */
 
 function drawcard(core, card, width, left, top, rotation, hover) {
@@ -11,8 +10,13 @@ function drawcard(core, card, width, left, top, rotation, hover) {
 	
 	if (typeof(card) != 'undefined' && card != '') {
 		
+		if (card.visible == false) {
+			return;
+		}
+		
 		var asset = card.asset;
 		var type = card.type;
+		var aura = auras(core, card);
 		
 		// set the card height based off the width
 		var height = width * 2.66;
@@ -75,20 +79,34 @@ function drawcard(core, card, width, left, top, rotation, hover) {
 		}
 			
 		if (type != 'Spell') {
-		
+
+			var attack = card.attack + aura.attack;
+
+			if (aura.attack > 0) {
+				ctx.fillStyle = '#338A2E';
+			}
+
 			// card attack
 			ctx.font= core.information.pwidth * width / 9.375 + "px lifecraft";
-			adjust = ctx.measureText(card.attack).width / 2;
-			ctx.fillText(card.attack, core.information.pwidth * (left + (width * .787)) - adjust, core.information.pheight * (top + (height * .483)));
+			adjust = ctx.measureText(attack).width / 2;
+			ctx.fillText(attack, core.information.pwidth * (left + (width * .787)) - adjust, core.information.pheight * (top + (height * .483)));
 
 			if (card.defense < card.maxhealth) {
 				ctx.fillStyle = '#AA3939';
+			} else {
+				ctx.fillStyle = 'white';
 			}
+
+			if (aura.defense > 0 && card.defense > card.maxhealth) {
+				ctx.fillStyle = '#AA3939';
+			}
+
+			var defense = card.defense + aura.defense;
 
 			// card defense
 			ctx.font= core.information.pwidth * width / 9.375 + "px lifecraft";
-			adjust = ctx.measureText(card.defense).width / 2;
-			ctx.fillText(card.defense, core.information.pwidth * (left + (width * .192)) - adjust, core.information.pheight * (top + (height * .483)));
+			adjust = ctx.measureText(defense).width / 2;
+			ctx.fillText(defense, core.information.pwidth * (left + (width * .192)) - adjust, core.information.pheight * (top + (height * .483)));
 			
 			ctx.shadowBlur = 15;
 			ctx.shadowColor = 'black';
@@ -454,14 +472,20 @@ function previewcard(core, card) {
 
 function mulligancard(core) {
 
-	if (core.information.focus == 'hand' && core.information.mousedown == 1 && core.information.mulliganed != 1 && core.information.mulligans > 0) {
+	if (core.information.player == 1) {
+		var selection = core.player1.hand[core.information.currenthandselection]
+	} else {
+		var selection = core.player2.hand[core.information.currenthandselection]
+	}
+
+	if (core.information.focus == 'hand' && core.information.mousedown == 1 && core.information.mulliganed != 1 && core.information.mulligans > 0 && selection != '') {
 			core.information.mulliganed = 1;
 			core.information.mulligans--;
 			if (core.information.player == 1) {
-				core.player1.deck[core.player1.length] = core.information.currenthandselection;
+				core.player1.deck[core.player1.length] = core.player1.hand[core.information.currenthandselection];
 				shuffledeck(core.player1.deck);
 			} else if (core.information.player == 2) {
-				core.player2.deck[core.player2.length] = core.information.currenthandselection;
+				core.player2.deck[core.player2.length] = core.player2.hand[core.information.currenthandselection];
 				shuffledeck(core.player2.deck);
 			}
 			removecardfromhand(core)
@@ -499,39 +523,54 @@ function dragcard(core) {
 	
 }
 
-function playcard(core, card) {
+function playcard(core, card, player, slot) {
+	
+	var summon = false;
+	var cost = card.cost;
+
+	if (typeof(player) != 'undefined') {
+		summon = true;
+		cost = 0;
+	}
+
+	// optional player and slot parameter
+	player = player || core.information.player;
+	slot = slot || core.information.currentslothover;
+
 	// need to add check for gold
-	if (core.information.player == 1 && core.information.currentslothover >= 6 && core.information.currentslothover <= 10 && card.type != 'Spell' && core.player1.gold >= card.cost) {
+	if (player == 1 && slot >= 6 && slot <= 10 && card.type != 'Spell' && core.player1.gold >= cost) {
 	
 		// remove card from hand
-		removecardfromhand(core);
+		if (!summon) {
+			removecardfromhand(core);
+		}
 		
-		// subtract one from hand length
-		core.player1.handlength -= 1;
-		var action = {};
-		action.name = 'HandAdjust', action.sendingplayer = '1', action.receivingplayer = '2', action.var1 = '-1', action.var2 = '1';
-		submitaction(core, action);
+		if (!summon) {
+			// subtract one from hand length
+			core.player1.handlength -= 1;
+			var action = {};
+			action.name = 'HandAdjust', action.sendingplayer = '1', action.receivingplayer = '2', action.var1 = '-1', action.var2 = '1';
+			submitaction(core, action);
 		
-		// subtract gold
-		adjustgold(core, 1, -card.cost);
-		// subtract gold action
-		var action = {};
-		action.name = 'GoldAdjust', action.sendingplayer = '1', action.receivingplayer = '2', action.var1 = -card.cost, action.var2 = '1';
-		submitaction(core, action);
+			// subtract gold
+			adjustgold(core, 1, -card.cost);
+			// subtract gold action
+			var action = {};
+			action.name = 'GoldAdjust', action.sendingplayer = '1', action.receivingplayer = '2', action.var1 = -card.cost, action.var2 = '1';
+			submitaction(core, action);
+		}
 		
-		// add card to position on board
-		var slot = core.information.currentslothover;
 		setTimeout(function(){ addtoboard(core, card, slot); }, 500);
 		//addtoboard(core, card, 0);
         
 		// play card action
 		var action = {};
 
-		action.name = 'PlayCard', action.sendingplayer = '1', action.receivingplayer = '2', action.var1 = card, action.var2 = core.information.currentslothover;
+		action.name = 'PlayCard', action.sendingplayer = '1', action.receivingplayer = '2', action.var1 = card, action.var2 = slot;
 		submitaction(core, action);
 		
 		// get board left and top for the animation and then play the animation
-		getboardposition(core, core.information.currentslothover);
+		getboardposition(core, slot);
 		addanimation(core, 'playcard', core.information.topposition - 15, core.information.leftposition - 6, var1 = 90, var2 = '', var3 = '');
 		
 		// play sound
@@ -543,38 +582,45 @@ function playcard(core, card) {
 			card: card.name
 		});
 
+		// add effect and control
+		card.control = 1;
+		card.effect = geteffect(core, card.name, card.control);
+
 		// check for summon effects
 		setTimeout(function(){ checkeffects(core); }, 600);
 	
-	} else if (core.information.player == 1 && core.information.currentslothover >= 1 && core.information.currentslothover <= 5 && card.type == 'Spell' && core.player1.gold >= card.cost) {
+	} else if (player == 1 && slot >= 1 && slot <= 5 && card.type == 'Spell' && core.player1.gold >= cost) {
 	
 		// remove card from hand
-		removecardfromhand(core);
+		if (!summon) {
+			removecardfromhand(core);
+		}
 		
-		// subtract one from hand length
-		core.player1.handlength -= 1;
-		var action = {};
-		action.name = 'HandAdjust', action.sendingplayer = '1', action.receivingplayer = '2', action.var1 = '-1', action.var2 = '1';
-		submitaction(core, action);
-		
-		// subtract gold
-		adjustgold(core, 1, -card.cost);
-		// subtract gold action
-		var action = {};
-		action.name = 'GoldAdjust', action.sendingplayer = '1', action.receivingplayer = '2', action.var1 = -card.cost, action.var2 = '1';
-		submitaction(core, action);
+		if (!summon) {
+			// subtract one from hand length
+			core.player1.handlength -= 1;
+			var action = {};
+			action.name = 'HandAdjust', action.sendingplayer = '1', action.receivingplayer = '2', action.var1 = '-1', action.var2 = '1';
+			submitaction(core, action);
+
+			// subtract gold
+			adjustgold(core, 1, -card.cost);
+			// subtract gold action
+			var action = {};
+			action.name = 'GoldAdjust', action.sendingplayer = '1', action.receivingplayer = '2', action.var1 = -card.cost, action.var2 = '1';
+			submitaction(core, action);
+		}
 
 		// add card to position on board
-		var slot = core.information.currentslothover;
 		setTimeout(function(){ addtoboard(core, card, slot); }, 500);
 		
 		// play card action
 		var action = {};
-		action.name = 'PlayCard', action.sendingplayer = '1', action.receivingplayer = '2', action.var1 = card, action.var2 = core.information.currentslothover;
+		action.name = 'PlayCard', action.sendingplayer = '1', action.receivingplayer = '2', action.var1 = card, action.var2 = slot;
 		submitaction(core, action);
 		
 		// get board left and top for the animation and then play the animation
-		getboardposition(core, core.information.currentslothover);
+		getboardposition(core, slot);
 		addanimation(core, 'playcard', core.information.topposition - 15, core.information.leftposition - 6, var1 = 90, var2 = '', var3 = '');
 		
 		// play sound
@@ -586,39 +632,47 @@ function playcard(core, card) {
 		card: 'a facedown card'
 		});
 
+		// add effect and control
+		card.control = 1;
+		card.effect = geteffect(core, card.name, card.control);
+
 		// check for summon effects
 		setTimeout(function(){ checkeffects(core); }, 600);
 	
 	
-	} else if (core.information.player == 2 && core.information.currentslothover >= 16 && core.information.currentslothover <= 20 && card.type != 'Spell' && core.player2.gold >= card.cost) {
+	} else if (player == 2 && slot >= 16 && slot <= 20 && card.type != 'Spell' && core.player2.gold >= cost) {
 	
 		// remove card from hand
-		removecardfromhand(core);
+		if (!summon) {
+			removecardfromhand(core);
+		}
 		
-		// subtract one from hand length
-		core.player2.handlength -= 1;
-		var action = {};
-		action.name = 'HandAdjust', action.sendingplayer = '1', action.receivingplayer = '2', action.var1 = '-1', action.var2 = '2';
-		submitaction(core, action);
-		
-		// subtract gold
-		adjustgold(core, 2, -card.cost);
-		// subtract gold action
-		var action = {};
-		action.name = 'GoldAdjust', action.sendingplayer = '2', action.receivingplayer = '1', action.var1 = -card.cost, action.var2 = '2';
-		submitaction(core, action);
+		if (!summon) {
+			// subtract one from hand length
+			core.player2.handlength -= 1;
+			var action = {};
+			action.name = 'HandAdjust', action.sendingplayer = '1', action.receivingplayer = '2', action.var1 = '-1', action.var2 = '2';
+			submitaction(core, action);
+
+			// subtract gold
+			adjustgold(core, 2, -card.cost);
+			// subtract gold action
+			var action = {};
+			action.name = 'GoldAdjust', action.sendingplayer = '2', action.receivingplayer = '1', action.var1 = -card.cost, action.var2 = '2';
+			submitaction(core, action);
+		}
 		
 		// add card to position on board
-		var slot = core.information.currentslothover;
+		var slot = slot;
 		setTimeout(function(){ addtoboard(core, card, slot); }, 500);
 		
 		// play card action
 		var action = {};
-		action.name = 'PlayCard', action.sendingplayer = '2', action.receivingplayer = '1', action.var1 = card, action.var2 = core.information.currentslothover;
+		action.name = 'PlayCard', action.sendingplayer = '2', action.receivingplayer = '1', action.var1 = card, action.var2 = slot;
 		submitaction(core, action);
 		
 		// get board left and top for the animation and then play the animation
-		getboardposition(core, core.information.currentslothover);
+		getboardposition(core, slot);
 		addanimation(core, 'playcard', core.information.topposition - 15, core.information.leftposition - 6, var1 = 90, var2 = '', var3 = '');
 		
 		// play sound
@@ -630,38 +684,46 @@ function playcard(core, card) {
 		card: card.name
 		});
 
+		// add effect and control
+		card.control = 2;
+		card.effect = geteffect(core, card.name, card.control);
+
 		// check for summon effects
 		setTimeout(function(){ checkeffects(core); }, 600);
 	
-	} else if (core.information.player == 2 && core.information.currentslothover >= 11 && core.information.currentslothover <= 15 && card.type == 'Spell' && core.player2.gold >= card.cost) {
+	} else if (player == 2 && slot >= 11 && slot <= 15 && card.type == 'Spell' && core.player2.gold >= cost) {
 	
 		// remove card from hand
-		removecardfromhand(core);
+		if (!summon) {
+			removecardfromhand(core);
+		}
 		
-		// subtract one from hand length
-		core.player2.handlength -= 1;
-		var action = {};
-		action.name = 'HandAdjust', action.sendingplayer = '1', action.receivingplayer = '2', action.var1 = '-1', action.var2 = '2';
-		submitaction(core, action);
-		
-		// subtract gold
-		adjustgold(core, 2, -card.cost);
-		// subtract gold action
-		var action = {};
-		action.name = 'GoldAdjust', action.sendingplayer = '2', action.receivingplayer = '1', action.var1 = -card.cost, action.var2 = '2';
-		submitaction(core, action);
+		if (!summon) {
+			// subtract one from hand length
+			core.player2.handlength -= 1;
+			var action = {};
+			action.name = 'HandAdjust', action.sendingplayer = '1', action.receivingplayer = '2', action.var1 = '-1', action.var2 = '2';
+			submitaction(core, action);
+
+			// subtract gold
+			adjustgold(core, 2, -card.cost);
+			// subtract gold action
+			var action = {};
+			action.name = 'GoldAdjust', action.sendingplayer = '2', action.receivingplayer = '1', action.var1 = -card.cost, action.var2 = '2';
+			submitaction(core, action);
+		}
 		
 		// add card to position on board
-		var slot = core.information.currentslothover;
+		var slot = slot;
 		setTimeout(function(){ addtoboard(core, card, slot); }, 500);
 		
 		// play card action
 		var action = {};
-		action.name = 'PlayCard', action.sendingplayer = '2', action.receivingplayer = '1', action.var1 = card, action.var2 = core.information.currentslothover;
+		action.name = 'PlayCard', action.sendingplayer = '2', action.receivingplayer = '1', action.var1 = card, action.var2 = slot;
 		submitaction(core, action);
 		
 		// get board left and top for the animation and then play the animation
-		getboardposition(core, core.information.currentslothover);
+		getboardposition(core, slot);
 		addanimation(core, 'playcard', core.information.topposition - 15, core.information.leftposition - 6, var1 = 90, var2 = '', var3 = '');
 		
 		// play sound
@@ -672,6 +734,10 @@ function playcard(core, card) {
 		player: core.information.player2ID,
 		card: 'a facedown card'
 		});
+
+		// add effect and control
+		card.control = 2;
+		card.effect = geteffect(core, card.name, card.control);
 
 		// check for summon effects
 		setTimeout(function(){ checkeffects(core); }, 600);
@@ -691,6 +757,15 @@ function adjustgold(core, player, amount) {
 }
 
 function addtoboard (core, card, slot) {
+
+	if (slot >= 1 && slot <= 10) {
+		card.control = 1;
+	} else {
+		card.control = 2;
+	}
+
+	// add effect and control
+	card.effect = geteffect(core, card.name, card.control);
 	
 	if (slot == 0) {
 		
@@ -762,6 +837,8 @@ function addtoboard (core, card, slot) {
           default:
              // nothing
           }
+
+		  checkeffects(core);
 
 }
 
@@ -946,6 +1023,10 @@ function adjusthand(core) {
 }
 
 function drawcardback(core, card, left, top, width, height, rotation) {
+
+	if (card.visible == false) {
+			return;
+		}
 	
 	ctx.save();
 	
@@ -1159,13 +1240,13 @@ function setattacker(core) {
 	if (core.information.player == 1 && core.information.turn == 1) {
 		
 		if (core.information.currentslothover == 6 && core.board.s6.turns >= 1 && core.board.s6.attacking != 1) {		
-			core.board.s6.attacking = 1;			
+			core.board.s6.attacking = 1;		
 		} else if (core.information.currentslothover == 6 && core.board.s6.turns >= 1 && core.board.s6.attacking == 1) {
 			core.board.s6.attacking = 0;
 		}
 		
 		if (core.information.currentslothover == 7 && core.board.s7.turns >= 1 && core.board.s7.attacking != 1) {		
-			core.board.s7.attacking = 1;			
+			core.board.s7.attacking = 1;				
 		} else if (core.information.currentslothover == 7 && core.board.s7.turns >= 1 && core.board.s7.attacking == 1) {
 			core.board.s7.attacking = 0;
 		}
@@ -1224,6 +1305,54 @@ function setattacker(core) {
 		
 	}
 	
+}
+
+function removecardfromboard(core, index) {
+	var card = core.board['s' + index];
+
+	if (index >= 1 && index <= 10) {
+		core.player1.graveyard.push(card);
+	} else {
+		core.player2.graveyard.push(card);
+	}
+
+	core.board['s' + index] = '';
+
+}
+
+function declarespell(core, card) {
+
+	var index = core.information.currentslothover;
+	
+	if (core.information.turn == core.information.player && core.information.currentslothover >= 1 && core.information.currentslothover <= 5 && core.information.player == 1 && core.board['s' + core.information.currentslothover] != '' && typeof(core.board['s' + core.information.currentslothover]) != 'undefined' && card.effect.activated != 1 && core.mechanics.spellactive != 1) {	
+		if (card.effect.targeted == 0) {
+			activatespell(core, card, index);
+		}
+	} else if (core.information.turn == core.information.player && core.information.currentslothover >= 10 && core.information.currentslothover <= 15 && core.information.player == 2 && core.board['s' + core.information.currentslothover] != '' && typeof(core.board['s' + core.information.currentslothover]) != 'undefined' && card.effect.activated != 1 && core.mechanics.spellactive != 1) {
+		if (card.effect.targeted == 0) {
+			activatespell(core, card, index);
+		}
+	}
+}
+
+function activatespell(core, card, index, target) {
+
+	removecardfromboard(core, index);
+
+	target = target || 0;
+	var effect = card.effect;
+
+	//card.visible = false;
+	effect.activated = 1;
+
+	// prevent other spells from activating until done
+	core.mechanics.spellactive = 1;
+	setTimeout(function(){ core.mechanics.spellactive = 0; }, 4000);
+
+	setTimeout(function(){ effect.activate(); }, 4000);
+
+	addanimation(core, 'flipcard', 300, 300, var1 = card, var2 = card.effect.player, var3 = '');
+
 }
 
 function resetturninfo(core) {
@@ -1608,8 +1737,9 @@ function towerattack(core, action, unblockedattackers) {
 	for (var i = 0; i < unblockedattackers.length; i++) {
 		
 		var attacker = core.board['s' + unblockedattackers[i]];
+		var aura = auras(core, attacker);
 
-		damage += attacker.attack;
+		damage += attacker.attack + aura.attack;
 		damagecard(core, attacker, towerdamage);
 	}
 	
@@ -1661,22 +1791,25 @@ function damagetower(core, damage, player) {
 }
 
 function battlecards(core, attacker, defender) {
+
+	var attackaura = auras(core, attacker);
+	var defenderaura = auras(core, defender);
 	
 	// damage attacker
 	if (attacker.damagetype == 'Physical') {
-			damage = attacker.attack - defender.armor;
+			damage = attacker.attack + attackaura.attack - defender.armor;
 	} else if (attacker.damagetype == 'Magic') {
-		damage = attacker.attack - defender.magicresist;
+		damage = attacker.attack + attackaura.attack - defender.magicresist;
 	} else if (attacker.damagetype == 'Mixed') {
 		if (defender.magicresist <= defender.armor) {
-			damage = attacker.attack - defender.magicresist;
+			damage = attacker.attack + attackaura.attack - defender.magicresist;
 		} else if (defender.armor <= defender.magicresist) {
-			damage = attacker.attack - defender.armor;
+			damage = attacker.attack + attackaura.attack - defender.armor;
 		} else {
-			damage = attacker.attack - defender.armor;
+			damage = attacker.attack + attackaura.attack - defender.armor;
 		}
 	} else if (attacker.damagetype == 'True') {
-		damage = attacker.attack;
+		damage = attacker.attack + attackaura.attack;
 	}
 
 	if (damage >= 0) {
@@ -1690,19 +1823,19 @@ function battlecards(core, attacker, defender) {
 
 	// damage defender
 	if (defender.damagetype == 'Physical') {
-			damage = defender.attack - attacker.armor;
+			damage = defender.attack + defenderaura.attack - attacker.armor;
 	} else if (defender.damagetype == 'Magic') {
-		damage = defender.attack - attacker.magicresist;
+		damage = defender.attack + defenderaura.attack - attacker.magicresist;
 	} else if (defender.damagetype == 'Mixed') {
 		if (defender.magicresist <= attacker.armor) {
-			damage = defender.attack - attacker.magicresist;
+			damage = defender.attack + defenderaura.attack - attacker.magicresist;
 		} else if (defender.armor <= attacker.magicresist) {
-			damage = defender.attack - attacker.armor;
+			damage = defender.attack + defenderaura.attack - attacker.armor;
 		} else {
-			damage = defender.attack - attacker.armor;
+			damage = defender.attack + defenderaura.attack - attacker.armor;
 		}
 	} else if (defender.damagetype == 'True') {
-		damage = defender.attack;
+		damage = defender.attack + defenderaura.attack;
 	}
 
 	getboardposition(core, defender.boardposition);
@@ -1727,14 +1860,20 @@ function damagecard(core, card, damage) {
 
 function checkfordestroyedcard(core) {
 
+	var aura;
+
 	for (var i = 6; i <= 10; i++) {
-		if (core.board['s' + i].defense <= 0) {
+		aura = auras(core, core.board['s' + i]);
+		var defense = core.board['s' + i].defense + aura.defense;
+		if (defense <= 0) {
 			destroycard(core, i);
 		}
 	}
 
 	for (var i = 16; i <= 20; i++) {
-		if (core.board['s' + i].defense <= 0) {
+		aura = auras(core, core.board['s' + i]);
+		var defense = core.board['s' + i].defense + aura.defense;
+		if (defense <= 0) {
 			destroycard(core, i);
 		}
 	}
@@ -1814,7 +1953,8 @@ function addcardtohand(core, number) {
 			if (gethandlength(core) < 7) {
 				for (var j = 0; j < 7; j++) {
 					if (core.player1.hand[j] == '' || typeof(core.player1.hand[j]) == 'undefined') {
-						var deckcard = core.player1.deck[core.player1.deck.length - 1];
+						//var deckcard = core.player1.deck[core.player1.deck.length - 1];
+						var deckcard = core.player1.deck[developerspecificcard(core, core.player1.deck, 'Loaded Dice')];
 						core.player1.hand[j] = deckcard;
 						core.player1.deck.pop();
 						j = 7;
@@ -1841,5 +1981,76 @@ function addcardtohand(core, number) {
 		}
 
 	}
+
+}
+
+function searchassets(core, name) {
+
+	for (var i = 0; i < core.assets.cards.length; i++) {
+
+		if (core.assets.cards[i].name == name) {
+			return core.assets.cards[i];
+		}
+
+	}
+
+}
+
+function searchboard(core, name, player) {
+
+	player = player || 0;
+
+	if (player == 0) {
+		for (var i = 0; i < 20; i++) {
+			if (typeof(core.board['s' + i]) != 'undefined' && core.board['s' + i] != '') {
+				if (core.board['s' + i].name == name) {
+					return true;
+				}
+			}
+		}
+	} else if (player == 1) {
+		for (var i = 6; i < 10; i++) {
+			if (typeof(core.board['s' + i]) != 'undefined' && core.board['s' + i] != '') {
+				if (core.board['s' + i].name == name) {
+					return true;
+				}
+			}
+		}
+	} else if (player == 2) {
+		for (var i = 16; i < 20; i++) {
+			if (typeof(core.board['s' + i]) != 'undefined' && core.board['s' + i] != '') {
+				if (core.board['s' + i].name == name) {
+					return true;
+				}
+			}
+		}
+	}
+
+	return false;
+
+}
+
+function auras(core, card) {
+
+	var aura = {};
+	aura.attack = 0;
+	aura.defense = 0;
+
+	if (card.name == 'Sand Soldier') {
+		if (searchboard(core, 'Azir')) {
+			aura.attack += 1;
+		}
+	}
+
+	if (card.type == 'Minion') {
+		if (searchboard(core, 'Blue Seige Minion')) {
+			aura.attack += 1;
+			aura.defense += 2;
+		}
+	}
+
+
+
+	return aura;
 
 }

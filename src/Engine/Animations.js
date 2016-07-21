@@ -28,6 +28,10 @@ function animationselector(core, animation, index) {
 		turnanimation(core, animation, index);
 	} else if (animation.type == 'drawcard') {
 		drawanimation(core, animation, index);
+	} else if (animation.type == 'flipcard') {
+		cardflipanimation(core, animation, index);
+	} else if (animation.type == 'goldincome') {
+		goldincomeanimation(core, animation, index);
 	}
 	
 }
@@ -226,3 +230,134 @@ function infinitesilvercoinanimation(core, animation, index) {
 	silvercoinsprite(core, animation, time);
 
 }
+
+function goldincomeanimation(core, animation, index) {
+
+	var time = core.information.time - animation.starttime;
+	animation.animationlength = .8;
+
+	var player = animation.var1;
+
+	ctx.save();
+	ctx.globalAlpha = 1 - time;
+	animation.top = 5 - (time * 3.5);
+
+	if (player == 1) {
+		animation.left = 38.2;
+	} else if (player == 2) {
+		animation.left = 58.2;
+	}
+
+	silvercoinsprite(core, animation, time);
+
+	ctx.restore();
+
+}
+
+/*function cardflipanimation(core, animation, index) {
+
+	var time = core.information.time - animation.starttime;
+	animation.animationlength = 1;
+
+	var card = animation.var1;
+
+	if (typeof(animation.firstrun) == 'undefined') {
+		document.getElementById('cont').style.zIndex = 5;
+		//document.querySelector("#cardflip").classList.toggle("hover");
+
+		var flipfront = document.getElementById("FlipFront");
+		var flipfrontctx = flipfront.getContext("2d");
+
+		flipfrontctx.drawImage(card.back, 0, 0, 87, 130);
+	}
+
+	animation.firstrun = 1;
+
+	if (time >= animation.animationlength) {
+		core.animation[index].complete = 1;
+		//document.getElementById('cont').style.zIndex = -5;
+	}
+
+}
+
+function flipcard(core, animation, index) {
+
+
+
+}*/
+
+function cardflipanimation(core, animation, index) {
+	
+	var time = core.information.time - animation.starttime;
+	animation.animationlength = 4;
+
+	var card = animation.var1;
+	var player = animation.var2;
+	var frontCard = card.back;
+  	var backCard = card.asset;
+	var x = animation.left;
+	var y = animation.top;
+	var degree = 180 - (time - 1) * 180;
+
+	if (time >= 0 && time < 1) {
+		// draw card back
+		ctx.save();
+		ctx.translate(1000, 0);
+		ctx.scale(-1, 1);
+		ctx.drawImage(card.back, core.information.pwidth * 42.5, core.information.pheight * 25, core.information.pwidth * 15, core.information.pheight * 15 * 2.66);
+		ctx.restore();
+	} else if (time >= 1 && time < 2) {
+
+		// flip animation
+		var image = degree >= 90 ? frontCard: backCard;
+		ctx.save();
+		cardfliprender(image, degree, 300, 140.5, .355, 0);
+		ctx.restore();
+
+	} else if (time >= 2 && time <= 4) {
+		// draw card front
+		drawcard(core, animation.var1, 15, 42.5, 25, 0, 0);
+	}
+
+	if (time >= animation.animationlength) {
+		core.animation[index].complete = 1;
+	}
+
+}
+
+  function cardfliprender(img, degree=0, x=0, y=0, scale=1, rotation=0) {
+	var toRad = (Math.PI / 180);
+    var rad = degree * toRad;
+    var rotateRad = rotation * toRad;
+
+    var width = img.width;
+    var height = img.height;
+    var halfHeight = height / 2;
+    
+    var widthToHeightRatio = height / width;
+    var skewSin = (.2 * Math.sin(rad)) * scale;
+    var xScale = Math.cos(rad) * scale;
+    var yScale = (1 - (skewSin / (widthToHeightRatio * 2))) * scale;
+
+    var heightOffset = ((skewSin * height) / (widthToHeightRatio * 4));
+    var widthOffset = ((width / 2) - (width * xScale / 2));
+
+    for (var i = 0; i <= halfHeight; ++i) {
+      var drawHeightTop = halfHeight - i;
+      var yskew = skewSin * i / height;
+      // Top half
+      ctx.setTransform(xScale, -yskew, 0, yScale, widthOffset + x, heightOffset + y);
+      ctx.drawImage(
+        img,
+        0, drawHeightTop, width, 2,
+        0, drawHeightTop, width, 2
+      );
+
+      // Bottom Half
+      var drawHeightBottom = halfHeight + i;
+      ctx.setTransform(xScale, yskew, 0, yScale, widthOffset + x, heightOffset + y);
+      ctx.drawImage(img,
+        0, drawHeightBottom, width, 2,
+        0, drawHeightBottom, width, 2);
+    }
+  }

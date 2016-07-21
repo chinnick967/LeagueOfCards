@@ -39,15 +39,40 @@ function geteffect(core, name, player) {
 
      var effect = cardeffects(core, name, player);
      effect.activated = 0;
-
-    return effect;
+     return effect;
 
 }
 
 function createeffects(core) {
 
     core.effects.goldincome = function(core, effect, player, amount) {
+            addanimation(core, 'goldincome', 5, 38.2, var1 = player, var2 = '', var3 = '');
             core['player' + player].goldincome += amount;
+    }
+
+    core.effects.playcreature = function(core, effect, player, card) {
+
+            var slot = 0;
+
+            if (player == 1) {
+                for (var i = 6; i <= 10; i++) {
+                    if (core.board['s' + i] == '' || typeof(core.board['s' + i]) == 'undefined') {
+                        slot = i;
+                        i = 11;
+                    }
+                }
+            } else if (player == 2) {
+                for (var i = 16; i <= 20; i++) {
+                    if (core.board['s' + i] == '' || typeof(core.board['s' + i]) == 'undefined') {
+                        slot = i;
+                        i = 11;
+                    }
+                }
+            }
+
+            if (slot != 0) {
+                playcard(core, card, player, slot);
+            }
     }
 
 }

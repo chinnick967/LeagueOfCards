@@ -70,7 +70,7 @@ function action_playcard(core, action, index) {
 	})[0];*/
 
 	var card = action.var1;
-
+	
 	// get the assets
 	var imagename = card.name.toLowerCase();
 	imagename = imagename.replace(/ /g,'');
@@ -80,6 +80,11 @@ function action_playcard(core, action, index) {
 	card.back = core.sprites.icons.cardback;
 
 	if (action.firstrun != 1) {
+		
+		// add effect and control
+		card.control = action.sendingplayer;
+		card.effect = geteffect(core, card.name, card.control);
+
 		// add card to position on board
 		setTimeout(function(){
 			addtoboard(core, card, parseInt(action.var2));
