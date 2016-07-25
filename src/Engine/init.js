@@ -6,6 +6,8 @@ var ASSETS = {
 	SPRITES: {},
 	SOUNDS: {}
 };
+
+window.getSocket = () => socket;
 $ (AppInit);
 function AppInit() {
 	Api.getLoggedInStatus ()

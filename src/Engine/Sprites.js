@@ -29,8 +29,8 @@ function shieldsprite(core, animation, time) {
 	// translate back
 	ctx.translate(-core.information.pwidth * (animation.left + 19.2/2), -core.information.pheight * (animation.top + 32/2));
 
-	// ctx.drawimage(image, clipx, clipy, clipwidth, clipheight, xcoord, ycoord, width, height);
-	ctx.drawImage(core.sprites.icons.buffsprite, clipx, clipy, 192, 192, core.information.pwidth * animation.left, core.information.pheight * animation.top, core.information.pwidth * 15, core.information.pheight * 25);
+	// utils.drawImage(ctx, image, clipx, clipy, clipwidth, clipheight, xcoord, ycoord, width, height);
+	utils.drawImage(ctx, core.sprites.icons.buffsprite, clipx, clipy, 192, 192, core.information.pwidth * animation.left, core.information.pheight * animation.top, core.information.pwidth * 15, core.information.pheight * 25);
 
 	ctx.restore();
 
@@ -42,8 +42,8 @@ function explodesprite(core, animation, time) {
 	var clipx = getclipx(192, 5, frame);
 	var clipy = getclipy(192, 5, frame);
 
-	// ctx.drawimage(image, clipx, clipy, clipwidth, clipheight, xcoord, ycoord, width, height);
-	ctx.drawImage(core.sprites.sprites.blast, clipx, clipy, 192, 192, core.information.pwidth * animation.left, core.information.pheight * animation.top, core.information.pwidth * 15, core.information.pheight * 25);
+	// utils.drawImage(ctx, image, clipx, clipy, clipwidth, clipheight, xcoord, ycoord, width, height);
+	utils.drawImage(ctx, core.sprites.sprites.blast, clipx, clipy, 192, 192, core.information.pwidth * animation.left, core.information.pheight * animation.top, core.information.pwidth * 15, core.information.pheight * 25);
 }
 
 function attacksprite(core, animation, time) {
@@ -52,8 +52,8 @@ function attacksprite(core, animation, time) {
 	var clipx = getclipx(192, 5, frame);
 	var clipy = getclipy(192, 5, frame);
 
-	// ctx.drawimage(image, clipx, clipy, clipwidth, clipheight, xcoord, ycoord, width, height);
-	ctx.drawImage(core.sprites.sprites.swipe3, clipx, clipy, 192, 192, core.information.pwidth * animation.left, core.information.pheight * animation.top, core.information.pwidth * 15, core.information.pheight * 25);
+	// utils.drawImage(ctx, image, clipx, clipy, clipwidth, clipheight, xcoord, ycoord, width, height);
+	utils.drawImage(ctx, core.sprites.sprites.swipe3, clipx, clipy, 192, 192, core.information.pwidth * animation.left, core.information.pheight * animation.top, core.information.pwidth * 15, core.information.pheight * 25);
 }
 
 function playcardsprite(core, animation, time){
@@ -62,8 +62,8 @@ function playcardsprite(core, animation, time){
 	var clipx = getclipx(192, 5, frame);
 	var clipy = getclipy(192, 5, frame);
 
-	// ctx.drawimage(image, clipx, clipy, clipwidth, clipheight, xcoord, ycoord, width, height);
-	ctx.drawImage(core.sprites.sprites.playcardsprite, clipx, clipy, 192, 192, core.information.pwidth * animation.left, core.information.pheight * animation.top, core.information.pwidth * 25, core.information.pheight * 45);
+	// utils.drawImage(ctx, image, clipx, clipy, clipwidth, clipheight, xcoord, ycoord, width, height);
+	utils.drawImage(ctx, core.sprites.sprites.playcardsprite, clipx, clipy, 192, 192, core.information.pwidth * animation.left, core.information.pheight * animation.top, core.information.pwidth * 25, core.information.pheight * 45);
 
 }
 
@@ -108,8 +108,8 @@ function goldcoinsprite(core, animation, time) {
 		var adjustleft = -.3;
 	}
 
-	// ctx.drawimage(image, clipx, clipy, clipwidth, clipheight, xcoord, ycoord, width, height);
-	ctx.drawImage(core.sprites.sprites.coins, clipx, clipy, 40, 40, core.information.pwidth * (animation.left + adjustleft), core.information.pheight * (animation.top + adjusttop), core.information.pwidth * 2.5, core.information.pheight * 4);
+	// utils.drawImage(ctx, image, clipx, clipy, clipwidth, clipheight, xcoord, ycoord, width, height);
+	utils.drawImage(ctx, core.sprites.sprites.coins, clipx, clipy, 40, 40, core.information.pwidth * (animation.left + adjustleft), core.information.pheight * (animation.top + adjusttop), core.information.pwidth * 2.5, core.information.pheight * 4);
 	
 }
 
@@ -154,7 +154,7 @@ function silvercoinsprite(core, animation, time) {
 		var adjustleft = -.3;
 	}
 
-	// ctx.drawimage(image, clipx, clipy, clipwidth, clipheight, xcoord, ycoord, width, height);
-	ctx.drawImage(core.sprites.sprites.coins, clipx, clipy, 40, 40, core.information.pwidth * (animation.left + adjustleft), core.information.pheight * (animation.top + adjusttop), core.information.pwidth * 2.5, core.information.pheight * 4);
+	// utils.drawImage(ctx, image, clipx, clipy, clipwidth, clipheight, xcoord, ycoord, width, height);
+	utils.drawImage(ctx, core.sprites.sprites.coins, clipx, clipy, 40, 40, core.information.pwidth * (animation.left + adjustleft), core.information.pheight * (animation.top + adjusttop), core.information.pwidth * 2.5, core.information.pheight * 4);
 
 }

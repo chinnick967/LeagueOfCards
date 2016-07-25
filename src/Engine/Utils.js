@@ -3,7 +3,9 @@ var utils = (function () {
 	return {
 		interpolate: interpolate,
 		isBool: isBool,
-		loadImage: loadImage
+		loadImage: loadImage,
+		slice: slice,
+		drawImage: drawImage
 	};
 
 	function interpolate (str, data) {
@@ -33,6 +35,20 @@ var utils = (function () {
 			};
 			image.src = url;
 		});
+	}
+
+	function slice (args) {
+		return [].slice.call(args);
+	}
+
+	function drawImage (ctx) {
+		if(!ctx) return;
+		let args = slice(arguments);
+		args.shift();
+		let image = args[0];
+		if(image instanceof HTMLImageElement || image instanceof HTMLVideoElement || image instanceof HTMLVideoElement) {
+			ctx.drawImage.apply(ctx, args);
+		}
 	}
 
 }());

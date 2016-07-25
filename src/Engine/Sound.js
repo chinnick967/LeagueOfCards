@@ -28,7 +28,7 @@ function drawSound(core) {
 		
 	}
 	// Draw the sound bar image
-	ctx.drawImage(core.sprites.icons.soundimg, core.information.pwidth * 4.5, core.information.pheight * 93, core.information.pwidth * 5, core.information.pheight * 6);
+	utils.drawImage(ctx, core.sprites.icons.soundimg, core.information.pwidth * 4.5, core.information.pheight * 93, core.information.pwidth * 5, core.information.pheight * 6);
 
 }
 

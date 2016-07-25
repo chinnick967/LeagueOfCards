@@ -2,6 +2,7 @@ const socketIo = require ('socket.io');
 const uuid = require ('node-uuid');
 const global = require ('./global');
 const Interval = require ('./Interval');
+const Timeout = require('./Timeout');
 
 const MULLIGAN_INTERVAL = 4;
 const TURN_INTERVAL = 11;
@@ -29,7 +30,9 @@ module.exports = function (server) {
 		users++;
 		var userId = Math.round (Math.random () * 10000);
 		var currentGame = null;
+		var currentPlayer = null;
 
+		socket.on ('game:turn:switch', handleSwitchTurn);
 		socket.on ('game:end', handleGameEnd);
 		socket.on ('queue:cancel', handleQueueCancel);
 		socket.on ('queue:join', joinQueue);
@@ -50,9 +53,12 @@ module.exports = function (server) {
 
 		function startGame(game) {
 			var timers = game.timers;
-			timers.mulligan = setTimeout (function () {
+			timers.mulligan = new Timeout(function () {
+				timers.active.clear();
 				startTimer (game);
 			}, (MULLIGAN_INTERVAL * 1000));
+			timers.mulligan.start();
+			timers.active = timers.mulligan;
 			game.creator.emit ('game:found', generateGameFoundResponse (true));
 			game.creator.broadcast.to (game.id).emit ('game:found', generateGameFoundResponse (false));
 
@@ -79,16 +85,21 @@ module.exports = function (server) {
 				sendTurn (game, 'TURN', TURN_INTERVAL);
 			}, (TURN_INTERVAL * 1100));
 			timers.main.start();
+			timers.active = timers.main;
 		}
 
 		function startDefenseTimer(game) {
 			var timers = game.timers;
 			timers.main.pause ();
 			sendTurn (game, 'defense', DEFENSE_INTERVAL);
-			setTimeout (function () {
+			timers.defense = new Timeout (function () {
+				timers.active.clear();
 				sendTurn (game, 'turn', Math.round (timers.main.timeLeft / 1000));
 				timers.main.continue ();
+				timers.active = timers.main;
 			}, (DEFENSE_INTERVAL * 1000));
+			timers.defense.start();
+			timers.active = timers.defense;
 		}
 
 		function sendTurn(game, type, interval, player) {
@@ -107,7 +118,7 @@ module.exports = function (server) {
 			game.players[1].status = 'joined';
 			game.players[1].data = {};
 			game.status = 'full';
-
+			currentPlayer = 2;
 			games[game.id].onEnd.push(function () {
 				currentGame = null;
 			});
@@ -119,7 +130,7 @@ module.exports = function (server) {
 		function createGame() {
 			var gameId = uuid.v4 ();
 			socket.join (gameId);
-
+			currentPlayer = 1;
 			games[gameId] = {
 				players: [{
 					user: userId,
@@ -143,6 +154,7 @@ module.exports = function (server) {
 					start: null
 				},
 				timers: {
+					active: null,
 					main: null,
 					defense: null,
 					mulligan: null
@@ -172,7 +184,9 @@ module.exports = function (server) {
 		}
 
 		function removeGame() {
-			if (currentGame && games[currentGame.id]) {
+			currentPlayer = null;
+			var game = getGame();
+			if (currentGame && game) {
 				var gameId = '' + currentGame.id;
 				if (games[gameId].timers.main) {
 					games[gameId].timers.main.stop ();
@@ -189,10 +203,11 @@ module.exports = function (server) {
 
 		function handleGameActionSubmit(data) {
 			var action = data.action;
-			var game = games[currentGame.id];
+			var game = getGame();
 			if (action.name === 'Attack') {
 				startDefenseTimer (game);
 			}
+
 			socket.broadcast.to (game.id).emit ('game:action:submit', {action: action});
 		}
 
@@ -212,6 +227,19 @@ module.exports = function (server) {
 			});
 
 			removeGame ();
+		}
+
+		function handleSwitchTurn (e) {
+			var game = getGame();
+			if (currentPlayer === game.turn.player) {
+				game.timers.active.flush();
+			}
+		}
+
+		function getGame () {
+			if(currentGame && currentGame.id) {
+				return games[currentGame.id];
+			}
 		}
 	}
 

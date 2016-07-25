@@ -20,6 +20,7 @@ module.exports = function () {
 			err,
 			JSON.stringify(err, null, 2)
 		].join('\n')));
+		process.exit(1);
 		return Promise.reject(err);
 	});
 };
