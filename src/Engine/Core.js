@@ -63,7 +63,7 @@ function drawcard(core, card, width, left, top, rotation, hover) {
 		ctx.fillRect(core.information.pwidth * (left + .6), core.information.pheight * (top + .6), core.information.pwidth * (width - 1.2), core.information.pheight * (height - 1.2));
 		
 		// draw the card
-		ctx.drawImage(asset, core.information.pwidth * left, core.information.pheight * top, core.information.pwidth * width, core.information.pheight * height);
+		utils.drawImage(ctx, asset, core.information.pwidth * left, core.information.pheight * top, core.information.pwidth * width, core.information.pheight * height);
 		
 			// draw the card values
 			ctx.fillStyle = 'white';
@@ -1050,7 +1050,7 @@ function drawcardback(core, card, left, top, width, height, rotation) {
 	
 	ctx.fillRect(core.information.pwidth * (left + .5), core.information.pheight * (top + .5), core.information.pwidth * (width - 1), core.information.pheight * (height - 1));
 	
-	ctx.drawImage(card.back, core.information.pwidth * left, core.information.pheight * top, core.information.pwidth * width, core.information.pheight * height);
+	utils.drawImage(ctx, card.back, core.information.pwidth * left, core.information.pheight * top, core.information.pwidth * width, core.information.pheight * height);
 	
 	ctx.restore();
 	
@@ -2078,9 +2078,10 @@ function resettowerhealth(core) {
 
 }
 
-function developerspecificcard(core, deck, name) {
+function developerspecificcard(core, deck_arg, name) {
+	var deck = [].concat(deck_arg);
 	for (var i = 0; i < deck.length; i++) {
-		if (deck[i].name == name) {
+		if (deck[i] && deck[i].name == name) {
 			return i;
 		}
 	}

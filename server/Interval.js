@@ -56,6 +56,11 @@ Interval.prototype = Object.assign(Interval.prototype, {
 		clearInterval(this.intervalId);
 		this.start();
 		return this;
+	},
+
+	flush () {
+		this.reset(true);
+		return this;
 	}
 
 });

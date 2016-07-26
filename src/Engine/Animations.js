@@ -97,7 +97,7 @@ function drawanimation(core, animation, index) {
 
 		ctx.save();
 		ctx.globalAlpha = 1 - (time * 2);
-		ctx.drawImage(animation.card, core.information.pwidth * x, core.information.pheight * y, core.information.pwidth * 2.5, core.information.pheight * 7);
+		utils.drawImage(ctx, animation.card, core.information.pwidth * x, core.information.pheight * y, core.information.pwidth * 2.5, core.information.pheight * 7);
 		ctx.restore();
 	}
 
@@ -368,7 +368,7 @@ function addgoldanimation(core, animation, index) {
 		var flipfront = document.getElementById("FlipFront");
 		var flipfrontctx = flipfront.getContext("2d");
 
-		flipfrontctx.drawImage(card.back, 0, 0, 87, 130);
+		flipfrontutils.drawImage(ctx, card.back, 0, 0, 87, 130);
 	}
 
 	animation.firstrun = 1;
@@ -404,7 +404,7 @@ function cardflipanimation(core, animation, index) {
 		ctx.save();
 		ctx.translate(1000, 0);
 		ctx.scale(-1, 1);
-		ctx.drawImage(card.back, core.information.pwidth * 42.5, core.information.pheight * 25, core.information.pwidth * 15, core.information.pheight * 15 * 2.66);
+		utils.drawImage(ctx, card.back, core.information.pwidth * 42.5, core.information.pheight * 25, core.information.pwidth * 15, core.information.pheight * 15 * 2.66);
 		ctx.restore();
 	} else if (time >= 1 && time < 2) {
 
@@ -447,7 +447,7 @@ function cardflipanimation(core, animation, index) {
       var yskew = skewSin * i / height;
       // Top half
       ctx.setTransform(xScale, -yskew, 0, yScale, widthOffset + x, heightOffset + y);
-      ctx.drawImage(
+      utils.drawImage(ctx, 
         img,
         0, drawHeightTop, width, 2,
         0, drawHeightTop, width, 2
@@ -456,7 +456,7 @@ function cardflipanimation(core, animation, index) {
       // Bottom Half
       var drawHeightBottom = halfHeight + i;
       ctx.setTransform(xScale, yskew, 0, yScale, widthOffset + x, heightOffset + y);
-      ctx.drawImage(img,
+      utils.drawImage(ctx, img,
         0, drawHeightBottom, width, 2,
         0, drawHeightBottom, width, 2);
     }
