@@ -118,16 +118,20 @@ var assets = {
         "stardust": "Assets/Sprites/stardust.jpg"
     },
     "icons": {
+        "ad": "Assets/Icons/ad.png",
+        "ap": "Assets/Icons/ap.png",
         "armor": "Assets/Icons/armor.png",
         "bluecard": "Assets/Icons/bluecard.png",
         "bluetimer": "Assets/Icons/bluetimer.png",
         "cardback": "Assets/Icons/cardback.png",
+        "cardshield": "Assets/Icons/cardshield.png",
         "cardsicon": "Assets/Icons/cardsicon.png",
         "defenseicon": "Assets/Icons/defenseicon.png",
         "fullscreen": "Assets/Icons/fullscreen.png",
         "gold": "Assets/Icons/gold.png",
         "goldincome": "Assets/Icons/goldincome.png",
         "magicresist": "Assets/Icons/magicresist.png",
+        "mix": "Assets/Icons/mix.png",
         "nexus": "Assets/Icons/nexus.png",
         "purpletimer": "Assets/Icons/purpletimer.png",
         "redcard": "Assets/Icons/redcard.png",
@@ -138,6 +142,7 @@ var assets = {
         "soundimg": "Assets/Icons/soundimg.png",
         "threecards": "Assets/Icons/threecards.png",
         "tower": "Assets/Icons/tower.png",
+        "true": "Assets/Icons/true.png",
         "yellowcard": "Assets/Icons/yellowcard.png",
         "braumshield": "Assets/Icons/braumshield.jpg"
     }

@@ -8,16 +8,17 @@ Sand Soldier -- done
 Blue Melee Minion -- done
 Gangplank -- done
 Gangplank Barrel -- done
-Loaded Dice
+Loaded Dice -- done
 Vlad
 Spinning Axe
 Draven -- done
-Astral Infusion
+Astral Infusion -- done
 Lissandra
 Ashe
 Crystal Arrow
 Frostbite
-Nasus
+Nasus -- done
 Critter -- done
 Gromp -- done
-Suicide Frog
+Suicide Frog -- done
+Chomp -- done

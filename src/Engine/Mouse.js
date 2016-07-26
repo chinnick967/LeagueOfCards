@@ -16,15 +16,19 @@ function mouseinit(core) {
 		core.information.mouseup = 0;
 
 		// click functions
-		if (core.information.attacked != 1) {
+		if (core.information.attacked != 1 && core.mechanics.target != -1) {
 			setattacker(core);
-			declarespell(core, core.board['s' + core.information.currentslothover]);
 			declareattack(core);
 		}
 	});
 	mouseEmitter.on('up', function(){
 		core.information.mousedown = 0;
 		core.information.mouseup = 1;
+
+		target(core);
+		if (core.mechanics.target != -1) {
+			declarespell(core, core.board['s' + core.information.currentslothover]);
+		}
 	});
 
 	$GameCanvas.mousedown(event => mouseEmitter.emit('down', event));

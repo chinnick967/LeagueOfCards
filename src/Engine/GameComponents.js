@@ -7,16 +7,18 @@ function drawComponents(core) {
 	drawTimer(core);
 	drawHandIcon(core);
 	drawPlayerIcons(core);
-	drawSettingsIcon(core);
+	//drawSettingsIcon(core);
 	drawButtons(core);
 	drawboard(core);
 	drawnames(core);
 	drawattackbutton(core);
-	drawshields(core);
 	drawinfolabels(core);
+	choosecursor(core);
 	// test
 	settime(core);
-
+	drawcardstats(core);
+	drawshields(core);
+	
 }
 
 function drawCardSlots(core) {
@@ -253,22 +255,38 @@ ctx.drawImage(core.sprites.icons.fullscreen, core.information.pwidth * 95.5, cor
 
 function drawButtons(core) {
 
+	if (core.information.xoffset >= 79 && core.information.xoffset <= 89 && core.information.yoffset >= 92.5 && core.information.yoffset <= 98.5 && core.information.focus == 'board') {
+		if (core.information.mousedown == 1 && core.information.turn == core.information.player && core.information.turnType != 'MULLIGAN') {
+			
+		}
+		ctx.globalAlpha = 0.7;
+	} else {
+		ctx.shadowBlur = 5;
+		ctx.shadowColor = 'black';
+		ctx.globalAlpha = 0.5;
+	}
+
 	// End Turn Button
-	ctx.shadowBlur = 5;
-	ctx.globalAlpha = 0.5;
 	ctx.fillStyle = '#862D63';
 	ctx.fillRect(core.information.pwidth * 79, core.information.pheight * 92.5, core.information.pwidth * 10, core.information.pheight * 6);
 	ctx.shadowBlur = 5;
+	ctx.shadowColor = 'black';
 	ctx.globalAlpha = 1;
 	ctx.fillStyle = '#897BAF';
 	ctx.font= core.information.pwidth * 2 + "px lifecraft";
 	ctx.fillText("End Turn", core.information.pwidth * 80.8, core.information.pheight * 96.8);
 	ctx.fillText("End Turn", core.information.pwidth * 80.8, core.information.pheight * 96.8);
 	ctx.fillText("End Turn", core.information.pwidth * 80.8, core.information.pheight * 96.8);
+
+	if (core.information.xoffset >= 67 && core.information.xoffset <= 77 && core.information.yoffset >= 92.5 && core.information.yoffset <= 98.5 && core.information.focus == 'board') {
+		ctx.globalAlpha = 0.7;
+	} else {
+		ctx.shadowBlur = 5;
+		ctx.shadowColor = 'black';
+		ctx.globalAlpha = 0.5;
+	}
 	
 	// Surrender Button
-	ctx.shadowBlur = 5;
-	ctx.globalAlpha = 0.5;
 	ctx.fillStyle = '#862D63';
 	ctx.fillRect(core.information.pwidth * 67, core.information.pheight * 92.5, core.information.pwidth * 10, core.information.pheight * 6);
 	ctx.globalAlpha = 1;
@@ -654,18 +672,20 @@ function drawattackbutton(core) {
 		// set global opacity if they haven't selected any attackers
 		if (!checkforattackers(core)) {
 			ctx.globalAlpha = .5;
-		} else if (core.information.xoffset >= 42.5 && core.information.xoffset <= 59.5 && core.information.yoffset >= 23 && core.information.yoffset <= 55) {
-			ctx.shadowBlur = 5;
-			ctx.shadowColor = 'orange';
+		} else if (core.information.xoffset >= 46 && core.information.xoffset <= 55.5 && core.information.yoffset >= 19 && core.information.yoffset <= 31.5) {
+			ctx.shadowColor = '#AA3939';
+			var counter = (core.information.time % 1 * 100) * (Math.PI / 100);
+			ctx.shadowBlur = (Math.sin(counter) / 2 + .5) * 20;
 		}
 		
-		ctx.drawImage(core.sprites.icons.rengar, core.information.pwidth * 42.5, core.information.pheight * 23, core.information.pwidth * 17, core.information.pheight * 22);
+		//ctx.drawImage(core.sprites.icons.rengar, core.information.pwidth * 42.5, core.information.pheight * 23, core.information.pwidth * 17, core.information.pheight * 22);
+		ctx.drawImage(core.sprites.icons.rengar, core.information.pwidth * 46, core.information.pheight * 19, core.information.pwidth * 9.5, core.information.pheight * 12.5);
 		
 		ctx.fillStyle = 'white';
 		ctx.font = core.information.pwidth * 4 + "px comicFont";
 		
 		// draw the timer text
-		ctx.fillText('Attack', core.information.pwidth * 42.5, core.information.pheight * 50.5);
+		//ctx.fillText('Attack', core.information.pwidth * 42.5, core.information.pheight * 50.5);
 	
 		ctx.restore();
 	
@@ -758,5 +778,106 @@ function drawinfolabels(core) {
 	}
 
 	ctx.restore();
+
+}
+
+function choosecursor(core) {
+
+	if (core.mechanics.target == -1) {
+		document.getElementById('GameCanvas').style.cursor = "url('Assets/targetcursor.png') 64 64, auto";
+	} else {
+		document.getElementById('GameCanvas').style.cursor = "url('Assets/cursor.png'), auto";
+	}
+
+}
+
+function drawcardstats(core) {
+
+	for (var i = 6; i <= 10; i++) {
+		var card = core.board['s' + i];
+
+		var sword;
+		if (card.damagetype == 'Physical') {
+			sword = core.sprites.icons.ad;
+		} else if (card.damagetype == 'Magic') {
+			sword = core.sprites.icons.ap;
+		} else if (card.damagetype == 'Mixed') {
+			sword = core.sprites.icons.mix;
+		} else {
+			sword = core.sprites.icons.true;
+		}
+
+		if (card != '' && typeof(card) != 'undefined') {
+			var aura = auras(core, card);
+			var json = getboardposition(core, i);
+			ctx.drawImage(sword, core.information.pwidth * (json.left + 14), core.information.pheight * (json.top + 1.5), core.information.pwidth * 3.4, core.information.pheight * 6);
+			ctx.drawImage(core.sprites.icons.cardshield, core.information.pwidth * (json.left + 14), core.information.pheight * (json.top  + 7), core.information.pwidth * 3.4, core.information.pheight * 6);
+
+			ctx.fillStyle = 'white';
+			ctx.font = core.information.pwidth * 3 + "px lifecraft";
+
+			if (aura.attack > 0) {
+				ctx.fillStyle = '#338A2E';
+			}
+			ctx.fillText(card.attack, core.information.pwidth * (json.left + 18), core.information.pheight * (json.top + 6.1));
+
+			ctx.fillStyle = 'white';
+
+			if (aura.defense > 0 && aura.defense + card.defense > card.maxhealth) {
+				ctx.fillStyle = '#338A2E';
+			}
+
+			if (card.defense < card.maxhealth + aura.defense) {
+				ctx.fillStyle = '#AA3939';
+			}
+
+			ctx.fillText(card.defense, core.information.pwidth * (json.left + 18), core.information.pheight * (json.top + 11.6));
+		}
+	}
+
+	for (var i = 16; i <= 20; i++) {
+		var card = core.board['s' + i];
+
+		var sword;
+		if (card.damagetype == 'Physical') {
+			sword = core.sprites.icons.ad;
+		} else if (card.damagetype == 'Magic') {
+			sword = core.sprites.icons.ap;
+		} else if (card.damagetype == 'Mixed') {
+			sword = core.sprites.icons.mix;
+		} else {
+			sword = core.sprites.icons.true;
+		}
+
+		if (card != '' && typeof(card) != 'undefined') {
+			var aura = auras(core, card);
+			var json = getboardposition(core, i);
+			ctx.drawImage(sword, core.information.pwidth * (json.left - 4), core.information.pheight * (json.top + 1.5), core.information.pwidth * 3.4, core.information.pheight * 6);
+			ctx.drawImage(core.sprites.icons.cardshield, core.information.pwidth * (json.left - 4), core.information.pheight * (json.top  + 7), core.information.pwidth * 3.4, core.information.pheight * 6);
+
+			ctx.fillStyle = 'white';
+			ctx.font = core.information.pwidth * 3 + "px lifecraft";
+
+			if (aura.attack > 0) {
+				ctx.fillStyle = '#338A2E';
+			}
+
+			var adjust = ctx.measureText(card.attack + aura.attack).width;
+			ctx.fillText(card.attack + aura.attack, (core.information.pwidth * (json.left - 4.5)) - adjust, core.information.pheight * (json.top + 6.1));
+
+			ctx.fillStyle = 'white';
+
+			if (aura.defense > 0 && aura.defense + card.defense > card.maxhealth) {
+				ctx.fillStyle = '#338A2E';
+			}
+
+			if (card.defense < card.maxhealth + aura.defense) {
+				ctx.fillStyle = '#AA3939';
+			}
+
+			adjust = ctx.measureText(card.defense + aura.defense).width;
+			ctx.fillText(card.defense + aura.defense, (core.information.pwidth * (json.left - 4.5)) - adjust, core.information.pheight * (json.top + 11.6));
+		}
+	}
 
 }

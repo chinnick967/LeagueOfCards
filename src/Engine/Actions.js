@@ -60,6 +60,8 @@ function actionsorter(core, action, index) {
 		action_attack(core, action, index);
 	} else if (action.name == 'Defend') {
 		action_defend(core, action, index);
+	} else if (action.name == 'Cast') {
+		action_cast(core, action, index);
 	}
 }
 
@@ -70,7 +72,7 @@ function action_playcard(core, action, index) {
 	})[0];*/
 
 	var card = action.var1;
-	
+
 	// get the assets
 	var imagename = card.name.toLowerCase();
 	imagename = imagename.replace(/ /g,'');
@@ -80,6 +82,12 @@ function action_playcard(core, action, index) {
 	card.back = core.sprites.icons.cardback;
 
 	if (action.firstrun != 1) {
+
+		/*if (!action.var3) {
+			console.log('test');
+			// subtract one from hand 
+			core['player' + action.sendingplayer].handlength -= 1;
+		}*/
 		
 		// add effect and control
 		card.control = action.sendingplayer;
@@ -157,6 +165,24 @@ function action_defend(core, action, index) {
 	
 	// defend
 	defend(core, action);
+	
+	// complete action
+	core.actions.actionarray[index].complete = 1;
+	core.actions.actionarray[index].running = 0;
+	
+}
+
+function action_cast(core, action, index) {
+	
+	var cardindex = action.var1;
+	var card = core.board['s' + cardindex];
+	var target = action.var2;
+	
+	if (target == '') {
+		activatespell(core, card, cardindex);
+	} else {
+		activatespell(core, card, cardindex, target);
+	}
 	
 	// complete action
 	core.actions.actionarray[index].complete = 1;

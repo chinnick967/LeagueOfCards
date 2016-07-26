@@ -32,6 +32,14 @@ function animationselector(core, animation, index) {
 		cardflipanimation(core, animation, index);
 	} else if (animation.type == 'goldincome') {
 		goldincomeanimation(core, animation, index);
+	} else if (animation.type == 'addgold') {
+		addgoldanimation(core, animation, index);
+	} else if (animation.type == 'heal') {
+		healanimation(core, animation, index);
+	} else if (animation.type == 'destroy') {
+		destroycardanimation(core, animation, index);
+	} else if (animation.type == 'destroytower') {
+		destroytoweranimation(core, animation, index);
 	}
 	
 }
@@ -166,6 +174,67 @@ function cardhealthanimation(core, animation, index) {
 	
 }
 
+function destroycardanimation(core, animation, index) {
+	var time = core.information.time - animation.starttime;
+	animation.animationlength = 1;
+	
+	getboardposition(core, animation.var1);
+	animation.left = core.information.leftposition - 1.3;
+	animation.top = core.information.topposition - 4.8;
+	
+	deathsprite(core, animation, time);
+	
+	if (time >= animation.animationlength) {
+		core.animation[index].complete = 1;
+	}
+}
+
+function destroytoweranimation(core, animation, index) {
+	var time = core.information.time - animation.starttime;
+	animation.animationlength = 1.5;
+
+	if (animation.var1 == 2) {
+		if (animation.var2 == 1) {
+			animation.left = 61.1;
+		} else if (animation.var2 == 2) {
+			animation.left = 59.1;
+		} if (animation.var2 == 3) {
+			animation.left = 57.1;
+		}
+	} else if (animation.var1 == 1) {
+		if (animation.var2 == 1) {
+			animation.left = 34.1;
+		} else if (animation.var2 == 2) {
+			animation.left = 36.1;
+		} if (animation.var2 == 3) {
+			animation.left = 38.1;
+		}
+	}
+
+	animation.top = 4;
+	
+	explodesprite(core, animation, time);
+	
+	if (time >= animation.animationlength) {
+		core.animation[index].complete = 1;
+	}
+}
+
+function healanimation(core, animation, index) {
+	var time = core.information.time - animation.starttime;
+	animation.animationlength = 1;
+	
+	getboardposition(core, animation.var1);
+	animation.left = core.information.leftposition - 1;
+	animation.top = core.information.topposition - 5.2;
+	
+	healsprite(core, animation, time);
+	
+	if (time >= animation.animationlength) {
+		core.animation[index].complete = 1;
+	}
+}
+
 function attackanimation(core, animation, index) {
 	var time = core.information.time - animation.starttime;
 	animation.animationlength = 1;
@@ -240,7 +309,7 @@ function goldincomeanimation(core, animation, index) {
 
 	ctx.save();
 	ctx.globalAlpha = 1 - time;
-	animation.top = 5 - (time * 3.5);
+	animation.top = 7 - (time * 6);
 
 	if (player == 1) {
 		animation.left = 38.2;
@@ -251,6 +320,37 @@ function goldincomeanimation(core, animation, index) {
 	silvercoinsprite(core, animation, time);
 
 	ctx.restore();
+
+	if (time >= animation.animationlength) {
+		core.animation[index].complete = 1;
+	}
+
+}
+
+function addgoldanimation(core, animation, index) {
+
+	var time = core.information.time - animation.starttime;
+	animation.animationlength = .8;
+
+	var player = animation.var1;
+
+	ctx.save();
+	ctx.globalAlpha = 1 - time;
+	animation.top = 7 - (time * 6);
+
+	if (player == 1) {
+		animation.left = 38.2;
+	} else if (player == 2) {
+		animation.left = 61.8;
+	}
+
+	goldcoinsprite(core, animation, time);
+
+	ctx.restore();
+
+	if (time >= animation.animationlength) {
+		core.animation[index].complete = 1;
+	}
 
 }
 
@@ -311,7 +411,7 @@ function cardflipanimation(core, animation, index) {
 		// flip animation
 		var image = degree >= 90 ? frontCard: backCard;
 		ctx.save();
-		cardfliprender(image, degree, 300, 140.5, .355, 0);
+		cardfliprender(image, degree, core.information.pwidth * 30.5, core.information.pheight * 23.57, .355, 0);
 		ctx.restore();
 
 	} else if (time >= 2 && time <= 4) {

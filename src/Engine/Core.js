@@ -47,9 +47,9 @@ function drawcard(core, card, width, left, top, rotation, hover) {
 		
 		// attacking effect
 		if (card.attacking == 1) {
-			ctx.shadowColor = '#AA3939';
+			ctx.shadowColor = '#9668B3';
 			//ctx.shadowBlur = (parseInt(core.information.time) % 2) * 2 + 15;
-			var counter = (core.information.time % 1 * 100) * (Math.PI / 100);
+			var counter = (core.information.time % 1 * 140) * (Math.PI / 100);
 			ctx.shadowBlur = (Math.sin(counter) / 2 + .5) * 20;
 			//ctx.shadowBlur = 15;
 			ctx.fillRect(core.information.pwidth * (left + .6), core.information.pheight * (top + .6), core.information.pwidth * (width - 1.2), core.information.pheight * (height - 1.2));
@@ -70,6 +70,8 @@ function drawcard(core, card, width, left, top, rotation, hover) {
 			
 			ctx.font = core.information.pwidth * width / 8.333 + "px lifecraft";
 			adjust = ctx.measureText(card.cost).width / 2;
+
+		ctx.shadowBlur = 0;
 			
 		if (type != 'Spell') {
 			// card cost
@@ -91,14 +93,14 @@ function drawcard(core, card, width, left, top, rotation, hover) {
 			adjust = ctx.measureText(attack).width / 2;
 			ctx.fillText(attack, core.information.pwidth * (left + (width * .787)) - adjust, core.information.pheight * (top + (height * .483)));
 
-			if (card.defense < card.maxhealth) {
+			if (card.defense < card.maxhealth + aura.defense) {
 				ctx.fillStyle = '#AA3939';
 			} else {
 				ctx.fillStyle = 'white';
 			}
 
-			if (aura.defense > 0 && card.defense > card.maxhealth) {
-				ctx.fillStyle = '#AA3939';
+			if (aura.defense > 0 && aura.defense + card.defense > card.maxhealth) {
+				ctx.fillStyle = '#338A2E';
 			}
 
 			var defense = card.defense + aura.defense;
@@ -566,7 +568,7 @@ function playcard(core, card, player, slot) {
 		// play card action
 		var action = {};
 
-		action.name = 'PlayCard', action.sendingplayer = '1', action.receivingplayer = '2', action.var1 = card, action.var2 = slot;
+		action.name = 'PlayCard', action.sendingplayer = '1', action.receivingplayer = '2', action.var1 = card, action.var2 = slot, action.var3 = summon;
 		submitaction(core, action);
 		
 		// get board left and top for the animation and then play the animation
@@ -584,10 +586,11 @@ function playcard(core, card, player, slot) {
 
 		// add effect and control
 		card.control = 1;
-		card.effect = geteffect(core, card.name, card.control);
+		card.position = slot;
+		card.effect = geteffect(core, card, card.name, card.control);
 
 		// check for summon effects
-		setTimeout(function(){ checkeffects(core); }, 600);
+		setTimeout(function(){ checkeffects(core, 'summon'); }, 600);
 	
 	} else if (player == 1 && slot >= 1 && slot <= 5 && card.type == 'Spell' && core.player1.gold >= cost) {
 	
@@ -616,7 +619,7 @@ function playcard(core, card, player, slot) {
 		
 		// play card action
 		var action = {};
-		action.name = 'PlayCard', action.sendingplayer = '1', action.receivingplayer = '2', action.var1 = card, action.var2 = slot;
+		action.name = 'PlayCard', action.sendingplayer = '1', action.receivingplayer = '2', action.var1 = card, action.var2 = slot, action.var3 = summon;
 		submitaction(core, action);
 		
 		// get board left and top for the animation and then play the animation
@@ -634,10 +637,11 @@ function playcard(core, card, player, slot) {
 
 		// add effect and control
 		card.control = 1;
-		card.effect = geteffect(core, card.name, card.control);
+		card.position = slot;
+		card.effect = geteffect(core, card, card.name, card.control);
 
 		// check for summon effects
-		setTimeout(function(){ checkeffects(core); }, 600);
+		setTimeout(function(){ checkeffects(core, 'summon'); }, 600);
 	
 	
 	} else if (player == 2 && slot >= 16 && slot <= 20 && card.type != 'Spell' && core.player2.gold >= cost) {
@@ -668,7 +672,7 @@ function playcard(core, card, player, slot) {
 		
 		// play card action
 		var action = {};
-		action.name = 'PlayCard', action.sendingplayer = '2', action.receivingplayer = '1', action.var1 = card, action.var2 = slot;
+		action.name = 'PlayCard', action.sendingplayer = '2', action.receivingplayer = '1', action.var1 = card, action.var2 = slot, action.var3 = summon;
 		submitaction(core, action);
 		
 		// get board left and top for the animation and then play the animation
@@ -686,10 +690,11 @@ function playcard(core, card, player, slot) {
 
 		// add effect and control
 		card.control = 2;
+		card.position = slot;
 		card.effect = geteffect(core, card.name, card.control);
 
 		// check for summon effects
-		setTimeout(function(){ checkeffects(core); }, 600);
+		setTimeout(function(){ checkeffects(core, 'summon'); }, 600);
 	
 	} else if (player == 2 && slot >= 11 && slot <= 15 && card.type == 'Spell' && core.player2.gold >= cost) {
 	
@@ -719,7 +724,7 @@ function playcard(core, card, player, slot) {
 		
 		// play card action
 		var action = {};
-		action.name = 'PlayCard', action.sendingplayer = '2', action.receivingplayer = '1', action.var1 = card, action.var2 = slot;
+		action.name = 'PlayCard', action.sendingplayer = '2', action.receivingplayer = '1', action.var1 = card, action.var2 = slot, action.var3 = summon;
 		submitaction(core, action);
 		
 		// get board left and top for the animation and then play the animation
@@ -737,10 +742,11 @@ function playcard(core, card, player, slot) {
 
 		// add effect and control
 		card.control = 2;
-		card.effect = geteffect(core, card.name, card.control);
+		card.position = slot;
+		card.effect = geteffect(core, card, card.name, card.control);
 
 		// check for summon effects
-		setTimeout(function(){ checkeffects(core); }, 600);
+		setTimeout(function(){ checkeffects(core, 'summon'); }, 600);
 	
 	}
 
@@ -764,8 +770,9 @@ function addtoboard (core, card, slot) {
 		card.control = 2;
 	}
 
+	card.position = slot;
 	// add effect and control
-	card.effect = geteffect(core, card.name, card.control);
+	card.effect = geteffect(core, card, card.name, card.control);
 	
 	if (slot == 0) {
 		
@@ -838,7 +845,7 @@ function addtoboard (core, card, slot) {
              // nothing
           }
 
-		  checkeffects(core);
+		  checkeffects(core, 'summon');
 
 }
 
@@ -970,9 +977,10 @@ function previewboardcard(core) {
 }
 
 function checkcurrenttower(core) {
-	
+
 	if (core.player1.tier1health == 0 && core.player1.currenttower == 1) {
 		core.player1.currenttower += 1;	
+		addanimation(core, 'destroytower', 300, 300, var1 = 1, var2 = 1, var3 = '');
 	} else if (core.player1.tier2health == 0 && core.player1.currenttower == 2) {
 		core.player1.currenttower += 1;	
 	} else if (core.player1.tier3health == 0 && core.player1.currenttower == 3) {
@@ -985,6 +993,8 @@ function checkcurrenttower(core) {
 	
 	if (core.player2.tier1health == 0 && core.player2.currenttower == 1) {
 		core.player2.currenttower += 1;	
+		console.log('test');
+		addanimation(core, 'destroytower', 300, 300, var1 = 1, var2 = 1, var3 = '');
 	} else if (core.player2.tier2health == 0 && core.player2.currenttower == 2) {
 		core.player2.currenttower += 1;	
 	} else if (core.player2.tier3health == 0 && core.player2.currenttower == 3) {
@@ -1047,89 +1057,133 @@ function drawcardback(core, card, left, top, width, height, rotation) {
 }
 
 function getboardposition(core, position) {
+
+	var json = {};
 	
 	switch(position) {
     case 1:
         core.information.topposition = 10;
 		core.information.leftposition = 4.5;
+		json.top = 10;
+		json.left = 4.5;
         break;
     case 2:
         core.information.topposition = 26;
 		core.information.leftposition = 4.5;
+		json.top = 26;
+		json.left = 4.5;
         break;
 	case 3:
         core.information.topposition = 42;
 		core.information.leftposition = 4.5;
+		json.top = 42;
+		json.left = 4.5;
         break;
 	case 4:
         core.information.topposition = 58;
 		core.information.leftposition = 4.5;
+		json.top = 58;
+		json.left = 4.5;
         break;
 	case 5:
         core.information.topposition = 74;
 		core.information.leftposition = 4.5;
+		json.top = 74;
+		json.left = 4.5;
         break;
 	case 6:
         core.information.topposition = 10;
 		core.information.leftposition = 20;
+		json.top = 10;
+		json.left = 20;
         break;
     case 7:
         core.information.topposition = 26;
 		core.information.leftposition = 20;
+		json.top = 26;
+		json.left = 20;
         break;
 	case 8:
         core.information.topposition = 42;
 		core.information.leftposition = 20;
+		json.top = 42;
+		json.left = 20;
         break;
 	case 9:
         core.information.topposition = 58;
 		core.information.leftposition = 20;
+		json.top = 58;
+		json.left = 20;
         break;
 	case 10:
         core.information.topposition = 74;
 		core.information.leftposition = 20;
+		json.top = 74;
+		json.left = 20;
         break;
 	case 11:
         core.information.topposition = 10;
 		core.information.leftposition = 82.5;
+		json.top = 10;
+		json.left = 82.5;
         break;
     case 12:
         core.information.topposition = 26;
 		core.information.leftposition = 82.5;
+		json.top = 26;
+		json.left = 82.5;
         break;
 	case 13:
         core.information.topposition = 42;
 		core.information.leftposition = 82.5;
+		json.top = 42;
+		json.left = 82.5;
         break;
 	case 14:
         core.information.topposition = 58;
 		core.information.leftposition = 82.5;
+		json.top = 58;
+		json.left = 82.5;
         break;
 	case 15:
         core.information.topposition = 74;
 		core.information.leftposition = 82.5;
+		json.top = 74;
+		json.left = 82.5;
         break;
 	case 16:
         core.information.topposition = 10;
 		core.information.leftposition = 67;
+		json.top = 10;
+		json.left = 67;
         break;
     case 17:
         core.information.topposition = 26;
 		core.information.leftposition = 67;
+		json.top = 26;
+		json.left = 67;
         break;
 	case 18:
         core.information.topposition = 42;
 		core.information.leftposition = 67;
+		json.top = 42;
+		json.left = 67;
         break;
 	case 19:
         core.information.topposition = 58;
 		core.information.leftposition = 67;
+		json.top = 58;
+		json.left = 67;
         break;
 	case 20:
         core.information.topposition = 74;
 		core.information.leftposition = 67;
+		json.top = 74;
+		json.left = 67;
         break;
 	}
+
+	return json;
 	
 }
 
@@ -1327,17 +1381,42 @@ function declarespell(core, card) {
 	if (core.information.turn == core.information.player && core.information.currentslothover >= 1 && core.information.currentslothover <= 5 && core.information.player == 1 && core.board['s' + core.information.currentslothover] != '' && typeof(core.board['s' + core.information.currentslothover]) != 'undefined' && card.effect.activated != 1 && core.mechanics.spellactive != 1) {	
 		if (card.effect.targeted == 0) {
 			activatespell(core, card, index);
+			var action = {};
+			action.name = 'Cast', action.sendingplayer = core.information.player, action.receivingplayer = core.information.enemyplayer;
+			action.var1 = index;
+			action.var2 = '';
+			submitaction(core, action);
+
+		} else {
+			selecttarget(core, card, index);
 		}
 	} else if (core.information.turn == core.information.player && core.information.currentslothover >= 10 && core.information.currentslothover <= 15 && core.information.player == 2 && core.board['s' + core.information.currentslothover] != '' && typeof(core.board['s' + core.information.currentslothover]) != 'undefined' && card.effect.activated != 1 && core.mechanics.spellactive != 1) {
 		if (card.effect.targeted == 0) {
 			activatespell(core, card, index);
+			var action = {};
+			action.name = 'Cast', action.sendingplayer = core.information.player, action.receivingplayer = core.information.enemyplayer;
+			action.var1 = index;
+			action.var2 = '';
+			submitaction(core, action);
+		} else {
+			selecttarget(core, card, index);
 		}
 	}
 }
 
 function activatespell(core, card, index, target) {
 
+	target = target || 0;
+
 	removecardfromboard(core, index);
+
+	if (core.information.player == card.effect.player) {
+		// add chat message
+		core.chat.post(ChatBox.msg.CAST_CARD, {
+			player: core.information.player1ID,
+			card: card.name
+		});
+	}
 
 	target = target || 0;
 	var effect = card.effect;
@@ -1349,10 +1428,55 @@ function activatespell(core, card, index, target) {
 	core.mechanics.spellactive = 1;
 	setTimeout(function(){ core.mechanics.spellactive = 0; }, 4000);
 
-	setTimeout(function(){ effect.activate(); }, 4000);
+	if (target == 0) {
+		setTimeout(function(){ effect.activate(); }, 4000);
+	} else {
+		setTimeout(function(){ effect.activate(target); }, 4000);
+	}
 
 	addanimation(core, 'flipcard', 300, 300, var1 = card, var2 = card.effect.player, var3 = '');
 
+}
+
+function selecttarget(core, card, index) {
+
+	core.mechanics.target = -1;
+
+	var targetinterval = setInterval(function(){ 
+		if (core.mechanics.target >= 1 && core.mechanics.target <= 20) {
+			if (card.effect.checktarget(core, card, core.mechanics.target)) {
+				core.mechanics.target = '';
+				clearInterval(targetinterval);
+				activatespell(core, card, index, core.mechanics.target);
+				var action = {};
+				action.name = 'Cast', action.sendingplayer = core.information.player, action.receivingplayer = core.information.enemyplayer;
+				action.var1 = index;
+				action.var2 = core.mechanics.target;
+				submitaction(core, action);
+			} else {
+				clearInterval(targetinterval);
+				core.mechanics.target = '';
+			}
+		} else if (core.mechanics.target == 0) {
+			clearInterval(targetinterval);
+			core.mechanics.target = '';
+		} else if (core.mechanics.target == '') {
+			clearInterval(targetinterval);
+		}
+	}, 10);
+
+}
+
+function target(core) {
+	if (core.mechanics.target == -1) {
+		if (core.information.currentslothover >= 1 && core.information.currentslothover <= 20) {
+			core.mechanics.target = core.information.currentslothover;
+		} else {
+			core.mechanics.target = 0;
+		}
+	} else {
+		core.mechanics.target = '';
+	}
 }
 
 function resetturninfo(core) {
@@ -1432,7 +1556,7 @@ function checkforattackers(core) {
 
 function declareattack(core) {
 	
-	if (core.information.xoffset >= 42.5 && core.information.xoffset <= 59.5 && core.information.yoffset >= 23 && core.information.yoffset <= 55 && checkforattackers(core)) {
+	if (core.information.xoffset >= 46 && core.information.xoffset <= 55.5 && core.information.yoffset >= 19 && core.information.yoffset <= 31.5 && checkforattackers(core)) {
 		
 		var attackers = addattackers(core);
 		
@@ -1595,11 +1719,13 @@ function createshield(core, position) {
 	
 	if (position >= 6 && position <= 10) {
 		var adjust = (position - 6) * 16;
-		shield.left = 34;
+		//shield.left = 34;
+		shield.left = 41.3;
 		shield.top = 12 + adjust;
 	} else if (position >= 16 && position <= 20) {
 		var adjust = (position - 16) * 16;
-		shield.left = 61;
+		//shield.left = 61;
+		shield.left = 53.7;
 		shield.top = 12 + adjust;
 	}
 
@@ -1794,6 +1920,8 @@ function battlecards(core, attacker, defender) {
 
 	var attackaura = auras(core, attacker);
 	var defenderaura = auras(core, defender);
+
+	var damage = 0;
 	
 	// damage attacker
 	if (attacker.damagetype == 'Physical') {
@@ -1817,32 +1945,34 @@ function battlecards(core, attacker, defender) {
 	} else {
 		setTimeout(function(){ damagecard(core, defender, damage); }, 300);
 	}
-
+	
 	getboardposition(core, attacker.boardposition);
 	addanimation(core, 'attack', core.information.topposition - 5, core.information.leftposition, var1 = '', var2 = '', var3 = '');
 
+	var damage2 = 0;
+
 	// damage defender
 	if (defender.damagetype == 'Physical') {
-			damage = defender.attack + defenderaura.attack - attacker.armor;
+			damage2 = defender.attack + defenderaura.attack - attacker.armor;
 	} else if (defender.damagetype == 'Magic') {
-		damage = defender.attack + defenderaura.attack - attacker.magicresist;
+		damage2 = defender.attack + defenderaura.attack - attacker.magicresist;
 	} else if (defender.damagetype == 'Mixed') {
 		if (defender.magicresist <= attacker.armor) {
-			damage = defender.attack + defenderaura.attack - attacker.magicresist;
+			damage2 = defender.attack + defenderaura.attack - attacker.magicresist;
 		} else if (defender.armor <= attacker.magicresist) {
-			damage = defender.attack + defenderaura.attack - attacker.armor;
+			damage2 = defender.attack + defenderaura.attack - attacker.armor;
 		} else {
-			damage = defender.attack + defenderaura.attack - attacker.armor;
+			damage2 = defender.attack + defenderaura.attack - attacker.armor;
 		}
 	} else if (defender.damagetype == 'True') {
-		damage = defender.attack + defenderaura.attack;
+		damage2 = defender.attack + defenderaura.attack;
 	}
 
 	getboardposition(core, defender.boardposition);
 	addanimation(core, 'attack', core.information.topposition - 5, core.information.leftposition, var1 = '', var2 = '', var3 = '');
-
+	
 	if (damage >= 0) {
-		setTimeout(function(){ damagecard(core, attacker, damage); }, 300);
+		setTimeout(function(){ damagecard(core, attacker, damage2); }, 300);
 	} else {
 		setTimeout(function(){ damagecard(core, attacker, 0); }, 300);
 	}
@@ -1865,7 +1995,7 @@ function checkfordestroyedcard(core) {
 	for (var i = 6; i <= 10; i++) {
 		aura = auras(core, core.board['s' + i]);
 		var defense = core.board['s' + i].defense + aura.defense;
-		if (defense <= 0) {
+		if (defense <= 0 && core.board['s' + i].destroyed != true) {
 			destroycard(core, i);
 		}
 	}
@@ -1873,7 +2003,7 @@ function checkfordestroyedcard(core) {
 	for (var i = 16; i <= 20; i++) {
 		aura = auras(core, core.board['s' + i]);
 		var defense = core.board['s' + i].defense + aura.defense;
-		if (defense <= 0) {
+		if (defense <= 0 && core.board['s' + i].destroyed != true) {
 			destroycard(core, i);
 		}
 	}
@@ -1888,26 +2018,37 @@ function destroycard(core, position) {
 	}
 
 	// insert destroyed card animation
+	addanimation(core, 'destroy', core.information.topposition - 5, core.information.leftposition, var1 = position, var2 = '', var3 = '');
+
+	core.board['s' + position].destroyed = true;
 
 	// remove card from board
-	core.board['s' + position] = '';
+	setTimeout(function(){ core.board['s' + position] = ''; }, 500);
 
 	// check for card on death effect
-	checkeffects(core)
+	checkeffects(core, 'destroy');
 
 }
 
 function changetower(core) {
 
-	if (core.player1.currenthealth <= 0) {
-		core.player1.currenttower++;
-		resettowerhealth(core);
+	if (core.player1.currenthealth == 0 && core.player1.currenttower == 4) {
+		EndGame.fireEndGame(core, 1);
+	} else if(core.player2.nexushealth == 0 && core.player1.currenttower == 4) {
+		EndGame.fireEndGame(core, 2);
 	}
 
-	if (core.player2.currenthealth <= 0) {
-		core.player2.currenttower++;
-		resettowerhealth(core);
-	}
+		if (core.player1.currenthealth <= 0) {
+			addanimation(core, 'destroytower', 300, 300, var1 = 1, var2 = core.player1.currenttower, var3 = '');
+			core.player1.currenttower++;
+			resettowerhealth(core);
+		}
+
+		if (core.player2.currenthealth <= 0) {
+			addanimation(core, 'destroytower', 300, 300, var1 = 1, var2 = core.player1.currenttower, var3 = '');
+			core.player2.currenttower++;
+			resettowerhealth(core);
+		}
 	
 }
 
@@ -1953,8 +2094,8 @@ function addcardtohand(core, number) {
 			if (gethandlength(core) < 7) {
 				for (var j = 0; j < 7; j++) {
 					if (core.player1.hand[j] == '' || typeof(core.player1.hand[j]) == 'undefined') {
-						//var deckcard = core.player1.deck[core.player1.deck.length - 1];
-						var deckcard = core.player1.deck[developerspecificcard(core, core.player1.deck, 'Loaded Dice')];
+						core.player1.handlength += 1;
+						var deckcard = core.player1.deck[core.player1.deck.length - 1];
 						core.player1.hand[j] = deckcard;
 						core.player1.deck.pop();
 						j = 7;
@@ -1968,6 +2109,7 @@ function addcardtohand(core, number) {
 			if (gethandlength(core) < 7) {
 				for (var j = 0; j < 7; j++) {
 					if (core.player2.hand[j] == '' || typeof(core.player2.hand[j]) == 'undefined') {
+						core.player2.handlength += 1;
 						var deckcard = core.player2.deck[core.player2.deck.length - 1];
 						core.player2.hand[j] = deckcard;
 						core.player2.deck.pop();
@@ -2052,5 +2194,18 @@ function auras(core, card) {
 
 
 	return aura;
+
+}
+
+function turngold(core) {
+
+	if (core.information.turnType != 'MULLIGAN' && core.information.turnType != 'DEFENSE') {
+		if (core.information.turn == 1) {
+			core.player1.gold += core.player1.goldincome;
+		} else if (core.information.turn == 2) {
+			addanimation(core, 'addgold', 200, 200, var1 = 2, var2 = 'none', var3 = 'none');
+			core.player2.gold += core.player2.goldincome;
+		}
+	}
 
 }
