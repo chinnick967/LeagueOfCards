@@ -14,6 +14,7 @@ function startTimer(core) {
 
 		info.turn = data.player;
 		info.turnType = data.type;
+		core.information.changedturn = 0;
 		info.turntimestart = (Date.now() - data.start) / 1000;
 		info.turnstart = data.start;
 		info.turnlength = data.interval;

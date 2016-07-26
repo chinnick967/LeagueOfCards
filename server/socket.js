@@ -169,7 +169,6 @@ module.exports = function (server) {
 
 		function joinQueue() {
 			if (currentGame)return;
-
 			currentGame = checkForOpenGame ();
 			if (currentGame) {
 				joinGame (currentGame);
