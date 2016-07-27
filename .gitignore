@@ -55,6 +55,3 @@ node_modules
 config.json
 
 # app
-src/index.css
-src/bundle.js
-**/*.map
