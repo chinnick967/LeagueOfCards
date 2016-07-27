@@ -256,8 +256,7 @@ utils.drawImage(ctx, core.sprites.icons.fullscreen, core.information.pwidth * 95
 function drawButtons(core) {
 
 	if (core.information.xoffset >= 79 && core.information.xoffset <= 89 && core.information.yoffset >= 92.5 && core.information.yoffset <= 98.5 && core.information.focus == 'board') {
-		if (core.information.mousedown == 1 && core.information.turn == core.information.player && core.information.turnType != 'MULLIGAN' && core.information.changedturn == 0) {
-			core.information.changedturn == 1;
+		if (core.information.turnType != 'MULLIGAN' && core.events.clicked) {
 			socket.emit('game:turn:switch');
 		}
 		ctx.globalAlpha = 0.7;

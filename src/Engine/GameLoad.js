@@ -61,7 +61,7 @@ function init(gameInfo) {
 	};
 	// card effects object
 	core.effects = {};
-
+	core.events = {};
 	core.settings = settings;
 	core.player1 = player1;
 	core.player2 = player2;
@@ -133,8 +133,12 @@ function redraw(core) {
 
 		core.animateTimerActive && requestAnimationFrame(function(){ redraw(core); });
 
+		resetEvents();
 }
 
+function resetEvents () {
+	core.events.clicked = false;
+}
 
 function closeGameSockets () {
 	Object.keys(socket._callbacks)

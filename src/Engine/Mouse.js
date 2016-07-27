@@ -11,6 +11,11 @@ function mouseinit(core) {
 		core.information.yoffset = (m.offsetY / core.information.pheight);
 		
 	});
+
+	mouseEmitter.on('click', function () {
+		core.events.clicked = true;
+	});
+
 	mouseEmitter.on('down', function(){
 		core.information.mousedown = 1;
 		core.information.mouseup = 0;
