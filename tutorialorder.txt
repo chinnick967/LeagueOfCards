@@ -1,0 +1,11 @@
+1. intro
+2. stats and timer
+3. tower/nexus icon
+4. tower damage and health
+5. how to open hand
+6. how to play card
+7. Spells and Creature positions
+8. card stats
+9. attacking
+10. defending
+11. victory/defeat

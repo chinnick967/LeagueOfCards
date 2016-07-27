@@ -75,8 +75,16 @@ function getdeck(core) {
 	core.player1.deck = [];
 	core.player2.deck = [];
 	var counter = 0;
+
+	var availablecards = [0, 7, 25, 9, 30, 6, 21, 37, 35, 36, 38, 16, 5, 24, 13, 28, 29, 11];
+
 	for (var i = 0; i <= 60; i++) {
-		var card = core.assets.cards[counter];
+
+		var rand;
+
+		rand = Math.floor(Math.random() * availablecards.length);
+
+		var card = core.assets.cards[availablecards[rand]];
 
 		//card.asset = savedCard.asset;
 		//console.log(savedCard);

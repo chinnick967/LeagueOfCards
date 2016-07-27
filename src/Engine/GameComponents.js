@@ -678,7 +678,7 @@ function drawattackbutton(core) {
 			ctx.shadowBlur = (Math.sin(counter) / 2 + .5) * 20;
 		}
 		
-		utils.drawImage(ctx, core.sprites.icons.rengar, core.information.pwidth * 42.5, core.information.pheight * 23, core.information.pwidth * 17, core.information.pheight * 22);
+		utils.drawImage(ctx, core.sprites.icons.rengar, core.information.pwidth * 46, core.information.pheight * 19, core.information.pwidth * 9.5, core.information.pheight * 12.5);
 		
 		ctx.fillStyle = 'white';
 		ctx.font = core.information.pwidth * 4 + "px comicFont";
@@ -826,8 +826,10 @@ function drawcardstats(core) {
 				ctx.fillStyle = '#338A2E';
 			}
 
-			if (card.defense < card.maxhealth + aura.defense) {
+			if (card.defense + aura.defense < card.maxhealth + aura.defense) {
 				ctx.fillStyle = '#AA3939';
+			} else {
+				ctx.fillStyle = 'white';
 			}
 
 			ctx.fillText(card.defense + aura.defense, core.information.pwidth * (json.left + 18), core.information.pheight * (json.top + 11.6));
@@ -870,8 +872,10 @@ function drawcardstats(core) {
 				ctx.fillStyle = '#338A2E';
 			}
 
-			if (card.defense < card.maxhealth + aura.defense) {
+			if (card.defense + aura.defense < card.maxhealth + aura.defense) {
 				ctx.fillStyle = '#AA3939';
+			} else {
+				ctx.fillStyle = 'white';
 			}
 
 			adjust = ctx.measureText(card.defense + aura.defense).width;

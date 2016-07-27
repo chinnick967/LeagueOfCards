@@ -93,14 +93,14 @@ function drawcard(core, card, width, left, top, rotation, hover) {
 			adjust = ctx.measureText(attack).width / 2;
 			ctx.fillText(attack, core.information.pwidth * (left + (width * .787)) - adjust, core.information.pheight * (top + (height * .483)));
 
-			if (card.defense < card.maxhealth + aura.defense) {
+			if (aura.defense > 0 && aura.defense + card.defense > card.maxhealth) {
+				ctx.fillStyle = '#338A2E';
+			}
+
+			if (card.defense + aura.defense < card.maxhealth + aura.defense) {
 				ctx.fillStyle = '#AA3939';
 			} else {
 				ctx.fillStyle = 'white';
-			}
-
-			if (aura.defense > 0 && aura.defense + card.defense > card.maxhealth) {
-				ctx.fillStyle = '#338A2E';
 			}
 
 			var defense = card.defense + aura.defense;
