@@ -540,7 +540,7 @@ function playcard(core, card, player, slot) {
 	slot = slot || core.information.currentslothover;
 
 	// need to add check for gold
-	if (player == 1 && slot >= 6 && slot <= 10 && card.type != 'Spell' && core.player1.gold >= cost) {
+	if (player == 1 && slot >= 6 && slot <= 10 && card.type != 'Spell' && core.player1.gold >= cost && core.information.player == core.information.turn) {
 	
 		// remove card from hand
 		if (!summon) {
@@ -592,7 +592,7 @@ function playcard(core, card, player, slot) {
 		// check for summon effects
 		setTimeout(function(){ checkeffects(core, 'summon'); }, 600);
 	
-	} else if (player == 1 && slot >= 1 && slot <= 5 && card.type == 'Spell' && core.player1.gold >= cost) {
+	} else if (player == 1 && slot >= 1 && slot <= 5 && card.type == 'Spell' && core.player1.gold >= cost && core.information.player == core.information.turn) {
 	
 		// remove card from hand
 		if (!summon) {
@@ -644,7 +644,7 @@ function playcard(core, card, player, slot) {
 		setTimeout(function(){ checkeffects(core, 'summon'); }, 600);
 	
 	
-	} else if (player == 2 && slot >= 16 && slot <= 20 && card.type != 'Spell' && core.player2.gold >= cost) {
+	} else if (player == 2 && slot >= 16 && slot <= 20 && card.type != 'Spell' && core.player2.gold >= cost && core.information.player == core.information.turn) {
 	
 		// remove card from hand
 		if (!summon) {
@@ -696,7 +696,7 @@ function playcard(core, card, player, slot) {
 		// check for summon effects
 		setTimeout(function(){ checkeffects(core, 'summon'); }, 600);
 	
-	} else if (player == 2 && slot >= 11 && slot <= 15 && card.type == 'Spell' && core.player2.gold >= cost) {
+	} else if (player == 2 && slot >= 11 && slot <= 15 && card.type == 'Spell' && core.player2.gold >= cost && core.information.player == core.information.turn) {
 	
 		// remove card from hand
 		if (!summon) {

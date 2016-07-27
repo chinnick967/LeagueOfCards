@@ -180,8 +180,8 @@ function boardprep(core) {
 
 function setgold(core) {
 
-	core.player1.gold = 99;
-	core.player2.gold = 99;
+	core.player1.gold = 1;
+	core.player2.gold = 1;
 	
 	core.player1.goldincome = 1;
 	core.player2.goldincome = 1;
