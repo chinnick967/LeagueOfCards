@@ -190,6 +190,12 @@ module.exports = function (server) {
 				if (games[gameId].timers.main) {
 					games[gameId].timers.main.stop ();
 				}
+				Object.keys(game.timers).forEach(timer => {
+					var timer = game.timers[timer]; 
+					if(timer && typeof timer.clear === 'function') {
+						timer.clear();
+					}
+				});
 				setTimeout (function () {
 					if (currentGame) {
 						games[gameId].onEnd.forEach(cb => cb());

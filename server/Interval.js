@@ -44,7 +44,7 @@ Interval.prototype = Object.assign(Interval.prototype, {
 		return this;
 	},
 
-	stop () {
+	clear () {
 		clearInterval(this.intervalId);
 		return this;
 	},
