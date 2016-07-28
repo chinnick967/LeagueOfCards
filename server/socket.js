@@ -187,10 +187,7 @@ module.exports = function (server) {
 			var game = getGame();
 			if (currentGame && game) {
 				var gameId = '' + currentGame.id;
-				if (games[gameId].timers.main) {
-					games[gameId].timers.main.stop ();
-				}
-				Object.keys(game.timers).forEach(timer => {
+				Object.keys(games[gameId].timers).forEach(timer => {
 					var timer = game.timers[timer]; 
 					if(timer && typeof timer.clear === 'function') {
 						timer.clear();
