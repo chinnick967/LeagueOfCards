@@ -2202,6 +2202,7 @@ function turngold(core) {
 
 	if (core.information.turnType != 'MULLIGAN' && core.information.turnType != 'DEFENSE') {
 		if (core.information.turn == 1) {
+			addanimation(core, 'addgold', 200, 200, var1 = 1, var2 = 'none', var3 = 'none');
 			core.player1.gold += core.player1.goldincome;
 		} else if (core.information.turn == 2) {
 			addanimation(core, 'addgold', 200, 200, var1 = 2, var2 = 'none', var3 = 'none');

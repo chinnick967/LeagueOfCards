@@ -115,3 +115,38 @@ function sound(src) {
 		this.sound.loop = true;
 	}
 }
+
+function createsounds(core) {
+
+	core.sounds = {};
+
+	// background music
+	core.sounds.background = new sound('Assets/Sounds/TheBoyWhoShatteredTime.mp3');
+	core.sounds.background.volume(.1);
+	core.sounds.background.loop();
+	core.sounds.background.play();
+
+	// play card
+	core.sounds.playcard = new sound('Assets/Sounds/spell2.wav');
+
+	// destroy tower
+	core.sounds.destroytower = new sound('Assets/Sounds/towerdestroy.wav');
+
+	// swipe attack
+	core.sounds.swipe = new sound('Assets/Sounds/swipe.mp3');
+
+	// earn gold
+	core.sounds.gold = new sound('Assets/Sounds/gold.wav');
+
+	// tower damage
+	core.sounds.towerdamage = new sound('Assets/Sounds/towerdamage.mp3');
+
+	// declare attack
+	core.sounds.attack = new sound('Assets/Sounds/roar.mp3');
+
+	// draw card
+	core.sounds.drawcard = new sound('Assets/Sounds/drawcard.wav');
+
+	// destroy card
+	core.sounds.destroycard = new sound('Assets/Sounds/carddestroy.wav');
+}

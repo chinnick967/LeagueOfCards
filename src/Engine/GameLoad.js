@@ -85,6 +85,7 @@ function init(gameInfo) {
 	// setup player info
 	setupPlayer(core);
 
+	createsounds(core);
 
 	soundinit(core);
 	mouseinit(core);
@@ -132,7 +133,6 @@ function redraw(core) {
 		checkfordestroyedcard(core);
 
 		core.animateTimerActive && requestAnimationFrame(function(){ redraw(core); });
-
 		resetEvents();
 }
 

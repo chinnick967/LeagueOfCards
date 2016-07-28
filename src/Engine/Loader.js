@@ -84,7 +84,7 @@ function getdeck(core) {
 
 		rand = Math.floor(Math.random() * availablecards.length);
 
-		var card = core.assets.cards[availablecards[rand]];
+		var card = Object.assign({}, core.assets.cards[availablecards[rand]]);
 
 		//card.asset = savedCard.asset;
 		//console.log(savedCard);
@@ -180,8 +180,8 @@ function boardprep(core) {
 
 function setgold(core) {
 
-	core.player1.gold = 1;
-	core.player2.gold = 1;
+	core.player1.gold = 0;
+	core.player2.gold = 0;
 	
 	core.player1.goldincome = 1;
 	core.player2.goldincome = 1;

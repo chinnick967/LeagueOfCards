@@ -82,6 +82,8 @@ function drawanimation(core, animation, index) {
 			animation.card = core.sprites.icons.yellowcard;
 		}
 
+		core.sounds.drawcard.play();
+
 		animation.firstrun = 1;
 
 	}
@@ -181,6 +183,12 @@ function destroycardanimation(core, animation, index) {
 	getboardposition(core, animation.var1);
 	animation.left = core.information.leftposition - 1.3;
 	animation.top = core.information.topposition - 4.8;
+
+	if (animation.firstrun != 1) {
+		core.sounds.destroycard.play();
+	}
+
+	animation.firstun = 1;
 	
 	deathsprite(core, animation, time);
 	
@@ -211,6 +219,12 @@ function destroytoweranimation(core, animation, index) {
 		}
 	}
 
+	if (animation.firstrun != 1) {
+		core.sounds.destroytower.play();
+	}
+
+	animation.firstrun = 1;
+
 	animation.top = 4;
 	
 	explodesprite(core, animation, time);
@@ -238,6 +252,12 @@ function healanimation(core, animation, index) {
 function attackanimation(core, animation, index) {
 	var time = core.information.time - animation.starttime;
 	animation.animationlength = 1;
+
+	if (animation.firstrun != 1) {
+		core.sounds.swipe.play();
+	}
+
+	animation.firstrun = 1;
 	
 	attacksprite(core, animation, time);
 	
@@ -339,10 +359,16 @@ function addgoldanimation(core, animation, index) {
 	animation.top = 7 - (time * 6);
 
 	if (player == 1) {
-		animation.left = 38.2;
+		animation.left = 34.2;
 	} else if (player == 2) {
 		animation.left = 61.8;
 	}
+
+	if (animation.firstrun != 1) {
+		core.sounds.gold.play();
+	}
+
+	animation.firstrun = 1;
 
 	goldcoinsprite(core, animation, time);
 
