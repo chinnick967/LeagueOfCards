@@ -38,24 +38,28 @@ function soundinit(core) {
 	
 		if (core.information.xoffset >= 4.3 && core.information.xoffset <= 5.5 && core.information.yoffset >= 96 && core.information.yoffset <= 98) {
 			
+			adjustvolume(core, .2);
 			core.settings.sound = 1;
 			
 		}
 		
 		else if (core.information.xoffset >= 5.6 && core.information.xoffset <= 6.9 && core.information.yoffset >= 94.5 && core.information.yoffset <= 98) {
 			
+			adjustvolume(core, .4);
 			core.settings.sound = 2;
 			
 		}
 		
 		else if (core.information.xoffset >= 7.1 && core.information.xoffset <= 8.4 && core.information.yoffset >= 93.5 && core.information.yoffset <= 98) {
 			
+			adjustvolume(core, .8);
 			core.settings.sound = 3;
 			
 		}
 		
 		else if (core.information.xoffset >= 8.5 && core.information.xoffset <= 9.7 && core.information.yoffset >= 92.5 && core.information.yoffset <= 98) {
 			
+			adjustvolume(core, 1);
 			core.settings.sound = 4;
 			
 		}
@@ -88,6 +92,25 @@ function soundinit(core) {
 			
 		}
 	
+	});
+
+	$('#djsona').click(function(){
+		
+		if (core.settings.muted != true) {
+			adjustvolume(core, 0);
+			core.settings.muted = true;
+		} else {
+			if (core.settings.sound == 1) {
+				adjustvolume(core, .2);
+			} else if (core.settings.sound == 2) {
+				adjustvolume(core, .4);
+			} else if (core.settings.sound == 3) {
+				adjustvolume(core, .8);
+			} if (core.settings.sound == 4) {
+				adjustvolume(core, 1);
+			}
+			core.settings.muted = false;
+		}
 	});
 	
 }
@@ -149,4 +172,33 @@ function createsounds(core) {
 
 	// destroy card
 	core.sounds.destroycard = new sound('Assets/Sounds/carddestroy.wav');
+}
+
+function adjustvolume(core, volume) {
+
+	core.sounds.background.volume(.1 * volume);
+
+	core.sounds.playcard.volume(volume);
+
+	// destroy tower
+	core.sounds.destroytower.volume(volume);
+
+	// swipe attack
+	core.sounds.swipe.volume(volume);
+
+	// earn gold
+	core.sounds.gold.volume(volume);
+
+	// tower damage
+	core.sounds.towerdamage.volume(volume);
+
+	// declare attack
+	core.sounds.attack.volume(volume);
+
+	// draw card
+	core.sounds.drawcard.volume(volume);
+
+	// destroy card
+	core.sounds.destroycard.volume(volume);
+
 }

@@ -1943,7 +1943,7 @@ function battlecards(core, attacker, defender) {
 	if (damage >= 0) {
 		setTimeout(function(){ damagecard(core, defender, damage); }, 300);
 	} else {
-		setTimeout(function(){ damagecard(core, defender, damage); }, 300);
+		setTimeout(function(){ damagecard(core, defender, 0); }, 300);
 	}
 	
 	getboardposition(core, attacker.boardposition);

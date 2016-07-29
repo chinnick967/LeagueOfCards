@@ -1,0 +1,7 @@
+Go Live To Do List:
+
+1. Play Now Button
+
+set theme to a default
+change menu item to allow all roles while logged in
+change theme back
