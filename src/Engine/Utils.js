@@ -5,7 +5,8 @@ var utils = (function () {
 		isBool: isBool,
 		loadImage: loadImage,
 		slice: slice,
-		drawImage: drawImage
+		drawImage: drawImage,
+		maxMin: maxMin
 	};
 
 	function interpolate (str, data) {
@@ -49,6 +50,10 @@ var utils = (function () {
 		if(image instanceof HTMLImageElement || image instanceof HTMLVideoElement || image instanceof HTMLVideoElement) {
 			ctx.drawImage.apply(ctx, args);
 		}
+	}
+	
+	function maxMin (num, max, min) {
+		return Math.max(min || 0, Math.min(num, max));
 	}
 
 }());

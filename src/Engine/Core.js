@@ -755,9 +755,9 @@ function playcard(core, card, player, slot) {
 function adjustgold(core, player, amount) {
 	
 	if (player == 1) {
-		core.player1.gold += amount;
+		core.player1.gold = utils.maxMin(core.player1.gold + amount, 99, 0)
 	} else if (player == 2) {
-		core.player2.gold += amount;
+		core.player2.gold = utils.maxMin(core.player2.gold + amount, 99, 0)
 	}
 	
 }
@@ -1981,7 +1981,7 @@ function battlecards(core, attacker, defender) {
 
 function damagecard(core, card, damage) {
 	
-	card.defense -= Math.max(0, damage);
+	card.defense = Math.max(0, card.defense - damage);
 	
 	// damage card animation
 	getboardposition(core, card.boardposition);
@@ -2203,10 +2203,10 @@ function turngold(core) {
 	if (core.information.turnType != 'MULLIGAN' && core.information.turnType != 'DEFENSE') {
 		if (core.information.turn == 1) {
 			addanimation(core, 'addgold', 200, 200, var1 = 1, var2 = 'none', var3 = 'none');
-			core.player1.gold += core.player1.goldincome;
+			core.player1.gold = utils.maxMin(core.player1.gold + core.player1.goldincome, 99, 0);
 		} else if (core.information.turn == 2) {
 			addanimation(core, 'addgold', 200, 200, var1 = 2, var2 = 'none', var3 = 'none');
-			core.player2.gold += core.player2.goldincome;
+			core.player2.gold = utils.maxMin(core.player2.gold + core.player2.goldincome, 99, 0);
 		}
 	}
 
