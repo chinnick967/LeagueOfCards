@@ -188,7 +188,7 @@ function destroycardanimation(core, animation, index) {
 		core.sounds.destroycard.play();
 	}
 
-	animation.firstun = 1;
+	animation.firstrun = 1;
 	
 	deathsprite(core, animation, time);
 	

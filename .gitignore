@@ -55,3 +55,7 @@ node_modules
 config.json
 
 # app
+
+.zip
+*.zip
+**/*.zip

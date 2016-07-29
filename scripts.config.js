@@ -21,5 +21,6 @@ module.exports = [
 	'./src/Engine/Init.js',
 	'./src/Engine/EndGame.js',
 	'./src/Engine/Effects.js',
-	'./src/Engine/CardEffects.js'
+	'./src/Engine/CardEffects.js',
+	'./src/Engine/Client.js'
 ];

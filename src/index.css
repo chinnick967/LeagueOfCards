@@ -147,7 +147,9 @@ body {
   height: 100%;
   display: inline-block;
   line-height: 45px;
-  margin-right: 10px; }
+  margin-right: 10px;
+  color: rgba(48, 219, 80, 0.5);
+  text-shadow: 0 -1px 0 black; }
 
 #level {
   position: absolute;
@@ -158,13 +160,15 @@ body {
 
 #leveltext {
   position: absolute;
-  left: 230px;
+  left: 205px;
   top: 7px;
   width: 30px;
   height: 30px;
   line-height: 30px;
   text-align: center;
-  font-size: 23px; }
+  font-size: 18px;
+  color: rgba(48, 219, 80, 0.5);
+  text-shadow: 0 -1px 0 black; }
 
 #levelprogressbackground {
   position: absolute;
@@ -175,7 +179,7 @@ body {
   right: 0px;
   margin-left: auto;
   margin-right: auto;
-  background-color: #161d20; }
+  background-color: #1c262a; }
 
 #levelprogress {
   position: absolute;
@@ -183,10 +187,10 @@ body {
   width: 80px;
   height: 10px;
   left: 0px;
-  background-color: #74E13F;
-  -webkit-box-shadow: inset 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
-  -moz-box-shadow: inset 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
-  box-shadow: inset 0px 0px 5px 0px rgba(0, 0, 0, 0.75); }
+  background-color: rgba(48, 219, 80, 0.5);
+  -webkit-box-shadow: inset 0px 0px 1px 0px white;
+  -moz-box-shadow: inset 0px 0px 1px 0px white;
+  box-shadow: inset 0px 0px 1px 0px white; }
 
 #influencepoints {
   display: inline-block;
@@ -203,7 +207,9 @@ body {
 #ippointstext {
   position: absolute;
   top: 12px;
-  left: 30px; }
+  left: 30px;
+  color: rgba(48, 219, 80, 0.5);
+  text-shadow: 0 -1px 0 black; }
 
 #playbutton {
   position: absolute;
@@ -263,7 +269,7 @@ body {
   left: 0px;
   height: 45px;
   width: 100%;
-  background-color: rgba(48, 219, 80, 0.5); }
+  background-color: #161d20; }
 
 #innerbanner {
   position: relative;
@@ -295,10 +301,10 @@ body {
   text-align: center;
   line-height: 45px;
   font-family: myFont;
-  text-shadow: 0 -1px 0 #888; }
+  background-color: rgba(48, 219, 80, 0.5); }
   .bannerbutton:hover {
     cursor: pointer;
-    color: rgba(48, 219, 80, 0.5); }
+    opacity: .8; }
 
 #aff {
   position: absolute;
@@ -324,6 +330,44 @@ body {
   top: 1000px;
   width: 985px;
   height: 150px; }
+
+#WelcomeContainer {
+  position: absolute;
+  width: 1000px;
+  height: 562px;
+  left: 0px;
+  right: 0px;
+  margin-left: auto;
+  margin-right: auto;
+  top: 150px;
+  z-index: 100;
+  -webkit-box-shadow: 0px 0px 13px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0px 0px 13px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 0px 13px 0px rgba(0, 0, 0, 0.75);
+  background-color: #161d20;
+  display: block; }
+
+patch-notes {
+  position: absolute;
+  width: 450px;
+  left: 80px;
+  top: 25px;
+  height: 100px;
+  border: solid 5px rgba(48, 219, 80, 0.5);
+  border-radius: 50px;
+  background-color: #1c262a;
+  -webkit-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75); }
+
+#tutorial {
+  position: absolute;
+  left: 125px;
+  top: 120px;
+  border-radius: 10px;
+  -webkit-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75); }
 
 /* CHAT BOX CSS */
 .chat-box {
@@ -396,6 +440,87 @@ body {
 
 .text-right {
   text-align: right; }
+
+google-pane {
+  position: absolute;
+  top: 200px;
+  left: 600px;
+  width: 300px;
+  height: 250px;
+  background-image: url("Assets/adblock.png"); }
+
+google-pane2 {
+  position: absolute;
+  top: 60px;
+  left: 600px;
+  width: 300px;
+  height: 250px;
+  background-image: url("Assets/adblock.png"); }
+
+#vegas {
+  position: absolute;
+  display: none;
+  left: 670px;
+  top: 20px; }
+
+#googlebanner {
+  position: absolute;
+  left: 250px; }
+
+#arrow-right {
+  position: absolute;
+  top: 265px;
+  left: 885px;
+  width: 0;
+  height: 0;
+  border-top: 60px solid transparent;
+  border-bottom: 60px solid transparent;
+  border-left: 60px solid rgba(48, 219, 80, 0.2); }
+
+#arrow-left {
+  position: absolute;
+  display: none;
+  top: 265px;
+  left: 55px;
+  width: 0;
+  height: 0;
+  border-top: 60px solid transparent;
+  border-bottom: 60px solid transparent;
+  border-right: 60px solid rgba(48, 219, 80, 0.2); }
+
+#arrow-left:hover {
+  border-right: 60px solid rgba(48, 219, 80, 0.5);
+  cursor: pointer; }
+
+#arrow-right:hover {
+  border-left: 60px solid rgba(48, 219, 80, 0.5);
+  cursor: pointer; }
+
+proceed-button {
+  position: absolute;
+  top: 30px;
+  left: 0px;
+  right: 0px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 200px;
+  height: 50px;
+  background-color: rgba(48, 219, 80, 0.5);
+  text-align: center;
+  font-family: myFont;
+  line-height: 50px;
+  font-size: 22px;
+  color: #fff;
+  -webkit-box-shadow: 0px 0px 13px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0px 0px 13px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 0px 13px 0px rgba(0, 0, 0, 0.75); }
+  proceed-button:hover {
+    cursor: pointer;
+    opacity: .8; }
+  proceed-button:active {
+    -webkit-box-shadow: inset 0px 0px 11px 0px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: inset 0px 0px 11px 0px rgba(0, 0, 0, 0.75);
+    box-shadow: inset 0px 0px 11px 0px rgba(0, 0, 0, 0.75); }
 
 body .socket {
   display: none; }
