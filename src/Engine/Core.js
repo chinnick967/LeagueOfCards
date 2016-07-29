@@ -1981,7 +1981,7 @@ function battlecards(core, attacker, defender) {
 
 function damagecard(core, card, damage) {
 	
-	card.defense -= damage;
+	card.defense -= Math.max(0, damage);
 	
 	// damage card animation
 	getboardposition(core, card.boardposition);
