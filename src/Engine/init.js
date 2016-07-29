@@ -19,7 +19,7 @@ function AppInit() {
 			loadsounds();
 			loadAssets ()
 				.then (function (res) {
-					socket = io ('http://localhost:8081/');
+					socket = io ('http://104.238.117.9:8081:8081/');
 					GameQueue.start ();
 					$ ('body').removeClass ('loading');
 				}, function (err) {
