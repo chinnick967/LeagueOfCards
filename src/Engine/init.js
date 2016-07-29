@@ -14,8 +14,8 @@ function AppInit() {
 		.then (handleGetLoggedInStatus);
 
 	function handleGetLoggedInStatus(res) {
-		res = res || {isLoggedIn: true};
-		if (res.isLoggedIn) {
+		var isLoggedIn = typeof res === 'boolean' ? res: true;
+		if (isLoggedIn) {
 			loadsounds();
 			loadAssets ()
 				.then (function (res) {

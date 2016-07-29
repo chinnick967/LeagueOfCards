@@ -1,6 +1,6 @@
 var Api = (function ($) {
 	var BASE_URL = 'Engine/ServerScripts/';
-	var GET_LOGGED_IN_STATUS = BASE_URL + 'User/getLoggedInStatus.php';
+	var GET_LOGGED_IN_STATUS = 'https://lol.cards/LeagueOfCards/Game/getLoggedInStatus.php';
 	var GET_CARDS = BASE_URL + 'GetCards.php';
 	var GET_MESSAGE = BASE_URL + 'Chat/GetMessage.php';
 	var POST_MESSAGE = BASE_URL + 'Chat/PostMessage.php';
