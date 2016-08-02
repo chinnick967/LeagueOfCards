@@ -56,6 +56,22 @@ function healsprite(core, animation, time) {
 	ctx.drawImage(core.sprites.sprites.greenheal, clipx, clipy, 192, 192, core.information.pwidth * animation.left, core.information.pheight * animation.top, core.information.pwidth * 15, core.information.pheight * 25);
 }
 
+function towershotsprite(core, animation, time) {
+
+	var frame = getframe(time, animation.animationlength, 10);
+	var clipx = getclipx(102.4, 10, frame);
+	var clipy = getclipy(256, 10, frame);
+	
+	if (animation.var1 == 1) {
+		var towershot = core.sprites.sprites.towerattack_blue;
+	} else {
+		var towershot = core.sprites.sprites.towerattack_red;
+	}
+
+	// ctx.drawimage(image, clipx, clipy, clipwidth, clipheight, xcoord, ycoord, width, height);
+	ctx.drawImage(towershot, clipx, clipy, 102.4, 256, core.information.pwidth * animation.left, core.information.pheight * animation.top, core.information.pwidth * 12, core.information.pheight * 30);
+}
+
 function deathsprite(core, animation, time) {
 
 	var frame = getframe(time, animation.animationlength, 10);

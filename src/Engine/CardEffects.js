@@ -98,7 +98,7 @@ function cardeffects(core, name, player) {
         effect.player = player;
         effect.activate = function() {
             if (core.information.turn == effect.player) {
-                core.effects.addattack(core, effect, effect.player, 1);
+                core.effects.addattack(core, effect, 1);
             }
         }
         
@@ -131,6 +131,70 @@ function cardeffects(core, name, player) {
             }
         }
         
+    } else if (name == 'Masked Shaco') {
+        effect.trigger = 'turnstart';
+        effect.targeted = 0;
+        effect.player = player;
+        effect.activate = function() {
+            if (core.information.turn == effect.player) {
+                core.effects.reduceincome(core, effect, 1, 1);
+                core.effects.reduceincome(core, effect, 2, 1);
+            }
+        }
+        
+    } else if (name == 'Rammus') {
+        effect.trigger = 'turnstart';
+        effect.targeted = 0;
+        effect.player = player;
+        effect.activate = function() {
+            if (core.information.turn == effect.player) {
+                core.effects.addarmor(core, effect, 1);
+            }
+        }
+        
+    } else if (name == 'Sion') {
+        effect.trigger = 'turnstart';
+        effect.targeted = 0;
+        effect.player = player;
+        effect.activate = function() {
+            if (core.information.turn == effect.player) {
+                core.effects.addmaxhealth(core, effect, 1);
+            }
+        }    
+    } else if (name == 'Dr Mundo') {
+        effect.trigger = 'turnstart';
+        effect.targeted = 0;
+        effect.player = player;
+        effect.activate = function() {
+            if (core.information.turn == effect.player) {
+                core.effects.healcard(core, effect, effect.card.position, 2);
+            }
+        }    
+    } else if (name == 'Eggnivia') {
+        effect.trigger = 'turnstart';
+        effect.targeted = 0;
+        effect.player = player;
+        effect.turns = 0;
+        effect.activate = function() {
+            if (effect.player == core.information.turn) {
+                effect.turns += 1;
+            }
+            if (effect.player == core.information.player && effect.player == core.information.turn && effect.turns == 2) {
+                core.effects.destroycard(core, effect, effect.card.position);
+                var card = jQuery.extend(true, {}, searchassets(core, 'Anivia'));
+                core.effects.playcreature(core, effect, effect.player, card, effect.card.position);
+                effect.activated = 1;
+            }
+        }
+    } else if (name == 'Anivia') {
+        effect.trigger = 'death';
+        effect.targeted = 0;
+        effect.player = player;
+        effect.activate = function() {
+            var card = jQuery.extend(true, {}, searchassets(core, 'Eggnivia'));
+            core.effects.playcreature(core, effect, effect.player, card);
+            effect.activated = 1;
+        }
     } else {
         effect.trigger = 'none';
     }

@@ -76,9 +76,9 @@ function getdeck(core) {
 	core.player2.deck = [];
 	var counter = 0;
 
-	var availablecards = [0, 7, 25, 9, 30, 6, 21, 37, 35, 36, 38, 16, 5, 24, 13, 28, 29, 11];
+	var availablecards = [0, 7, 25, 9, 30, 6, 21, 37, 35, 36, 38, 16, 5, 24, 13, 28, 29, 11, 49, 44, 17, 3];
 
-	for (var i = 0; i <= 60; i++) {
+	for (var i = 0; i < 40; i++) {
 
 		var rand;
 
@@ -180,8 +180,8 @@ function boardprep(core) {
 
 function setgold(core) {
 
-	core.player1.gold = 0;
-	core.player2.gold = 0;
+	core.player1.gold = 10;
+	core.player2.gold = 10;
 	
 	core.player1.goldincome = 1;
 	core.player2.goldincome = 1;

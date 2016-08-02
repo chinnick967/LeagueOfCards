@@ -1,9 +1,15 @@
 $("#proceed").click(function(){
-    $('#WelcomeContainer').fadeOut();
+    $('#WelcomeContainer').slideUp();
 });
 
 var tutorial_current = 0;
-var tutarray = ['Assets/Tutorial/1.jpg', 'Assets/Tutorial/2.jpg', 'Assets/Tutorial/3.jpg', 'Assets/Tutorial/4.jpg', 'Assets/Tutorial/5.jpg', 'Assets/Tutorial/6.jpg', 'Assets/Tutorial/7.jpg', 'Assets/Tutorial/8.jpg', 'Assets/Tutorial/9.jpg', 'Assets/Tutorial/10.jpg'];
+var tutarray = [];
+
+// load tutorial images
+for (var i = 0; i < 10; i++) {
+    tutarray[i] = 'Assets/Tutorial/' + (i + 1) + '.jpg';
+}
+
 
 function changetutorialimage(movement) {
     tutorial_current += movement;

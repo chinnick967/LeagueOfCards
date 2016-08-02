@@ -477,7 +477,9 @@ var counter = 1;
 }
 
 function drawstats(core) {
-
+	
+	ctx.save();
+	
 	// stat container
 	ctx.beginPath();
 	ctx.moveTo(core.information.pwidth * 34, core.information.pheight * 11);
@@ -499,10 +501,12 @@ function drawstats(core) {
 	drawstaticons(core);
 	drawstatnumbers(core);
 
+	ctx.restore();
 }
 
 function drawtowers(core) {
 
+	ctx.save();
 	changetower(core);
 	
 	if (core.player1.currenttower > 1) {
@@ -553,6 +557,7 @@ function drawtowers(core) {
 	utils.drawImage(ctx, core.sprites.icons.nexus, core.information.pwidth * 56, core.information.pheight * 7, core.information.pwidth * 2, core.information.pheight * 3.5);
 	ctx.globalAlpha = 1;
 
+	ctx.restore();
 }
 
 function drawstaticons(core) {

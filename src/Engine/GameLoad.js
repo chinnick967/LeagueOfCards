@@ -118,7 +118,7 @@ function redraw(core) {
 
 		// draw game components
 		drawComponents(core);
-
+		
 		// draws animation effects
 		drawanimations(core);
 

@@ -40,6 +40,8 @@ function animationselector(core, animation, index) {
 		destroycardanimation(core, animation, index);
 	} else if (animation.type == 'destroytower') {
 		destroytoweranimation(core, animation, index);
+	} else if (animation.type == 'towerattack') {
+		towerattackanimation(core, animation, index);
 	}
 	
 }
@@ -380,6 +382,83 @@ function addgoldanimation(core, animation, index) {
 
 }
 
+function towerattackanimation(core, animation, index) {
+
+	var time = core.information.time - animation.starttime;
+	animation.animationlength = .4;
+
+	var tower = animation.var1;
+	var position = animation.var2;
+
+	ctx.save();
+
+	// get start position
+	if (tower == 1) {
+		animation.startleft = 10;
+		animation.starttop = -2;
+	} else {
+		animation.startleft = 90;
+		animation.starttop = -3;
+	}
+
+	// get targets position 
+	var target = getboardposition(core, position);
+	if (position >= 6 && position <= 10) {
+		target.top -= 14;
+		target.left += 5;
+	} else {
+		target.top -= 13;
+		target.left += -5;
+	}
+
+	// calculate time percent
+	var progress = time / animation.animationlength;
+
+	// calculate animation top and left based off position of target
+	animation.left = animation.startleft + ((target.left - animation.startleft) * progress);
+	animation.top = animation.starttop + ((target.top - animation.starttop) * progress);
+
+	// calculate rotation so it faces intended direction
+	//var degrees = Math.atan2(target.top - animation.starttop, target.left - animation.startleft) * (180 / Math.PI);
+
+	if (position == 6) {
+		degrees = -105;
+	} else if (position == 7) {
+		degrees = -115;
+	} else if (position == 8) {
+		degrees = -125;
+	} else if (position == 9) {
+		degrees = -135;
+	} else if (position == 10) {
+		degrees = -145;
+	} else if (position == 16) {
+		degrees = 105;
+	} else if (position == 17) {
+		degrees = 115;
+	} else if (position == 18) {
+		degrees = 125;
+	} else if (position == 19) {
+		degrees = 135;
+	} else if (position == 20) {
+		degrees = 145;
+	}
+
+	
+	// rotate canvas
+	ctx.translate(core.information.pwidth * (animation.left + 6), core.information.pheight * (animation.top + 15));
+	ctx.rotate(degrees * Math.PI/180);
+	ctx.translate(-core.information.pwidth * (animation.left + 6), -core.information.pheight * (animation.top + 15));
+
+	towershotsprite(core, animation, time);
+
+	ctx.restore();
+
+	if (time >= animation.animationlength) {
+		core.animation[index].complete = 1;
+	}
+
+}
+
 /*function cardflipanimation(core, animation, index) {
 
 	var time = core.information.time - animation.starttime;
@@ -415,7 +494,7 @@ function flipcard(core, animation, index) {
 function cardflipanimation(core, animation, index) {
 	
 	var time = core.information.time - animation.starttime;
-	animation.animationlength = 4;
+	animation.animationlength = 3;
 
 	var card = animation.var1;
 	var player = animation.var2;

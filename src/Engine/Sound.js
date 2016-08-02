@@ -172,6 +172,9 @@ function createsounds(core) {
 
 	// destroy card
 	core.sounds.destroycard = new sound('Assets/Sounds/carddestroy.wav');
+
+	// create challenger sounds 
+	createchallengersounds(core);
 }
 
 function adjustvolume(core, volume) {
@@ -201,4 +204,15 @@ function adjustvolume(core, volume) {
 	// destroy card
 	core.sounds.destroycard.volume(volume);
 
+	challengervolume(core, volume);
+
+}
+
+function createchallengersounds(core) {
+	// shaco card
+	core.sounds.shaco = new sound('Assets/Sounds/shaco.mp3');
+}
+
+function challengervolume(core, volume) {
+	core.sounds.shaco.volume(volume);
 }

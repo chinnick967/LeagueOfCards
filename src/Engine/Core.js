@@ -7,6 +7,8 @@ drawcardback(core, core.board.s1, 6.6, 5.5, 8.7, 23.142, 90);
 function drawcard(core, card, width, left, top, rotation, hover) {
 	
 	var adjust = 0;
+	ctx.shadowBlur = 0;
+	ctx.fillStyle = '';
 	
 	if (typeof(card) != 'undefined' && card != '') {
 		
@@ -501,7 +503,7 @@ function mulligancard(core) {
 }
 
 function dragcard(core) {
-	
+	ctx.shadowBlur = 0;
 	if (core.information.focus == 'hand' && core.information.mousedown == 1 && (core.information.dragcard == '' || typeof(core.information.dragcard) == 'undefined')) {
 	
 		core.information.dragcard = core.information.cardfocus;
@@ -576,7 +578,9 @@ function playcard(core, card, player, slot) {
 		addanimation(core, 'playcard', core.information.topposition - 15, core.information.leftposition - 6, var1 = 90, var2 = '', var3 = '');
 		
 		// play sound
-		core.sounds.playcard.play();
+		if (!playchallengersound(core, card.name)) {
+			core.sounds.playcard.play();
+		}
 		
 		// add chat message
 		core.chat.post(ChatBox.msg.PLAYED_CARD, {
@@ -626,8 +630,9 @@ function playcard(core, card, player, slot) {
 		getboardposition(core, slot);
 		addanimation(core, 'playcard', core.information.topposition - 15, core.information.leftposition - 6, var1 = 90, var2 = '', var3 = '');
 		
-		// play sound
-		core.sounds.playcard.play();
+		if (!playchallengersound(core, card.name)) {
+			core.sounds.playcard.play();
+		}
 		
 		// add chat message
 		core.chat.post(ChatBox.msg.PLAYED_CARD, {
@@ -679,8 +684,9 @@ function playcard(core, card, player, slot) {
 		getboardposition(core, slot);
 		addanimation(core, 'playcard', core.information.topposition - 15, core.information.leftposition - 6, var1 = 90, var2 = '', var3 = '');
 		
-		// play sound
-		core.sounds.playcard.play();
+		if (!playchallengersound(core, card.name)) {
+			core.sounds.playcard.play();
+		}
 		
 		// add chat message
 		core.chat.post(ChatBox.msg.PLAYED_CARD, {
@@ -731,8 +737,9 @@ function playcard(core, card, player, slot) {
 		getboardposition(core, slot);
 		addanimation(core, 'playcard', core.information.topposition - 15, core.information.leftposition - 6, var1 = 90, var2 = '', var3 = '');
 		
-		// play sound
-		core.sounds.playcard.play();
+		if (!playchallengersound(core, card.name)) {
+			core.sounds.playcard.play();
+		}
 		
 		// add chat message
 		core.chat.post(ChatBox.msg.PLAYED_CARD, {
@@ -750,6 +757,15 @@ function playcard(core, card, player, slot) {
 	
 	}
 
+}
+
+function playchallengersound(core, name) {
+	if (name == 'Masked Shaco') {
+		core.sounds.shaco.play();
+		return true;
+	} else {
+		return false;
+	}
 }
 
 function adjustgold(core, player, amount) {
@@ -779,6 +795,10 @@ function addtoboard (core, card, slot) {
 		slot = core.information.currentslothover;
 		
 	}
+
+	if (!playchallengersound(core, card.name)) {
+			core.sounds.playcard.play();
+		}
 
      switch(slot) {
           case 1:
@@ -1866,7 +1886,14 @@ function towerattack(core, action, unblockedattackers) {
 		var aura = auras(core, attacker);
 
 		damage += attacker.attack + aura.attack;
-		damagecard(core, attacker, towerdamage);
+
+		addanimation(core, 'towerattack', 0, 0, var1 = defendingplayer, var2 = unblockedattackers[i], var3 = '');
+		(function(core, attacker, towerdamage){
+			setTimeout(function () {
+				damagecard(core, attacker, towerdamage);
+			}, 400);
+		}(core, attacker, towerdamage));
+
 	}
 	
 	// adjust damage if more than current health
@@ -1941,9 +1968,18 @@ function battlecards(core, attacker, defender) {
 	}
 
 	if (damage >= 0) {
-		setTimeout(function(){ damagecard(core, defender, damage); }, 300);
+		(function(core, defender, damage){
+			setTimeout(function () {
+				damagecard(core, defender, damage);
+			}, 300);
+		}(core, defender, damage));
 	} else {
-		setTimeout(function(){ damagecard(core, defender, 0); }, 300);
+		damage = 0;
+		(function(core, defender, damage){
+			setTimeout(function () {
+				damagecard(core, defender, damage);
+			}, 300);
+		}(core, defender, damage));
 	}
 	
 	getboardposition(core, attacker.boardposition);
@@ -1957,9 +1993,9 @@ function battlecards(core, attacker, defender) {
 	} else if (defender.damagetype == 'Magic') {
 		damage2 = defender.attack + defenderaura.attack - attacker.magicresist;
 	} else if (defender.damagetype == 'Mixed') {
-		if (defender.magicresist <= attacker.armor) {
+		if (attacker.magicresist <= attacker.armor) {
 			damage2 = defender.attack + defenderaura.attack - attacker.magicresist;
-		} else if (defender.armor <= attacker.magicresist) {
+		} else if (attacker.armor <= attacker.magicresist) {
 			damage2 = defender.attack + defenderaura.attack - attacker.armor;
 		} else {
 			damage2 = defender.attack + defenderaura.attack - attacker.armor;
@@ -1970,22 +2006,31 @@ function battlecards(core, attacker, defender) {
 
 	getboardposition(core, defender.boardposition);
 	addanimation(core, 'attack', core.information.topposition - 5, core.information.leftposition, var1 = '', var2 = '', var3 = '');
-	
-	if (damage >= 0) {
-		setTimeout(function(){ damagecard(core, attacker, damage2); }, 300);
+
+	if (damage2 >= 0) {
+		(function(core, attacker, damage2){
+			setTimeout(function () {
+				damagecard(core, attacker, damage2);
+			}, 300);
+		}(core, attacker, damage2));
 	} else {
-		setTimeout(function(){ damagecard(core, attacker, 0); }, 300);
+		damage2 = 0;
+		(function(core, attacker, damage2){
+			setTimeout(function () {
+				damagecard(core, attacker, damage2);
+			}, 300);
+		}(core, attacker, damage2));
 	}
 	
 }
 
 function damagecard(core, card, damage) {
 	
-	card.defense = Math.max(0, card.defense - damage);
+	card.defense -= Math.max(0, damage);
 	
 	// damage card animation
 	getboardposition(core, card.boardposition);
-	addanimation(core, 'cardhealth', core.information.topposition - 5, core.information.leftposition, var1 = -1 * damage, var2 = 'left', var3 = '');
+	addanimation(core, 'cardhealth', core.information.topposition - 5, core.information.leftposition, var1 = -1 * Math.max(0, damage), var2 = 'left', var3 = '');
 }
 
 function checkfordestroyedcard(core) {
@@ -2078,11 +2123,11 @@ function resettowerhealth(core) {
 
 }
 
-function developerspecificcard(core, deck_arg, name) {
-	var deck = [].concat(deck_arg);
-	for (var i = 0; i < deck.length; i++) {
-		if (deck[i] && deck[i].name == name) {
-			return i;
+function developerspecificcard(core, name) {
+	
+	for (var i = 0; i < core.assets.cards.length; i++) {
+		if (core.assets.cards[i].name == name) {
+			return Object.assign({}, core.assets.cards[i]);
 		}
 	}
 }
@@ -2096,10 +2141,12 @@ function addcardtohand(core, number) {
 				for (var j = 0; j < 7; j++) {
 					if (core.player1.hand[j] == '' || typeof(core.player1.hand[j]) == 'undefined') {
 						core.player1.handlength += 1;
-						var deckcard = core.player1.deck[core.player1.deck.length - 1];
+						//var deckcard = core.player1.deck[core.player1.deck.length - 1];
+						var deckcard = developerspecificcard(core, 'Loaded Dice');
 						core.player1.hand[j] = deckcard;
 						core.player1.deck.pop();
 						j = 7;
+						console.log(core.player1.deck.length);
 					}
 				}
 
@@ -2190,6 +2237,10 @@ function auras(core, card) {
 			aura.attack += 1;
 			aura.defense += 2;
 		}
+	}
+
+	if (card.name == 'Rammus') {
+		card.attack = card.armor;
 	}
 
 

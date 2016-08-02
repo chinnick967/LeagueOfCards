@@ -55,22 +55,24 @@ function createeffects(core) {
             core['player' + player].goldincome += amount;
     }
 
-    core.effects.playcreature = function(core, effect, player, card) {
+    core.effects.playcreature = function(core, effect, player, card, slot) {
 
-            var slot = 0;
-
-            if (player == 1) {
-                for (var i = 6; i <= 10; i++) {
-                    if (core.board['s' + i] == '' || typeof(core.board['s' + i]) == 'undefined') {
-                        slot = i;
-                        i = 11;
+            var slot = slot || 0;
+            
+            if (slot == 0) {
+                if (player == 1) {
+                    for (var i = 6; i <= 10; i++) {
+                        if (core.board['s' + i] == '' || typeof(core.board['s' + i]) == 'undefined') {
+                            slot = i;
+                            i = 11;
+                        }
                     }
-                }
-            } else if (player == 2) {
-                for (var i = 16; i <= 20; i++) {
-                    if (core.board['s' + i] == '' || typeof(core.board['s' + i]) == 'undefined') {
-                        slot = i;
-                        i = 21;
+                } else if (player == 2) {
+                    for (var i = 16; i <= 20; i++) {
+                        if (core.board['s' + i] == '' || typeof(core.board['s' + i]) == 'undefined') {
+                            slot = i;
+                            i = 21;
+                        }
                     }
                 }
             }
@@ -90,8 +92,12 @@ function createeffects(core) {
         }
     }
 
-    core.effects.addattack = function(core, effect, player, amount) {
-        effect.card.attack += amount;
+    core.effects.addattack = function(core, effect, amount) {
+        core.board['s' + effect.card.position].attack += amount;
+    }
+
+    core.effects.addarmor = function(core, effect, amount) {
+        core.board['s' + effect.card.position].armor += amount;
     }
 
     core.effects.destroycard = function(core, effect, position) {
@@ -113,6 +119,21 @@ function createeffects(core) {
         } else {
             target.defense += amount;
         }
+    }
+
+    core.effects.reduceincome = function(core, effect, player, amount) {
+        if (core['player' + player].goldincome > 1) {
+            if (core['player' + player].goldincome - amount < 1) {
+                core['player' + player].goldincome = 1;
+            } else {
+                core['player' + player].goldincome -= amount;
+            }
+        }
+    }
+
+    core.effects.addmaxhealth = function(core, effect, amount) {
+        core.board['s' + effect.card.position].maxhealth += amount;
+        core.board['s' + effect.card.position].defense += amount;
     }
 
 }

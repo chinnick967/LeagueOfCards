@@ -4,7 +4,7 @@ const global = require ('./global');
 const Interval = require ('./Interval');
 const Timeout = require('./Timeout');
 
-const MULLIGAN_INTERVAL = 30;
+const MULLIGAN_INTERVAL = 5;
 const TURN_INTERVAL = 45;
 const DEFENSE_INTERVAL = 30;
 
