@@ -285,7 +285,7 @@ function drawButtons(core) {
 		ctx.shadowColor = 'black';
 		ctx.globalAlpha = 0.5;
 	}
-	
+
 	// Surrender Button
 	ctx.fillStyle = '#862D63';
 	ctx.fillRect(core.information.pwidth * 67, core.information.pheight * 92.5, core.information.pwidth * 10, core.information.pheight * 6);
@@ -479,6 +479,9 @@ var counter = 1;
 function drawstats(core) {
 	
 	ctx.save();
+
+	ctx.shadowBlur = 5;
+	ctx.shadowColor = 'black';
 	
 	// stat container
 	ctx.beginPath();
