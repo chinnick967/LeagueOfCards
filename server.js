@@ -3,6 +3,12 @@ const http = require('http');
 const path = require('path');
 const chalk = require('chalk');
 const init = require('./server/init');
+const Promise = require("bluebird");
+// Configure
+Promise.config({
+	longStackTraces: true,
+	warnings: true
+});
 
 const PORT = 8081;
 

@@ -18,11 +18,13 @@
   },
   "homepage": "https://github.com/leagueofcards/Client#readme",
   "dependencies": {
+    "bluebird": "^3.4.1",
     "chalk": "^1.1.3",
     "express": "^4.14.0",
     "gulp-sass": "^2.3.2",
     "mysql2": "^1.0.0-rc.5",
     "node-uuid": "^1.4.7",
+    "q": "^1.4.1",
     "socket.io": "^1.4.8"
   },
   "devDependencies": {
