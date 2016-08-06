@@ -96,6 +96,7 @@ var assets = {
         "coins": "Assets/Sprites/coins.png",
         "droplet": "Assets/Sprites/droplet.png",
         "earth": "Assets/Sprites/earth.png",
+        "flames": "Assets/Sprites/flames.png",
         "frost": "Assets/Sprites/frost.png",
         "greeneffect": "Assets/Sprites/greeneffect.png",
         "greenheal": "Assets/Sprites/greenheal.png",
@@ -133,11 +134,14 @@ var assets = {
         "ad": "Assets/Icons/ad.png",
         "ap": "Assets/Icons/ap.png",
         "armor": "Assets/Icons/armor.png",
+        "attackicon": "Assets/Icons/attackicon.png",
         "bluecard": "Assets/Icons/bluecard.png",
         "bluetimer": "Assets/Icons/bluetimer.png",
         "cardback": "Assets/Icons/cardback.png",
         "cardshield": "Assets/Icons/cardshield.png",
         "cardsicon": "Assets/Icons/cardsicon.png",
+        "creatures": "Assets/Icons/creatures.png",
+        "creatures2": "Assets/Icons/creatures_white.png",
         "defenseicon": "Assets/Icons/defenseicon.png",
         "fullscreen": "Assets/Icons/fullscreen.png",
         "gold": "Assets/Icons/gold.png",
@@ -152,6 +156,7 @@ var assets = {
         "settings": "Assets/Icons/settings.png",
         "shield": "Assets/Icons/shield.png",
         "soundimg": "Assets/Icons/soundimg.png",
+        "spells": "Assets/Icons/spells.png",
         "threecards": "Assets/Icons/threecards.png",
         "tower": "Assets/Icons/tower.png",
         "true": "Assets/Icons/true.png",
@@ -549,6 +554,9 @@ function redraw(core) {
 		// draws animation effects
 		drawanimations(core);
 
+		// draw card stats after animations due to animation overlapping
+		drawcardstats(core);
+
 		// draws the hand outside the components because the previewcard function has to draw after animations or the coins sit on top of it
 		drawhand(core);
 		previewboardcard(core);
@@ -626,7 +634,7 @@ function drawcard(core, card, width, left, top, rotation, hover) {
 		ctx.translate(-core.information.pwidth * (left + width/2), -core.information.pheight * (top + height/2));
 		
 		// attacking effect
-		if (card.attacking == 1) {
+		/*if (card.attacking == 1) {
 			ctx.shadowColor = '#9668B3';
 			//ctx.shadowBlur = (parseInt(core.information.time) % 2) * 2 + 15;
 			var counter = (core.information.time % 1 * 140) * (Math.PI / 100);
@@ -636,11 +644,13 @@ function drawcard(core, card, width, left, top, rotation, hover) {
 			ctx.fillRect(core.information.pwidth * (left + .6), core.information.pheight * (top + .6), core.information.pwidth * (width - 1.2), core.information.pheight * (height - 1.2));
 			ctx.fillRect(core.information.pwidth * (left + .6), core.information.pheight * (top + .6), core.information.pwidth * (width - 1.2), core.information.pheight * (height - 1.2));
 			ctx.fillRect(core.information.pwidth * (left + .6), core.information.pheight * (top + .6), core.information.pwidth * (width - 1.2), core.information.pheight * (height - 1.2));
-		}
+		}*/
 		
-		// rectangle for box shadow on rotated cards due to Google Chrome bug
-		ctx.fillRect(core.information.pwidth * (left + .6), core.information.pheight * (top + .6), core.information.pwidth * (width - 1.2), core.information.pheight * (height - 1.2));
-		ctx.fillRect(core.information.pwidth * (left + .6), core.information.pheight * (top + .6), core.information.pwidth * (width - 1.2), core.information.pheight * (height - 1.2));
+		if (core.information.dragcard == '' || typeof(core.information.dragcard) == 'undefined') {
+			// rectangle for box shadow on rotated cards due to Google Chrome bug
+			ctx.fillRect(core.information.pwidth * (left + .6), core.information.pheight * (top + .6), core.information.pwidth * (width - 1.2), core.information.pheight * (height - 1.2));
+			ctx.fillRect(core.information.pwidth * (left + .6), core.information.pheight * (top + .6), core.information.pwidth * (width - 1.2), core.information.pheight * (height - 1.2));
+		}
 		
 		// draw the card
 		utils.drawImage(ctx, asset, core.information.pwidth * left, core.information.pheight * top, core.information.pwidth * width, core.information.pheight * height);
@@ -1097,7 +1107,7 @@ function dragcard(core) {
 	if (core.information.dragcard != '' && typeof(core.information.dragcard) != 'undefined') {
 	
 		ctx.save();
-		ctx.globalAlpha = 0.5;
+		ctx.globalAlpha = 0.7;
 		drawcard(core, core.information.dragcard, 8, core.information.xoffset - 4, core.information.yoffset - (8 * 2.66 / 2), 0, 0);
 		ctx.restore();
 		
@@ -1120,7 +1130,7 @@ function playcard(core, card, player, slot) {
 	slot = slot || core.information.currentslothover;
 
 	// need to add check for gold
-	if (player == 1 && slot >= 6 && slot <= 10 && card.type != 'Spell' && core.player1.gold >= cost && core.information.player == core.information.turn) {
+	if (player == 1 && slot >= 6 && slot <= 10 && card.type != 'Spell' && core.player1.gold >= cost && core.information.player == core.information.turn && core.information.turnType != 'DEFEND') {
 	
 		// remove card from hand
 		if (!summon) {
@@ -1174,7 +1184,7 @@ function playcard(core, card, player, slot) {
 		// check for summon effects
 		setTimeout(function(){ checkeffects(core, 'summon'); }, 600);
 	
-	} else if (player == 1 && slot >= 1 && slot <= 5 && card.type == 'Spell' && core.player1.gold >= cost && core.information.player == core.information.turn) {
+	} else if (player == 1 && slot >= 1 && slot <= 5 && card.type == 'Spell' && core.player1.gold >= cost && core.information.player == core.information.turn && core.information.turnType != 'DEFEND') {
 	
 		// remove card from hand
 		if (!summon) {
@@ -1227,7 +1237,7 @@ function playcard(core, card, player, slot) {
 		setTimeout(function(){ checkeffects(core, 'summon'); }, 600);
 	
 	
-	} else if (player == 2 && slot >= 16 && slot <= 20 && card.type != 'Spell' && core.player2.gold >= cost && core.information.player == core.information.turn) {
+	} else if (player == 2 && slot >= 16 && slot <= 20 && card.type != 'Spell' && core.player2.gold >= cost && core.information.player == core.information.turn && core.information.turnType != 'DEFEND') {
 	
 		// remove card from hand
 		if (!summon) {
@@ -1280,7 +1290,7 @@ function playcard(core, card, player, slot) {
 		// check for summon effects
 		setTimeout(function(){ checkeffects(core, 'summon'); }, 600);
 	
-	} else if (player == 2 && slot >= 11 && slot <= 15 && card.type == 'Spell' && core.player2.gold >= cost && core.information.player == core.information.turn) {
+	} else if (player == 2 && slot >= 11 && slot <= 15 && card.type == 'Spell' && core.player2.gold >= cost && core.information.player == core.information.turn && core.information.turnType != 'DEFEND') {
 	
 		// remove card from hand
 		if (!summon) {
@@ -1892,31 +1902,41 @@ function setattacker(core) {
 	if (core.information.player == 1 && core.information.turn == 1) {
 		
 		if (core.information.currentslothover == 6 && core.board.s6.turns >= 1 && core.board.s6.attacking != 1) {		
-			core.board.s6.attacking = 1;		
+			core.board.s6.attacking = 1;
+			var json = getboardposition(core, 6);
+			addanimation(core, 'attacking', json.top + -6, json.left + 12.2, var1 = core.board.s6, var2 = '', var3 = '');		
 		} else if (core.information.currentslothover == 6 && core.board.s6.turns >= 1 && core.board.s6.attacking == 1) {
 			core.board.s6.attacking = 0;
 		}
 		
 		if (core.information.currentslothover == 7 && core.board.s7.turns >= 1 && core.board.s7.attacking != 1) {		
-			core.board.s7.attacking = 1;				
+			core.board.s7.attacking = 1;
+			var json = getboardposition(core, 7);
+			addanimation(core, 'attacking', json.top + -6, json.left + 12.2, var1 = core.board.s7, var2 = '', var3 = '');					
 		} else if (core.information.currentslothover == 7 && core.board.s7.turns >= 1 && core.board.s7.attacking == 1) {
 			core.board.s7.attacking = 0;
 		}
 		
 		if (core.information.currentslothover == 8 && core.board.s8.turns >= 1 && core.board.s8.attacking != 1) {		
-			core.board.s8.attacking = 1;			
+			core.board.s8.attacking = 1;
+			var json = getboardposition(core, 8);
+			addanimation(core, 'attacking', json.top + -6, json.left + 12.2, var1 = core.board.s8, var2 = '', var3 = '');				
 		} else if (core.information.currentslothover == 8 && core.board.s8.turns >= 1 && core.board.s8.attacking == 1) {
 			core.board.s8.attacking = 0;
 		}
 		
 		if (core.information.currentslothover == 9 && core.board.s9.turns >= 1 && core.board.s9.attacking != 1) {		
-			core.board.s9.attacking = 1;			
+			core.board.s9.attacking = 1;	
+			var json = getboardposition(core, 9);
+			addanimation(core, 'attacking', json.top + -6, json.left + 12.2, var1 = core.board.s9, var2 = '', var3 = '');			
 		} else if (core.information.currentslothover == 9 && core.board.s9.turns >= 1 && core.board.s9.attacking == 1) {
 			core.board.s9.attacking = 0;
 		}
 		
 		if (core.information.currentslothover == 10 && core.board.s10.turns >= 1 && core.board.s10.attacking != 1) {		
-			core.board.s10.attacking = 1;			
+			core.board.s10.attacking = 1;	
+			var json = getboardposition(core, 10);
+			addanimation(core, 'attacking', json.top + -6, json.left + 12.2, var1 = core.board.s10, var2 = '', var3 = '');			
 		} else if (core.information.currentslothover == 10 && core.board.s10.turns >= 1 && core.board.s10.attacking == 1) {
 			core.board.s10.attacking = 0;
 		}
@@ -1926,31 +1946,41 @@ function setattacker(core) {
 	if (core.information.player == 2 && core.information.turn == 2) {
 		
 		if (core.information.currentslothover == 16 && core.board.s16.turns >= 1 && core.board.s16.attacking != 1) {		
-			core.board.s16.attacking = 1;			
+			core.board.s16.attacking = 1;	
+			var json = getboardposition(core, 16);
+			addanimation(core, 'attacking', json.top + -6, json.left - 6, var1 = core.board.s16, var2 = '', var3 = '');		
 		} else if (core.information.currentslothover == 16 && core.board.s16.turns >= 1 && core.board.s16.attacking == 1) {
 			core.board.s16.attacking = 0;
 		}
 		
 		if (core.information.currentslothover == 17 && core.board.s17.turns >= 1 && core.board.s17.attacking != 1) {		
-			core.board.s17.attacking = 1;			
+			core.board.s17.attacking = 1;	
+			var json = getboardposition(core, 17);
+			addanimation(core, 'attacking', json.top + -6, json.left - 6, var1 = core.board.s17, var2 = '', var3 = '');		
 		} else if (core.information.currentslothover == 17 && core.board.s17.turns >= 1 && core.board.s17.attacking == 1) {
 			core.board.s17.attacking = 0;
 		}
 		
 		if (core.information.currentslothover == 18 && core.board.s18.turns >= 1 && core.board.s18.attacking != 1) {		
-			core.board.s18.attacking = 1;			
+			core.board.s18.attacking = 1;
+			var json = getboardposition(core, 18);
+			addanimation(core, 'attacking', json.top + -6, json.left - 6, var1 = core.board.s18, var2 = '', var3 = '');			
 		} else if (core.information.currentslothover == 18 && core.board.s18.turns >= 1 && core.board.s18.attacking == 1) {
 			core.board.s18.attacking = 0;
 		}
 		
 		if (core.information.currentslothover == 19 && core.board.s19.turns >= 1 && core.board.s19.attacking != 1) {		
-			core.board.s19.attacking = 1;			
+			core.board.s19.attacking = 1;	
+			var json = getboardposition(core, 19);
+			addanimation(core, 'attacking', json.top + -6, json.left - 6, var1 = core.board.s19, var2 = '', var3 = '');		
 		} else if (core.information.currentslothover == 19 && core.board.s19.turns >= 1 && core.board.s19.attacking == 1) {
 			core.board.s19.attacking = 0;
 		}
 		
 		if (core.information.currentslothover == 20 && core.board.s20.turns >= 1 && core.board.s20.attacking != 1) {		
-			core.board.s20.attacking = 1;			
+			core.board.s20.attacking = 1;	
+			var json = getboardposition(core, 20);
+			addanimation(core, 'attacking', json.top + -6, json.left - 6, var1 = core.board.s20, var2 = '', var3 = '');		
 		} else if (core.information.currentslothover == 20 && core.board.s20.turns >= 1 && core.board.s20.attacking == 1) {
 			core.board.s20.attacking = 0;
 		}
@@ -2154,7 +2184,7 @@ function checkforattackers(core) {
 
 function declareattack(core) {
 	
-	if (core.information.xoffset >= 46 && core.information.xoffset <= 55.5 && core.information.yoffset >= 19 && core.information.yoffset <= 31.5 && checkforattackers(core)) {
+	if (core.information.xoffset >= 44.8 && core.information.xoffset <= 55 && core.information.yoffset >= 23 && core.information.yoffset <= 41.15 && checkforattackers(core)) {
 		
 		var attackers = addattackers(core);
 		
@@ -3128,13 +3158,12 @@ function drawComponents(core) {
 	drawButtons(core);
 	drawboard(core);
 	drawnames(core);
-	drawattackbutton(core);
 	drawinfolabels(core);
 	choosecursor(core);
 	// test
 	settime(core);
-	drawcardstats(core);
 	drawshields(core);
+	drawattackbutton(core);
 	
 }
 
@@ -3211,6 +3240,8 @@ function drawCardSlots(core) {
 
 function drawSlot(core, boardslot, top, left, color) {
 
+	ctx.save();
+
         if (typeof(boardslot) == 'undefined' || boardslot == '') {
 	
 			ctx.shadowColor = 'black';
@@ -3232,6 +3263,50 @@ function drawSlot(core, boardslot, top, left, color) {
 		core.information.currentslothover = core.information.currentdrawnslot;
 		
 	}
+
+	if (core.information.currentdrawnslot >= 6 && core.information.currentdrawnslot <= 10 && core.information.player == 1) {
+		ctx.globalAlpha = .2;
+		// translate to the center of the card
+		ctx.translate(core.information.pwidth * (left + 12), core.information.pheight * (top + -1.5));
+		// rotate the canvas for the card
+		ctx.rotate(90 * Math.PI/180);
+		// translate back
+		ctx.translate(-core.information.pwidth * (left + 12), -core.information.pheight * (top + -1.5));
+
+		utils.drawImage(ctx, core.sprites.icons.creatures2, core.information.pwidth * (left + 12), core.information.pheight * (top + -1.5), core.information.pwidth * 10, core.information.pheight * 20);
+	} else if (core.information.currentdrawnslot >= 16 && core.information.currentdrawnslot <= 20 && core.information.player == 2) {
+		ctx.globalAlpha = .2;
+		// translate to the center of the card
+		ctx.translate(core.information.pwidth * (left + 1), core.information.pheight * (top + 16.2));
+		// rotate the canvas for the card
+		ctx.rotate(-90 * Math.PI/180);
+		// translate back
+		ctx.translate(-core.information.pwidth * (left + 1), -core.information.pheight * (top + 16.2));
+
+		utils.drawImage(ctx, core.sprites.icons.creatures2, core.information.pwidth * (left + 1), core.information.pheight * (top + 16.2), core.information.pwidth * 10, core.information.pheight * 20);
+	} else if (core.information.currentdrawnslot >= 1 && core.information.currentdrawnslot <= 5 && core.information.player == 1) {
+		ctx.globalAlpha = .2;
+		// translate to the center of the card
+		ctx.translate(core.information.pwidth * (left + 12), core.information.pheight * (top + -1.5));
+		// rotate the canvas for the card
+		ctx.rotate(90 * Math.PI/180);
+		// translate back
+		ctx.translate(-core.information.pwidth * (left + 12), -core.information.pheight * (top + -1.5));
+
+		utils.drawImage(ctx, core.sprites.icons.spells, core.information.pwidth * (left + 13), core.information.pheight * (top + 1), core.information.pwidth * 8, core.information.pheight * 12);
+	} else if (core.information.currentdrawnslot >= 11 && core.information.currentdrawnslot <= 15 && core.information.player == 2) {
+		ctx.globalAlpha = .2;
+		// translate to the center of the card
+		ctx.translate(core.information.pwidth * (left + 1), core.information.pheight * (top + 16.2));
+		// rotate the canvas for the card
+		ctx.rotate(-90 * Math.PI/180);
+		// translate back
+		ctx.translate(-core.information.pwidth * (left + 1), -core.information.pheight * (top + 16.2));
+
+		utils.drawImage(ctx, core.sprites.icons.spells, core.information.pwidth * (left + 2), core.information.pheight * (top + 18.5), core.information.pwidth * 8, core.information.pheight * 12);
+	}
+
+	ctx.restore();
 	
 }
 
@@ -3396,7 +3471,10 @@ function drawButtons(core) {
 	ctx.fillText("End Turn", core.information.pwidth * 80.8, core.information.pheight * 96.8);
 
 	if (core.information.xoffset >= 67 && core.information.xoffset <= 77 && core.information.yoffset >= 92.5 && core.information.yoffset <= 98.5 && core.information.focus == 'board') {
-		ctx.globalAlpha = 0.7;
+		if (core.events.clicked) {
+			EndGame.fireEndGame(core, core.information.player);
+			ctx.globalAlpha = 0.7;
+		}
 	} else {
 		ctx.shadowBlur = 5;
 		ctx.shadowColor = 'black';
@@ -3789,21 +3867,24 @@ function settime(core) {
 }
 
 function drawattackbutton(core) {
-	
+	console.log('test');
 	if (core.information.turn == core.information.player && checkboardturns(core) && core.information.turnType == 'TURN' && core.information.attacked != 1) {
 		
 		ctx.save();
+		ctx.shadowBlur = 5;
+		ctx.shadowColor = 'black';
 		
 		// set global opacity if they haven't selected any attackers
 		if (!checkforattackers(core)) {
 			ctx.globalAlpha = .5;
-		} else if (core.information.xoffset >= 46 && core.information.xoffset <= 55.5 && core.information.yoffset >= 19 && core.information.yoffset <= 31.5) {
-			ctx.shadowColor = '#AA3939';
-			var counter = (core.information.time % 1 * 100) * (Math.PI / 100);
-			ctx.shadowBlur = (Math.sin(counter) / 2 + .5) * 20;
+		} else if (core.information.xoffset >= 44.8 && core.information.xoffset <= 55 && core.information.yoffset >= 23 && core.information.yoffset <= 41.15) {
+			ctx.shadowBlur = 20;
+			ctx.shadowColor = 'white';
 		}
 		
-		utils.drawImage(ctx, core.sprites.icons.rengar, core.information.pwidth * 46, core.information.pheight * 19, core.information.pwidth * 9.5, core.information.pheight * 12.5);
+		ctx.save();
+		utils.drawImage(ctx, core.sprites.icons.attackicon, core.information.pwidth * 44.8, core.information.pheight * 23, core.information.pwidth * 10.2, core.information.pheight * 18.15);
+		ctx.restore();
 		
 		ctx.fillStyle = 'white';
 		ctx.font = core.information.pwidth * 4 + "px comicFont";
@@ -4391,8 +4472,12 @@ function animationselector(core, animation, index) {
 		destroytoweranimation(core, animation, index);
 	} else if (animation.type == 'towerattack') {
 		towerattackanimation(core, animation, index);
+	} else if (animation.type == 'attackhover') {
+		attackhover(core, animation, index);
+	} else if (animation.type =='attacking') {
+		attackflamesanimation(core, animation, index);
 	}
-	
+
 }
 
 function addanimation(core, type, top, left, var1 = 'none', var2 = 'none', var3 = 'none') {
@@ -4487,6 +4572,39 @@ function turnanimation(core, animation, index) {
 	ctx.restore();
 
 	if (time >= animation.animationlength) {
+		core.animation[index].complete = 1;
+	}
+
+}
+
+function attackhover(core, animation, index) {
+
+	// current animation time
+	var time = core.information.time - animation.starttime;
+	animation.animationlength = .25;
+
+	if (time > .25) {
+		time = .25;
+	}
+
+	ctx.save();
+
+	var radius = .3 + (time * 16);
+
+	ctx.shadowBlur = 5; 
+	ctx.shadowColor = 'black';
+	ctx.lineWidth = 2;
+	ctx.beginPath();
+	ctx.arc(core.information.pwidth * 50, core.information.pheight * 27, core.information.pwidth * radius, 0, 2 * Math.PI);
+	ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
+	ctx.fill();
+	ctx.strokeStyle = 'rgba(94, 141, 113, 0.9)';
+	ctx.shadowColor = '#993939';
+	ctx.stroke();
+
+	ctx.restore();
+
+	if (!(core.information.xoffset >= 46.5 && core.information.xoffset <= 55.5 && core.information.yoffset >= 23 && core.information.yoffset <= 35.5) || core.information.turn != core.information.player) {
 		core.animation[index].complete = 1;
 	}
 
@@ -4693,6 +4811,23 @@ function goldincomeanimation(core, animation, index) {
 	ctx.restore();
 
 	if (time >= animation.animationlength) {
+		core.animation[index].complete = 1;
+	}
+
+}
+
+function attackflamesanimation(core, animation, index) {
+
+	var time = core.information.time - animation.starttime;
+	animation.animationlength = .8;
+
+	if (time >= animation.animationlength) {
+		animation.starttime = core.information.time;
+	}
+	
+	flamessprite(core, animation, time);
+
+	if (animation.var1.attacking != 1) {
 		core.animation[index].complete = 1;
 	}
 
@@ -5065,8 +5200,17 @@ function action_attack(core, action, index) {
 	
 	for (var i = 0; i <= 4; i++) {
 		if (action['var' + (i + 1)] != '' && typeof(action['var' + (i + 1)]) != 'undefined') {
-			core.board['s' + action['var' + (i + 1)]].attacking = 1;
-			core.information.attackers.push(action['var' + (i + 1)]);
+			var position = action['var' + (i + 1)];
+			core.board['s' + position].attacking = 1;
+			core.information.attackers.push(position);
+
+			if (position >= 6 && position <= 10) {
+				var json = getboardposition(core, position);
+				addanimation(core, 'attacking', json.top + -6, json.left + 12.2, var1 = core.board['s' + position], var2 = '', var3 = '');
+			} else {
+				var json = getboardposition(core, position);
+				addanimation(core, 'attacking', json.top + -6, json.left - 6, var1 = core.board['s' + position], var2 = '', var3 = '');
+			}
 		}
 	}
 	
@@ -5241,6 +5385,21 @@ function healsprite(core, animation, time) {
 
 	// ctx.drawimage(image, clipx, clipy, clipwidth, clipheight, xcoord, ycoord, width, height);
 	ctx.drawImage(core.sprites.sprites.greenheal, clipx, clipy, 192, 192, core.information.pwidth * animation.left, core.information.pheight * animation.top, core.information.pwidth * 15, core.information.pheight * 25);
+}
+
+function flamessprite(core, animation, time) {
+
+	var frame = getframe(time, animation.animationlength, 32);
+
+	if (frame == 32) {
+		frame -= 1;
+	}
+
+	var clipx = getclipx(64, 8, frame);
+	var clipy = getclipy(128, 8, frame);
+	
+	// ctx.drawimage(image, clipx, clipy, clipwidth, clipheight, xcoord, ycoord, width, height);
+	ctx.drawImage(core.sprites.sprites.flames, clipx, clipy, 64, 128, core.information.pwidth * animation.left, core.information.pheight * animation.top, core.information.pwidth * 6.5, core.information.pheight * 15.5);
 }
 
 function towershotsprite(core, animation, time) {
@@ -5938,7 +6097,8 @@ function cardeffects(core, name, player) {
 
 }
 $("#proceed").click(function(){
-    $('#WelcomeContainer').slideUp();
+    document.getElementById('WelcomeContainer').style.display = 'none';
+    //$('#WelcomeContainer').slideUp();
 });
 
 var tutorial_current = 0;

@@ -148,8 +148,17 @@ function action_attack(core, action, index) {
 	
 	for (var i = 0; i <= 4; i++) {
 		if (action['var' + (i + 1)] != '' && typeof(action['var' + (i + 1)]) != 'undefined') {
-			core.board['s' + action['var' + (i + 1)]].attacking = 1;
-			core.information.attackers.push(action['var' + (i + 1)]);
+			var position = action['var' + (i + 1)];
+			core.board['s' + position].attacking = 1;
+			core.information.attackers.push(position);
+
+			if (position >= 6 && position <= 10) {
+				var json = getboardposition(core, position);
+				addanimation(core, 'attacking', json.top + -6, json.left + 12.2, var1 = core.board['s' + position], var2 = '', var3 = '');
+			} else {
+				var json = getboardposition(core, position);
+				addanimation(core, 'attacking', json.top + -6, json.left - 6, var1 = core.board['s' + position], var2 = '', var3 = '');
+			}
 		}
 	}
 	

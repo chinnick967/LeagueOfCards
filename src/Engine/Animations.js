@@ -42,8 +42,12 @@ function animationselector(core, animation, index) {
 		destroytoweranimation(core, animation, index);
 	} else if (animation.type == 'towerattack') {
 		towerattackanimation(core, animation, index);
+	} else if (animation.type == 'attackhover') {
+		attackhover(core, animation, index);
+	} else if (animation.type =='attacking') {
+		attackflamesanimation(core, animation, index);
 	}
-	
+
 }
 
 function addanimation(core, type, top, left, var1 = 'none', var2 = 'none', var3 = 'none') {
@@ -138,6 +142,39 @@ function turnanimation(core, animation, index) {
 	ctx.restore();
 
 	if (time >= animation.animationlength) {
+		core.animation[index].complete = 1;
+	}
+
+}
+
+function attackhover(core, animation, index) {
+
+	// current animation time
+	var time = core.information.time - animation.starttime;
+	animation.animationlength = .25;
+
+	if (time > .25) {
+		time = .25;
+	}
+
+	ctx.save();
+
+	var radius = .3 + (time * 16);
+
+	ctx.shadowBlur = 5; 
+	ctx.shadowColor = 'black';
+	ctx.lineWidth = 2;
+	ctx.beginPath();
+	ctx.arc(core.information.pwidth * 50, core.information.pheight * 27, core.information.pwidth * radius, 0, 2 * Math.PI);
+	ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
+	ctx.fill();
+	ctx.strokeStyle = 'rgba(94, 141, 113, 0.9)';
+	ctx.shadowColor = '#993939';
+	ctx.stroke();
+
+	ctx.restore();
+
+	if (!(core.information.xoffset >= 46.5 && core.information.xoffset <= 55.5 && core.information.yoffset >= 23 && core.information.yoffset <= 35.5) || core.information.turn != core.information.player) {
 		core.animation[index].complete = 1;
 	}
 
@@ -344,6 +381,23 @@ function goldincomeanimation(core, animation, index) {
 	ctx.restore();
 
 	if (time >= animation.animationlength) {
+		core.animation[index].complete = 1;
+	}
+
+}
+
+function attackflamesanimation(core, animation, index) {
+
+	var time = core.information.time - animation.starttime;
+	animation.animationlength = .8;
+
+	if (time >= animation.animationlength) {
+		animation.starttime = core.information.time;
+	}
+	
+	flamessprite(core, animation, time);
+
+	if (animation.var1.attacking != 1) {
 		core.animation[index].complete = 1;
 	}
 

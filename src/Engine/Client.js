@@ -1,5 +1,6 @@
 $("#proceed").click(function(){
-    $('#WelcomeContainer').slideUp();
+    document.getElementById('WelcomeContainer').style.display = 'none';
+    //$('#WelcomeContainer').slideUp();
 });
 
 var tutorial_current = 0;

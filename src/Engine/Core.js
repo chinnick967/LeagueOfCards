@@ -48,7 +48,7 @@ function drawcard(core, card, width, left, top, rotation, hover) {
 		ctx.translate(-core.information.pwidth * (left + width/2), -core.information.pheight * (top + height/2));
 		
 		// attacking effect
-		if (card.attacking == 1) {
+		/*if (card.attacking == 1) {
 			ctx.shadowColor = '#9668B3';
 			//ctx.shadowBlur = (parseInt(core.information.time) % 2) * 2 + 15;
 			var counter = (core.information.time % 1 * 140) * (Math.PI / 100);
@@ -58,11 +58,13 @@ function drawcard(core, card, width, left, top, rotation, hover) {
 			ctx.fillRect(core.information.pwidth * (left + .6), core.information.pheight * (top + .6), core.information.pwidth * (width - 1.2), core.information.pheight * (height - 1.2));
 			ctx.fillRect(core.information.pwidth * (left + .6), core.information.pheight * (top + .6), core.information.pwidth * (width - 1.2), core.information.pheight * (height - 1.2));
 			ctx.fillRect(core.information.pwidth * (left + .6), core.information.pheight * (top + .6), core.information.pwidth * (width - 1.2), core.information.pheight * (height - 1.2));
-		}
+		}*/
 		
-		// rectangle for box shadow on rotated cards due to Google Chrome bug
-		ctx.fillRect(core.information.pwidth * (left + .6), core.information.pheight * (top + .6), core.information.pwidth * (width - 1.2), core.information.pheight * (height - 1.2));
-		ctx.fillRect(core.information.pwidth * (left + .6), core.information.pheight * (top + .6), core.information.pwidth * (width - 1.2), core.information.pheight * (height - 1.2));
+		if (core.information.dragcard == '' || typeof(core.information.dragcard) == 'undefined') {
+			// rectangle for box shadow on rotated cards due to Google Chrome bug
+			ctx.fillRect(core.information.pwidth * (left + .6), core.information.pheight * (top + .6), core.information.pwidth * (width - 1.2), core.information.pheight * (height - 1.2));
+			ctx.fillRect(core.information.pwidth * (left + .6), core.information.pheight * (top + .6), core.information.pwidth * (width - 1.2), core.information.pheight * (height - 1.2));
+		}
 		
 		// draw the card
 		utils.drawImage(ctx, asset, core.information.pwidth * left, core.information.pheight * top, core.information.pwidth * width, core.information.pheight * height);
@@ -519,7 +521,7 @@ function dragcard(core) {
 	if (core.information.dragcard != '' && typeof(core.information.dragcard) != 'undefined') {
 	
 		ctx.save();
-		ctx.globalAlpha = 0.5;
+		ctx.globalAlpha = 0.7;
 		drawcard(core, core.information.dragcard, 8, core.information.xoffset - 4, core.information.yoffset - (8 * 2.66 / 2), 0, 0);
 		ctx.restore();
 		
@@ -542,7 +544,7 @@ function playcard(core, card, player, slot) {
 	slot = slot || core.information.currentslothover;
 
 	// need to add check for gold
-	if (player == 1 && slot >= 6 && slot <= 10 && card.type != 'Spell' && core.player1.gold >= cost && core.information.player == core.information.turn) {
+	if (player == 1 && slot >= 6 && slot <= 10 && card.type != 'Spell' && core.player1.gold >= cost && core.information.player == core.information.turn && core.information.turnType != 'DEFEND') {
 	
 		// remove card from hand
 		if (!summon) {
@@ -596,7 +598,7 @@ function playcard(core, card, player, slot) {
 		// check for summon effects
 		setTimeout(function(){ checkeffects(core, 'summon'); }, 600);
 	
-	} else if (player == 1 && slot >= 1 && slot <= 5 && card.type == 'Spell' && core.player1.gold >= cost && core.information.player == core.information.turn) {
+	} else if (player == 1 && slot >= 1 && slot <= 5 && card.type == 'Spell' && core.player1.gold >= cost && core.information.player == core.information.turn && core.information.turnType != 'DEFEND') {
 	
 		// remove card from hand
 		if (!summon) {
@@ -649,7 +651,7 @@ function playcard(core, card, player, slot) {
 		setTimeout(function(){ checkeffects(core, 'summon'); }, 600);
 	
 	
-	} else if (player == 2 && slot >= 16 && slot <= 20 && card.type != 'Spell' && core.player2.gold >= cost && core.information.player == core.information.turn) {
+	} else if (player == 2 && slot >= 16 && slot <= 20 && card.type != 'Spell' && core.player2.gold >= cost && core.information.player == core.information.turn && core.information.turnType != 'DEFEND') {
 	
 		// remove card from hand
 		if (!summon) {
@@ -702,7 +704,7 @@ function playcard(core, card, player, slot) {
 		// check for summon effects
 		setTimeout(function(){ checkeffects(core, 'summon'); }, 600);
 	
-	} else if (player == 2 && slot >= 11 && slot <= 15 && card.type == 'Spell' && core.player2.gold >= cost && core.information.player == core.information.turn) {
+	} else if (player == 2 && slot >= 11 && slot <= 15 && card.type == 'Spell' && core.player2.gold >= cost && core.information.player == core.information.turn && core.information.turnType != 'DEFEND') {
 	
 		// remove card from hand
 		if (!summon) {
@@ -1314,31 +1316,41 @@ function setattacker(core) {
 	if (core.information.player == 1 && core.information.turn == 1) {
 		
 		if (core.information.currentslothover == 6 && core.board.s6.turns >= 1 && core.board.s6.attacking != 1) {		
-			core.board.s6.attacking = 1;		
+			core.board.s6.attacking = 1;
+			var json = getboardposition(core, 6);
+			addanimation(core, 'attacking', json.top + -6, json.left + 12.2, var1 = core.board.s6, var2 = '', var3 = '');		
 		} else if (core.information.currentslothover == 6 && core.board.s6.turns >= 1 && core.board.s6.attacking == 1) {
 			core.board.s6.attacking = 0;
 		}
 		
 		if (core.information.currentslothover == 7 && core.board.s7.turns >= 1 && core.board.s7.attacking != 1) {		
-			core.board.s7.attacking = 1;				
+			core.board.s7.attacking = 1;
+			var json = getboardposition(core, 7);
+			addanimation(core, 'attacking', json.top + -6, json.left + 12.2, var1 = core.board.s7, var2 = '', var3 = '');					
 		} else if (core.information.currentslothover == 7 && core.board.s7.turns >= 1 && core.board.s7.attacking == 1) {
 			core.board.s7.attacking = 0;
 		}
 		
 		if (core.information.currentslothover == 8 && core.board.s8.turns >= 1 && core.board.s8.attacking != 1) {		
-			core.board.s8.attacking = 1;			
+			core.board.s8.attacking = 1;
+			var json = getboardposition(core, 8);
+			addanimation(core, 'attacking', json.top + -6, json.left + 12.2, var1 = core.board.s8, var2 = '', var3 = '');				
 		} else if (core.information.currentslothover == 8 && core.board.s8.turns >= 1 && core.board.s8.attacking == 1) {
 			core.board.s8.attacking = 0;
 		}
 		
 		if (core.information.currentslothover == 9 && core.board.s9.turns >= 1 && core.board.s9.attacking != 1) {		
-			core.board.s9.attacking = 1;			
+			core.board.s9.attacking = 1;	
+			var json = getboardposition(core, 9);
+			addanimation(core, 'attacking', json.top + -6, json.left + 12.2, var1 = core.board.s9, var2 = '', var3 = '');			
 		} else if (core.information.currentslothover == 9 && core.board.s9.turns >= 1 && core.board.s9.attacking == 1) {
 			core.board.s9.attacking = 0;
 		}
 		
 		if (core.information.currentslothover == 10 && core.board.s10.turns >= 1 && core.board.s10.attacking != 1) {		
-			core.board.s10.attacking = 1;			
+			core.board.s10.attacking = 1;	
+			var json = getboardposition(core, 10);
+			addanimation(core, 'attacking', json.top + -6, json.left + 12.2, var1 = core.board.s10, var2 = '', var3 = '');			
 		} else if (core.information.currentslothover == 10 && core.board.s10.turns >= 1 && core.board.s10.attacking == 1) {
 			core.board.s10.attacking = 0;
 		}
@@ -1348,31 +1360,41 @@ function setattacker(core) {
 	if (core.information.player == 2 && core.information.turn == 2) {
 		
 		if (core.information.currentslothover == 16 && core.board.s16.turns >= 1 && core.board.s16.attacking != 1) {		
-			core.board.s16.attacking = 1;			
+			core.board.s16.attacking = 1;	
+			var json = getboardposition(core, 16);
+			addanimation(core, 'attacking', json.top + -6, json.left - 6, var1 = core.board.s16, var2 = '', var3 = '');		
 		} else if (core.information.currentslothover == 16 && core.board.s16.turns >= 1 && core.board.s16.attacking == 1) {
 			core.board.s16.attacking = 0;
 		}
 		
 		if (core.information.currentslothover == 17 && core.board.s17.turns >= 1 && core.board.s17.attacking != 1) {		
-			core.board.s17.attacking = 1;			
+			core.board.s17.attacking = 1;	
+			var json = getboardposition(core, 17);
+			addanimation(core, 'attacking', json.top + -6, json.left - 6, var1 = core.board.s17, var2 = '', var3 = '');		
 		} else if (core.information.currentslothover == 17 && core.board.s17.turns >= 1 && core.board.s17.attacking == 1) {
 			core.board.s17.attacking = 0;
 		}
 		
 		if (core.information.currentslothover == 18 && core.board.s18.turns >= 1 && core.board.s18.attacking != 1) {		
-			core.board.s18.attacking = 1;			
+			core.board.s18.attacking = 1;
+			var json = getboardposition(core, 18);
+			addanimation(core, 'attacking', json.top + -6, json.left - 6, var1 = core.board.s18, var2 = '', var3 = '');			
 		} else if (core.information.currentslothover == 18 && core.board.s18.turns >= 1 && core.board.s18.attacking == 1) {
 			core.board.s18.attacking = 0;
 		}
 		
 		if (core.information.currentslothover == 19 && core.board.s19.turns >= 1 && core.board.s19.attacking != 1) {		
-			core.board.s19.attacking = 1;			
+			core.board.s19.attacking = 1;	
+			var json = getboardposition(core, 19);
+			addanimation(core, 'attacking', json.top + -6, json.left - 6, var1 = core.board.s19, var2 = '', var3 = '');		
 		} else if (core.information.currentslothover == 19 && core.board.s19.turns >= 1 && core.board.s19.attacking == 1) {
 			core.board.s19.attacking = 0;
 		}
 		
 		if (core.information.currentslothover == 20 && core.board.s20.turns >= 1 && core.board.s20.attacking != 1) {		
-			core.board.s20.attacking = 1;			
+			core.board.s20.attacking = 1;	
+			var json = getboardposition(core, 20);
+			addanimation(core, 'attacking', json.top + -6, json.left - 6, var1 = core.board.s20, var2 = '', var3 = '');		
 		} else if (core.information.currentslothover == 20 && core.board.s20.turns >= 1 && core.board.s20.attacking == 1) {
 			core.board.s20.attacking = 0;
 		}
@@ -1576,7 +1598,7 @@ function checkforattackers(core) {
 
 function declareattack(core) {
 	
-	if (core.information.xoffset >= 46 && core.information.xoffset <= 55.5 && core.information.yoffset >= 19 && core.information.yoffset <= 31.5 && checkforattackers(core)) {
+	if (core.information.xoffset >= 44.8 && core.information.xoffset <= 55 && core.information.yoffset >= 23 && core.information.yoffset <= 41.15 && checkforattackers(core)) {
 		
 		var attackers = addattackers(core);
 		

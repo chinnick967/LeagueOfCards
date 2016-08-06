@@ -11,13 +11,12 @@ function drawComponents(core) {
 	drawButtons(core);
 	drawboard(core);
 	drawnames(core);
-	drawattackbutton(core);
 	drawinfolabels(core);
 	choosecursor(core);
 	// test
 	settime(core);
-	drawcardstats(core);
 	drawshields(core);
+	drawattackbutton(core);
 	
 }
 
@@ -94,6 +93,8 @@ function drawCardSlots(core) {
 
 function drawSlot(core, boardslot, top, left, color) {
 
+	ctx.save();
+
         if (typeof(boardslot) == 'undefined' || boardslot == '') {
 	
 			ctx.shadowColor = 'black';
@@ -115,6 +116,50 @@ function drawSlot(core, boardslot, top, left, color) {
 		core.information.currentslothover = core.information.currentdrawnslot;
 		
 	}
+
+	if (core.information.currentdrawnslot >= 6 && core.information.currentdrawnslot <= 10 && core.information.player == 1) {
+		ctx.globalAlpha = .2;
+		// translate to the center of the card
+		ctx.translate(core.information.pwidth * (left + 12), core.information.pheight * (top + -1.5));
+		// rotate the canvas for the card
+		ctx.rotate(90 * Math.PI/180);
+		// translate back
+		ctx.translate(-core.information.pwidth * (left + 12), -core.information.pheight * (top + -1.5));
+
+		utils.drawImage(ctx, core.sprites.icons.creatures2, core.information.pwidth * (left + 12), core.information.pheight * (top + -1.5), core.information.pwidth * 10, core.information.pheight * 20);
+	} else if (core.information.currentdrawnslot >= 16 && core.information.currentdrawnslot <= 20 && core.information.player == 2) {
+		ctx.globalAlpha = .2;
+		// translate to the center of the card
+		ctx.translate(core.information.pwidth * (left + 1), core.information.pheight * (top + 16.2));
+		// rotate the canvas for the card
+		ctx.rotate(-90 * Math.PI/180);
+		// translate back
+		ctx.translate(-core.information.pwidth * (left + 1), -core.information.pheight * (top + 16.2));
+
+		utils.drawImage(ctx, core.sprites.icons.creatures2, core.information.pwidth * (left + 1), core.information.pheight * (top + 16.2), core.information.pwidth * 10, core.information.pheight * 20);
+	} else if (core.information.currentdrawnslot >= 1 && core.information.currentdrawnslot <= 5 && core.information.player == 1) {
+		ctx.globalAlpha = .2;
+		// translate to the center of the card
+		ctx.translate(core.information.pwidth * (left + 12), core.information.pheight * (top + -1.5));
+		// rotate the canvas for the card
+		ctx.rotate(90 * Math.PI/180);
+		// translate back
+		ctx.translate(-core.information.pwidth * (left + 12), -core.information.pheight * (top + -1.5));
+
+		utils.drawImage(ctx, core.sprites.icons.spells, core.information.pwidth * (left + 13), core.information.pheight * (top + 1), core.information.pwidth * 8, core.information.pheight * 12);
+	} else if (core.information.currentdrawnslot >= 11 && core.information.currentdrawnslot <= 15 && core.information.player == 2) {
+		ctx.globalAlpha = .2;
+		// translate to the center of the card
+		ctx.translate(core.information.pwidth * (left + 1), core.information.pheight * (top + 16.2));
+		// rotate the canvas for the card
+		ctx.rotate(-90 * Math.PI/180);
+		// translate back
+		ctx.translate(-core.information.pwidth * (left + 1), -core.information.pheight * (top + 16.2));
+
+		utils.drawImage(ctx, core.sprites.icons.spells, core.information.pwidth * (left + 2), core.information.pheight * (top + 18.5), core.information.pwidth * 8, core.information.pheight * 12);
+	}
+
+	ctx.restore();
 	
 }
 
@@ -279,7 +324,10 @@ function drawButtons(core) {
 	ctx.fillText("End Turn", core.information.pwidth * 80.8, core.information.pheight * 96.8);
 
 	if (core.information.xoffset >= 67 && core.information.xoffset <= 77 && core.information.yoffset >= 92.5 && core.information.yoffset <= 98.5 && core.information.focus == 'board') {
-		ctx.globalAlpha = 0.7;
+		if (core.events.clicked) {
+			EndGame.fireEndGame(core, core.information.player);
+			ctx.globalAlpha = 0.7;
+		}
 	} else {
 		ctx.shadowBlur = 5;
 		ctx.shadowColor = 'black';
@@ -672,21 +720,24 @@ function settime(core) {
 }
 
 function drawattackbutton(core) {
-	
+	console.log('test');
 	if (core.information.turn == core.information.player && checkboardturns(core) && core.information.turnType == 'TURN' && core.information.attacked != 1) {
 		
 		ctx.save();
+		ctx.shadowBlur = 5;
+		ctx.shadowColor = 'black';
 		
 		// set global opacity if they haven't selected any attackers
 		if (!checkforattackers(core)) {
 			ctx.globalAlpha = .5;
-		} else if (core.information.xoffset >= 46 && core.information.xoffset <= 55.5 && core.information.yoffset >= 19 && core.information.yoffset <= 31.5) {
-			ctx.shadowColor = '#AA3939';
-			var counter = (core.information.time % 1 * 100) * (Math.PI / 100);
-			ctx.shadowBlur = (Math.sin(counter) / 2 + .5) * 20;
+		} else if (core.information.xoffset >= 44.8 && core.information.xoffset <= 55 && core.information.yoffset >= 23 && core.information.yoffset <= 41.15) {
+			ctx.shadowBlur = 20;
+			ctx.shadowColor = 'white';
 		}
 		
-		utils.drawImage(ctx, core.sprites.icons.rengar, core.information.pwidth * 46, core.information.pheight * 19, core.information.pwidth * 9.5, core.information.pheight * 12.5);
+		ctx.save();
+		utils.drawImage(ctx, core.sprites.icons.attackicon, core.information.pwidth * 44.8, core.information.pheight * 23, core.information.pwidth * 10.2, core.information.pheight * 18.15);
+		ctx.restore();
 		
 		ctx.fillStyle = 'white';
 		ctx.font = core.information.pwidth * 4 + "px comicFont";
