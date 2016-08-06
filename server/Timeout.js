@@ -1,29 +1,34 @@
-/**
- * Created by theshoffscouch on 7/24/16.
- */
+'use strict';
+const uuid = require('node-uuid');
+
 module.exports = Timeout;
 
 function Timeout (callback, duration) {
-	this.callback = callback;
+	var callcount = 0;
+	this.uuid = uuid.v4();
+	this.callback = function () {
+		callback()
+	};
 	this.duration = duration;
-
+	// this.callcount = 0;
 	this.timeout = null;
 	this.startTime = null;
 	this.stopTime = null;
+	this.timeleft = null;
 	this.started = false;
 	this.paused = false;
 	this.finished = false;
-};
+	this.cleared = false;
+	this.totalDuration = 0;
+
+}
 
 Object.assign(Timeout.prototype, {
 	start() {
 		var self = this;
 		if(!this.started) {
 			this.startTime = Date.now();
-			this.timeout = setTimeout(function () {
-				self.finished = true;
-				self.callback();
-			}, this.duration || 0);
+			this.timeout = setTimeout(() => execute.call(this), this.duration || 0);
 		}
 		return this;
 	},
@@ -31,29 +36,28 @@ Object.assign(Timeout.prototype, {
 		if(this.started) {
 			this.paused = true;
 			this.stopTime = Date.now();
+			this.totalDuration += this.stopTime - this.startTime;
 			this.clear ();
 		}
 		return this;
 	},
 	continue () {
-		if(this.paused) {
+		if(this.paused && this.totalDuration < this.duration) {
 			this.paused = false;
-			var duration = (this.stopTime - this.startTime) - this.duration;
-			this.timeout = setTimeout(function () {
-				self.finished = true;
-				self.callback();
-			}, duration);
+			var timeLeft = this.duration - this.totalDuration;
+			this.timeout = setTimeout(() => execute.call(this), timeLeft);
 		}
 		return this;
 	},
 	clear () {
 		clearInterval(this.timeout);
+		this.cleared = true;
 		return this;
 	},
 	flush () {
-		this.clear();
-		this.finished = true;
-		this.callback();
+		clearInterval(this.timeout);
+		execute.call(this);
+		this.cleared = true;
 		return this;
 	},
 	call () {
@@ -63,3 +67,10 @@ Object.assign(Timeout.prototype, {
 		return this;
 	}
 });
+
+function execute () {
+	if(!this.finished && !this.cleared) {
+		this.finished = true;
+		this.callback();
+	}
+}

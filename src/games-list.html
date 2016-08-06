@@ -3,21 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style>
+        body {
+            background-color: #efefef;
+        }
+
+        .list-container {
+            background-color: #fafafa;
+            border: 1px solid #bbb;
+            padding: 10px;
+        }
+
+        .list-item {
+            cursor: pointer;
+            border: 1px solid #ccc;
+        }
+
+        .list-item .item-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px;
+        }
+
+        .list-item.untouched .item-header {
+            background-color: hsla(39,77%,83%,0.3);
+        }
+
+        .list-item .item-content {
+            display: none;
+            padding: 20px;
+        }
+
+        .list-item.open .item-header {
+            border-bottom: 1px solid #ccc;
+        }
+
+        .list-item.open .item-content {
+            display: block;
+        }
+    </style>
 </head>
-<body>
-<h3>User count: <span id="user"></span></h3>
-<pre></pre>
+<body ng-app="app">
+<app></app>
+
 <script src="/socket.io/socket.io.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment.min.js"></script>
+
 <script>
     (function () {
-        var pre = document.querySelector('pre');
-        var user = document.querySelector('#user');
-        var socket = io('/games');
-        socket.on('games:list', function (data) {
-            pre.innerText = JSON.stringify(data.games, null, 2);
-            user.innterText = data.players
-        });
-    })();
+        angular
+                .module ('app', [])
+                .component ('app', {
+                    bindings: {},
+                    template: `
+                        <div class="list-container">
+                            <div>
+                                <button type="button" ng-click="$ctrl.socket.emit('fire-error')">Force Error</button>
+                            </div>
+                            <div ng-repeat="err in $ctrl.errorList track by $index" class="list-item" ng-class="{open: err.visible, untouched: !err.touched}">
+                                <div ng-click="err.visible = !err.visible; err.touched = true;" class="item-header">
+                                    <span style="width: 20px;">{{ ::($index + 1) }}</span>
+                                    <b style="width: 100%">{{ ::err.message }}</b>
+                                    <span style="width: 180px; text-align:center;">{{ ::err.time }}</span>
+                                </div>
+                                <div class="item-content">
+                                    <pre>{{ ::err.stack }}</pre>
+                                </div>
+                            </div>
+                        </div>
+                    `,
+                    controller: function ($scope) {
+                        var vm = this;
+                        vm.errorList = [];
+                        vm.$onInit = init;
+
+                        function init() {
+                            vm.socket = io ('/errors');
+
+                            vm.socket.on ('errors', addError);
+                        }
+
+                        function addError(err) {
+                            $scope.$evalAsync ();
+                            var time = new Date (err.time);
+                            vm.errorList.unshift ({
+                                message: err.message,
+                                stack: err.stack,
+                                visible: false,
+                                touched: false
+                            })
+                        }
+                    }
+                })
+    } ());
+
 </script>
 </body>
 </html>

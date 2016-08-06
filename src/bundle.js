@@ -3374,7 +3374,7 @@ function drawButtons(core) {
 
 	if (core.information.xoffset >= 79 && core.information.xoffset <= 89 && core.information.yoffset >= 92.5 && core.information.yoffset <= 98.5 && core.information.focus == 'board') {
 		if (core.information.turnType != 'MULLIGAN' && core.events.clicked) {
-			socket.emit('game:turn:switch');
+			socket.emit('game:turn:end');
 		}
 		ctx.globalAlpha = 0.7;
 	} else {
