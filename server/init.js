@@ -1,14 +1,12 @@
 const db = require('./config/db');
 const socketConfig = require('./socket');
-const global = require('./global');
 const path = require('path');
-// const log = require('chalk');
 
 module.exports = function (server) {
 	Promise
 		.all([loadCards()])
 		.then(function (res) {
-			global.cards = res[0];
+			global.CARD_LIST = res[0];
 			socketConfig(server);
 		});
 };
