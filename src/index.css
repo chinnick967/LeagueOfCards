@@ -763,6 +763,9 @@ body.loading {
 .btn.btn-blue {
   background-color: rgba(48, 219, 219, 0.5); }
 
+.btn.btn-green {
+  background-color: rgba(48, 219, 80, 0.5); }
+
 #QueueContainer, #GameContainer, #EndGameContainer {
   box-sizing: border-box; }
 
@@ -790,12 +793,20 @@ body.loading {
     justify-content: center; }
     #EndGameContainer .status img.victory, #EndGameContainer .status img.defeat {
       margin: auto;
-      display: none;
-      max-width: 100%; }
+      display: none; }
   #EndGameContainer.victory .status img.victory {
-    display: block; }
+    display: block;
+    width: 700px;
+    height: 600px;
+    position: absolute;
+    left: -40px;
+    top: 10px; }
   #EndGameContainer.defeat .status img.defeat {
-    display: block; }
+    display: block;
+    left: 130px;
+    position: absolute;
+    left: 40px;
+    top: 0px; }
   #EndGameContainer .content {
     padding: 20px; }
     #EndGameContainer .content .stats-content {
@@ -809,7 +820,7 @@ body.loading {
   position: relative; }
   .coming-soon::after {
     position: absolute;
-    height: 100%;
+    height: 75%;
     width: 100%;
     text-align: center;
     vertical-align: middle;
@@ -818,6 +829,11 @@ body.loading {
     justify-content: center;
     font-size: 5em;
     opacity: .5;
-    content: 'Coming Soon'; }
+    content: 'Coming Soon';
+    color: rgba(48, 219, 80, 0.5); }
+
+.stats-head {
+  font-size: 40px;
+  color: rgba(48, 219, 80, 0.5); }
 
 /* SASS */
