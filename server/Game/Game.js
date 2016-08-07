@@ -143,8 +143,8 @@ function generateGameFoundResponse(isPlayer1, player, game) {
 		enemyPlayer: isPlayer1 ? 2 : 1,
 		cards: CARD_LIST,
 		startTime: game.stats.startTime,
-		player1Id: game.player1,
-		player2Id: game.player2,
+		player1Id: game.players[game.player1].username,
+		player2Id: game.players[game.player2].username,
 		playerId: player.uuid,
 		turn: {
 			player: game.turn.currentTurn,

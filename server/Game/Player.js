@@ -10,6 +10,7 @@ function Player (socket) {
 	this.socket = socket;
 	this.game = null;
 	this.eventList = {};
+	this.username = 'GUEST';
 	
 	// TODO: Add ability for player to input custom name. 
 	socket.on('queue:join', this.handleQueueJoin.bind(this));
@@ -66,8 +67,11 @@ function removeGame () {
 	}
 }
 
-function handleQueueJoin () {
+function handleQueueJoin (data) {
 	// TODO: Add user count
+	if(typeof data.username === 'string') {
+		this.username = data.username;
+	}
 	queueList.add(this);
 }
 
