@@ -15,7 +15,6 @@ function drawComponents(core) {
 	choosecursor(core);
 	// test
 	settime(core);
-	drawshields(core);
 	drawattackbutton(core);
 	
 }
@@ -126,7 +125,7 @@ function drawSlot(core, boardslot, top, left, color) {
 		// translate back
 		ctx.translate(-core.information.pwidth * (left + 12), -core.information.pheight * (top + -1.5));
 
-		utils.drawImage(ctx, core.sprites.icons.creatures2, core.information.pwidth * (left + 12), core.information.pheight * (top + -1.5), core.information.pwidth * 10, core.information.pheight * 20);
+		utils.drawImage(ctx, core.sprites.icons.creatures_white, core.information.pwidth * (left + 12), core.information.pheight * (top + -1.5), core.information.pwidth * 10, core.information.pheight * 20);
 	} else if (core.information.currentdrawnslot >= 16 && core.information.currentdrawnslot <= 20 && core.information.player == 2) {
 		ctx.globalAlpha = .2;
 		// translate to the center of the card
@@ -136,7 +135,7 @@ function drawSlot(core, boardslot, top, left, color) {
 		// translate back
 		ctx.translate(-core.information.pwidth * (left + 1), -core.information.pheight * (top + 16.2));
 
-		utils.drawImage(ctx, core.sprites.icons.creatures2, core.information.pwidth * (left + 1), core.information.pheight * (top + 16.2), core.information.pwidth * 10, core.information.pheight * 20);
+		utils.drawImage(ctx, core.sprites.icons.creatures_white, core.information.pwidth * (left + 1), core.information.pheight * (top + 16.2), core.information.pwidth * 10, core.information.pheight * 20);
 	} else if (core.information.currentdrawnslot >= 1 && core.information.currentdrawnslot <= 5 && core.information.player == 1) {
 		ctx.globalAlpha = .2;
 		// translate to the center of the card
@@ -720,7 +719,7 @@ function settime(core) {
 }
 
 function drawattackbutton(core) {
-	console.log('test');
+	
 	if (core.information.turn == core.information.player && checkboardturns(core) && core.information.turnType == 'TURN' && core.information.attacked != 1) {
 		
 		ctx.save();
@@ -842,7 +841,7 @@ function drawinfolabels(core) {
 function choosecursor(core) {
 
 	if (core.mechanics.target == -1) {
-		document.getElementById('GameCanvas').style.cursor = "url('Assets/targetcursor.png') 64 64, auto";
+		document.getElementById('GameCanvas').style.cursor = "url('Assets/Icons/targetcursor.png') 64 64, auto";
 	} else {
 		document.getElementById('GameCanvas').style.cursor = "url('Assets/cursor.png'), auto";
 	}

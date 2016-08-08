@@ -165,6 +165,7 @@ var assets = {
         "shielding": "Assets/Icons/shielding.png",
         "soundimg": "Assets/Icons/soundimg.png",
         "spells": "Assets/Icons/spells.png",
+        "targetcursor": "Assets/Icons/targetcursor.png",
         "threecards": "Assets/Icons/threecards.png",
         "tower": "Assets/Icons/tower.png",
         "true": "Assets/Icons/true.png",
@@ -564,6 +565,7 @@ function redraw(core) {
 
 		// draw card stats after animations due to animation overlapping
 		drawcardstats(core);
+		drawshields(core);
 
 		// draws the hand outside the components because the previewcard function has to draw after animations or the coins sit on top of it
 		drawhand(core);
@@ -1081,7 +1083,7 @@ function mulligancard(core) {
 	if (core.information.focus == 'hand' && core.information.mousedown == 1 && core.information.mulliganed != 1 && core.information.mulligans > 0 && selection != '') {
 			core.information.mulliganed = 1;
 			core.information.mulligans--;
-			if (core.information.player == 1) {
+			if (core.information.player == 0) {
 				core.player1.deck[core.player1.length] = core.player1.hand[core.information.currenthandselection];
 				shuffledeck(core.player1.deck);
 			} else if (core.information.player == 2) {
@@ -1089,7 +1091,7 @@ function mulligancard(core) {
 				shuffledeck(core.player2.deck);
 			}
 			removecardfromhand(core)
-			addcardtohand(core, 1);
+			addcardtohand(core, 1, 1);
 	}
 
 	if (core.information.mousedown == 0) {
@@ -2646,7 +2648,11 @@ function damagecard(core, card, damage) {
 	
 	// damage card animation
 	getboardposition(core, card.boardposition);
-	addanimation(core, 'cardhealth', core.information.topposition - 5, core.information.leftposition, var1 = -1 * Math.max(0, damage), var2 = 'left', var3 = '');
+	if (card.boardposition >= 16 && core.boardposition <= 20) {
+		addanimation(core, 'cardhealth', core.information.topposition - 5, core.information.leftposition, var1 = -1 * Math.max(0, damage), var2 = 'left', var3 = '');
+	} else {
+		addanimation(core, 'cardhealth', core.information.topposition - 5, core.information.leftposition + 10, var1 = -1 * Math.max(0, damage), var2 = 'right', var3 = '');
+	}
 }
 
 function checkfordestroyedcard(core) {
@@ -2748,21 +2754,24 @@ function developerspecificcard(core, name) {
 	}
 }
 
-function addcardtohand(core, number) {
-
+function addcardtohand(core, number, increasehandlength) {
+	
+	increasehandlength = increasehandlength || 0;
+	console.log(increasehandlength);
 	for (var i = 0; i < number; i++) {
 
 		if (core.information.player == 1) {
 			if (gethandlength(core) < 7) {
 				for (var j = 0; j < 7; j++) {
 					if (core.player1.hand[j] == '' || typeof(core.player1.hand[j]) == 'undefined') {
-						core.player1.handlength += 1;
-						//var deckcard = core.player1.deck[core.player1.deck.length - 1];
-						var deckcard = developerspecificcard(core, 'Loaded Dice');
+						if (increasehandlength == 0) {
+							core.player1.handlength += 1;
+						}
+						var deckcard = core.player1.deck[core.player1.deck.length - 1];
+						//var deckcard = developerspecificcard(core, 'Loaded Dice');
 						core.player1.hand[j] = deckcard;
 						core.player1.deck.pop();
 						j = 7;
-						console.log(core.player1.deck.length);
 					}
 				}
 
@@ -2773,7 +2782,9 @@ function addcardtohand(core, number) {
 			if (gethandlength(core) < 7) {
 				for (var j = 0; j < 7; j++) {
 					if (core.player2.hand[j] == '' || typeof(core.player2.hand[j]) == 'undefined') {
-						core.player2.handlength += 1;
+						if (increasehandlength == 0) {
+							core.player2.handlength += 1;
+						}
 						var deckcard = core.player2.deck[core.player2.deck.length - 1];
 						core.player2.hand[j] = deckcard;
 						core.player2.deck.pop();
@@ -3170,7 +3181,6 @@ function drawComponents(core) {
 	choosecursor(core);
 	// test
 	settime(core);
-	drawshields(core);
 	drawattackbutton(core);
 	
 }
@@ -3281,7 +3291,7 @@ function drawSlot(core, boardslot, top, left, color) {
 		// translate back
 		ctx.translate(-core.information.pwidth * (left + 12), -core.information.pheight * (top + -1.5));
 
-		utils.drawImage(ctx, core.sprites.icons.creatures2, core.information.pwidth * (left + 12), core.information.pheight * (top + -1.5), core.information.pwidth * 10, core.information.pheight * 20);
+		utils.drawImage(ctx, core.sprites.icons.creatures_white, core.information.pwidth * (left + 12), core.information.pheight * (top + -1.5), core.information.pwidth * 10, core.information.pheight * 20);
 	} else if (core.information.currentdrawnslot >= 16 && core.information.currentdrawnslot <= 20 && core.information.player == 2) {
 		ctx.globalAlpha = .2;
 		// translate to the center of the card
@@ -3291,7 +3301,7 @@ function drawSlot(core, boardslot, top, left, color) {
 		// translate back
 		ctx.translate(-core.information.pwidth * (left + 1), -core.information.pheight * (top + 16.2));
 
-		utils.drawImage(ctx, core.sprites.icons.creatures2, core.information.pwidth * (left + 1), core.information.pheight * (top + 16.2), core.information.pwidth * 10, core.information.pheight * 20);
+		utils.drawImage(ctx, core.sprites.icons.creatures_white, core.information.pwidth * (left + 1), core.information.pheight * (top + 16.2), core.information.pwidth * 10, core.information.pheight * 20);
 	} else if (core.information.currentdrawnslot >= 1 && core.information.currentdrawnslot <= 5 && core.information.player == 1) {
 		ctx.globalAlpha = .2;
 		// translate to the center of the card
@@ -3875,7 +3885,7 @@ function settime(core) {
 }
 
 function drawattackbutton(core) {
-	console.log('test');
+	
 	if (core.information.turn == core.information.player && checkboardturns(core) && core.information.turnType == 'TURN' && core.information.attacked != 1) {
 		
 		ctx.save();
@@ -3997,7 +4007,7 @@ function drawinfolabels(core) {
 function choosecursor(core) {
 
 	if (core.mechanics.target == -1) {
-		document.getElementById('GameCanvas').style.cursor = "url('Assets/targetcursor.png') 64 64, auto";
+		document.getElementById('GameCanvas').style.cursor = "url('Assets/Icons/targetcursor.png') 64 64, auto";
 	} else {
 		document.getElementById('GameCanvas').style.cursor = "url('Assets/cursor.png'), auto";
 	}
@@ -4176,7 +4186,7 @@ function getdeck(core) {
 	core.player2.deck = [];
 	var counter = 0;
 
-	var availablecards = [0, 7, 25, 9, 30, 6, 21, 37, 35, 36, 38, 16, 5, 24, 13, 28, 29, 11, 49, 44, 17, 3];
+	var availablecards = [0, 7, 25, 9, 30, 6, 21, 37, 35, 36, 38, 16, 5, 24, 13, 28, 29, 11, 49, 44, 17, 3, 47, 48, 49];
 
 	for (var i = 0; i < 40; i++) {
 
@@ -4280,8 +4290,8 @@ function boardprep(core) {
 
 function setgold(core) {
 
-	core.player1.gold = 10;
-	core.player2.gold = 10;
+	core.player1.gold = 1;
+	core.player2.gold = 1;
 	
 	core.player1.goldincome = 1;
 	core.player2.goldincome = 1;
@@ -4377,7 +4387,9 @@ var GameQueue = (function () {
 	function joinQueue() {
 		inQueue = true;
 		$playButton.text ('Cancel');
-		socket.emit ('queue:join');
+		socket.emit ('queue:join', {
+			username: loginInfo.username
+		});
 		timer = GameTimer (onTimerChange);
 		timer.start ();
 		$timer
@@ -5001,19 +5013,19 @@ function cardflipanimation(core, animation, index) {
 		ctx.save();
 		ctx.translate(1000, 0);
 		ctx.scale(-1, 1);
-		utils.drawImage(ctx, card.back, core.information.pwidth * 42.5, core.information.pheight * 25, core.information.pwidth * 15, core.information.pheight * 15 * 2.66);
+		utils.drawImage(ctx, card.back, core.information.pwidth * 42.5, core.information.pheight * 23.57, core.information.pwidth * 15, core.information.pheight * 15 * 2.66);
 		ctx.restore();
 	} else if (time >= 1 && time < 2) {
 
 		// flip animation
 		var image = degree >= 90 ? frontCard: backCard;
-		ctx.save();
-		cardfliprender(image, degree, core.information.pwidth * 30.5, core.information.pheight * 23.57, .355, 0);
+		ctx.save(); // .355
+		cardfliprender(image, degree, core.information.pwidth * 30.4, core.information.pheight * 23.57, .3545, 0);
 		ctx.restore();
 
 	} else if (time >= 2 && time <= 4) {
 		// draw card front
-		drawcard(core, animation.var1, 15, 42.5, 25, 0, 0);
+		drawcard(core, animation.var1, 15, 42.5, 23.57, 0, 0);
 	}
 
 	if (time >= animation.animationlength) {
@@ -6094,7 +6106,7 @@ function cardeffects(core, name, player) {
         effect.player = player;
         effect.activate = function() {
             var card = jQuery.extend(true, {}, searchassets(core, 'Eggnivia'));
-            core.effects.playcreature(core, effect, effect.player, card);
+            core.effects.playcreature(core, effect, effect.player, card, effect.card.position);
             effect.activated = 1;
         }
     } else {
@@ -6151,5 +6163,56 @@ $.get("http://ipinfo.io", function(response) {
     if (response.country != 'US') {
         document.getElementById('vegas').style.display = 'block';
     }
-}, "jsonp");}());
+}, "jsonp");
+
+// check if user is logged in
+$( document ).ready(function() {
+    if (!loginInfo.username) {
+        window.location = "http://lol.cards/LeagueOfCards/create-account/";
+    } else {
+        document.getElementById('username').innerHTML = "";
+        $("#username").append("Welcome, " + loginInfo.username);
+    }
+});
+
+function message(text) {
+    document.getElementById('text').innerHTML = '';
+    $('#text').append(text);
+
+    document.getElementById('cover').style.display = 'block';
+    $('#message').slideDown();
+}
+
+function closemessage() {
+    document.getElementById('message').style.display = 'none';
+    document.getElementById('cover').style.display = 'none';
+}
+
+$('#exit').click(function(){
+    closemessage();
+});
+
+$('#packstab').click(function(){
+    message('This feature is not quite available. It will be phased in later in the beta.');
+});
+
+$('#decktab').click(function(){
+    message('This feature is not quite available. It will be phased in later in the beta.');
+});
+
+$('#tradetab').click(function(){
+    message('This feature is not quite available. It will be phased in later in the beta.');
+});
+
+$('#getdaily').click(function(){
+    message('This feature is not quite available. It will be phased in later in the beta.');
+});
+
+$('#getip').click(function(){
+    message('This feature is not quite available. It will be phased in later in the beta.');
+});
+
+$('#closebutton').click(function(){
+    location.reload();
+});}());
 //# sourceMappingURL=bundle.js.map

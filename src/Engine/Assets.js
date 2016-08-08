@@ -161,6 +161,7 @@ var assets = {
         "shielding": "Assets/Icons/shielding.png",
         "soundimg": "Assets/Icons/soundimg.png",
         "spells": "Assets/Icons/spells.png",
+        "targetcursor": "Assets/Icons/targetcursor.png",
         "threecards": "Assets/Icons/threecards.png",
         "tower": "Assets/Icons/tower.png",
         "true": "Assets/Icons/true.png",

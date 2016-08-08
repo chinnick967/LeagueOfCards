@@ -563,19 +563,19 @@ function cardflipanimation(core, animation, index) {
 		ctx.save();
 		ctx.translate(1000, 0);
 		ctx.scale(-1, 1);
-		utils.drawImage(ctx, card.back, core.information.pwidth * 42.5, core.information.pheight * 25, core.information.pwidth * 15, core.information.pheight * 15 * 2.66);
+		utils.drawImage(ctx, card.back, core.information.pwidth * 42.5, core.information.pheight * 23.57, core.information.pwidth * 15, core.information.pheight * 15 * 2.66);
 		ctx.restore();
 	} else if (time >= 1 && time < 2) {
 
 		// flip animation
 		var image = degree >= 90 ? frontCard: backCard;
-		ctx.save();
-		cardfliprender(image, degree, core.information.pwidth * 30.5, core.information.pheight * 23.57, .355, 0);
+		ctx.save(); // .355
+		cardfliprender(image, degree, core.information.pwidth * 30.4, core.information.pheight * 23.57, .3545, 0);
 		ctx.restore();
 
 	} else if (time >= 2 && time <= 4) {
 		// draw card front
-		drawcard(core, animation.var1, 15, 42.5, 25, 0, 0);
+		drawcard(core, animation.var1, 15, 42.5, 23.57, 0, 0);
 	}
 
 	if (time >= animation.animationlength) {

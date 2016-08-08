@@ -124,6 +124,7 @@ function redraw(core) {
 
 		// draw card stats after animations due to animation overlapping
 		drawcardstats(core);
+		drawshields(core);
 
 		// draws the hand outside the components because the previewcard function has to draw after animations or the coins sit on top of it
 		drawhand(core);

@@ -487,7 +487,7 @@ function mulligancard(core) {
 	if (core.information.focus == 'hand' && core.information.mousedown == 1 && core.information.mulliganed != 1 && core.information.mulligans > 0 && selection != '') {
 			core.information.mulliganed = 1;
 			core.information.mulligans--;
-			if (core.information.player == 1) {
+			if (core.information.player == 0) {
 				core.player1.deck[core.player1.length] = core.player1.hand[core.information.currenthandselection];
 				shuffledeck(core.player1.deck);
 			} else if (core.information.player == 2) {
@@ -495,7 +495,7 @@ function mulligancard(core) {
 				shuffledeck(core.player2.deck);
 			}
 			removecardfromhand(core)
-			addcardtohand(core, 1);
+			addcardtohand(core, 1, 1);
 	}
 
 	if (core.information.mousedown == 0) {
@@ -2052,7 +2052,11 @@ function damagecard(core, card, damage) {
 	
 	// damage card animation
 	getboardposition(core, card.boardposition);
-	addanimation(core, 'cardhealth', core.information.topposition - 5, core.information.leftposition, var1 = -1 * Math.max(0, damage), var2 = 'left', var3 = '');
+	if (card.boardposition >= 16 && core.boardposition <= 20) {
+		addanimation(core, 'cardhealth', core.information.topposition - 5, core.information.leftposition, var1 = -1 * Math.max(0, damage), var2 = 'left', var3 = '');
+	} else {
+		addanimation(core, 'cardhealth', core.information.topposition - 5, core.information.leftposition + 10, var1 = -1 * Math.max(0, damage), var2 = 'right', var3 = '');
+	}
 }
 
 function checkfordestroyedcard(core) {
@@ -2154,21 +2158,24 @@ function developerspecificcard(core, name) {
 	}
 }
 
-function addcardtohand(core, number) {
-
+function addcardtohand(core, number, increasehandlength) {
+	
+	increasehandlength = increasehandlength || 0;
+	console.log(increasehandlength);
 	for (var i = 0; i < number; i++) {
 
 		if (core.information.player == 1) {
 			if (gethandlength(core) < 7) {
 				for (var j = 0; j < 7; j++) {
 					if (core.player1.hand[j] == '' || typeof(core.player1.hand[j]) == 'undefined') {
-						core.player1.handlength += 1;
-						//var deckcard = core.player1.deck[core.player1.deck.length - 1];
-						var deckcard = developerspecificcard(core, 'Loaded Dice');
+						if (increasehandlength == 0) {
+							core.player1.handlength += 1;
+						}
+						var deckcard = core.player1.deck[core.player1.deck.length - 1];
+						//var deckcard = developerspecificcard(core, 'Loaded Dice');
 						core.player1.hand[j] = deckcard;
 						core.player1.deck.pop();
 						j = 7;
-						console.log(core.player1.deck.length);
 					}
 				}
 
@@ -2179,7 +2186,9 @@ function addcardtohand(core, number) {
 			if (gethandlength(core) < 7) {
 				for (var j = 0; j < 7; j++) {
 					if (core.player2.hand[j] == '' || typeof(core.player2.hand[j]) == 'undefined') {
-						core.player2.handlength += 1;
+						if (increasehandlength == 0) {
+							core.player2.handlength += 1;
+						}
 						var deckcard = core.player2.deck[core.player2.deck.length - 1];
 						core.player2.hand[j] = deckcard;
 						core.player2.deck.pop();

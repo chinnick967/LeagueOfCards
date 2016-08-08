@@ -60,7 +60,7 @@ var GameQueue = (function () {
 		inQueue = true;
 		$playButton.text ('Cancel');
 		socket.emit ('queue:join', {
-			username: 'FOO BAR'
+			username: loginInfo.username
 		});
 		timer = GameTimer (onTimerChange);
 		timer.start ();

@@ -192,7 +192,7 @@ function cardeffects(core, name, player) {
         effect.player = player;
         effect.activate = function() {
             var card = jQuery.extend(true, {}, searchassets(core, 'Eggnivia'));
-            core.effects.playcreature(core, effect, effect.player, card);
+            core.effects.playcreature(core, effect, effect.player, card, effect.card.position);
             effect.activated = 1;
         }
     } else {

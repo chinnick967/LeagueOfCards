@@ -147,7 +147,7 @@ body {
   top: 0px;
   width: 200px;
   height: 45px;
-  right: 550px;
+  right: 520px;
 }
 
 #leveltext {
@@ -158,7 +158,7 @@ body {
   height: 30px;
   line-height: 30px;
   text-align: center;
-  font-size: 18px;
+  font-size: 22px;
   color: $primaryColor;
   text-shadow: 0 -1px 0 black;
 }
@@ -182,9 +182,9 @@ body {
   height: 10px;
   left: 0px;
   background-color: $primaryColor;
-  -webkit-box-shadow: inset 0px 0px 1px 0px rgba(255,255,255,1);
--moz-box-shadow: inset 0px 0px 1px 0px rgba(255,255,255,1);
-box-shadow: inset 0px 0px 1px 0px rgba(255,255,255,1);
+  -webkit-box-shadow: inset 0px 0px 1px 0px black;
+-moz-box-shadow: inset 0px 0px 1px 0px black;
+box-shadow: inset 0px 0px 1px 0px black;
 }
 
 #influencepoints {
@@ -203,10 +203,11 @@ box-shadow: inset 0px 0px 1px 0px rgba(255,255,255,1);
 
 #ippointstext {
   position: absolute;
-  top: 12px;
+  top: 13px;
   left: 30px;
   color: $primaryColor;
   text-shadow: 0 -1px 0 black;
+  font-family: myFont;
 }
 
 #playbutton {
@@ -352,7 +353,7 @@ box-shadow: inset 0px 0px 1px 0px rgba(255,255,255,1);
   margin-left: auto;
   margin-right: auto;
   top: 150px;
-  z-index: 100;
+  z-index: 90;
   -webkit-box-shadow: 0px 0px 13px 0px rgba(0, 0, 0, 0.75);
   -moz-box-shadow: 0px 0px 13px 0px rgba(0, 0, 0, 0.75);
   box-shadow: 0px 0px 13px 0px rgba(0, 0, 0, 0.75);
@@ -383,6 +384,76 @@ box-shadow: inset 0px 0px 1px 0px rgba(255,255,255,1);
     box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
   }
 
+  #message {
+    position: absolute;
+    top: 100px;
+    left: 0px;
+    right: 0px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 400px;
+    height: 140px;
+    background-color: $backgroundColor;
+    border-radius: 15px;
+    z-index: 100;
+    -webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+    display: none;
+  }
+
+  #messagetitle {
+    position: absolute;
+    top: 10px;
+    width: 100%;
+    text-align: center;
+    color: white;
+    font-family: myFont;
+    font-size: 20px;
+  }
+
+  #text {
+    position: absolute;
+    top: 50px;
+    left: 0px;
+    right: 0px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 350px;
+    height: 80px;
+    text-align: center;
+    color: $primaryColor;
+    font-size: 18px;
+    text-shadow: 1px 0px black;
+  }
+
+  #exit {
+    position: absolute;
+    right: 10px;
+    height: 30px;
+    width: 20px;
+    font-size: 20px;
+    color: $primaryColor;
+    z-index: 101;
+  }
+
+  #exit:hover {
+    color: white;
+    cursor: pointer;
+  }
+
+  #cover {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    opacity: .6;
+    z-index: 99;
+    display: none;
+  }
+
 /* CHAT BOX CSS */
 
 .chat-box {
@@ -398,7 +469,7 @@ box-shadow: inset 0px 0px 1px 0px rgba(255,255,255,1);
     height: 250px;
     overflow-x: hidden;
     overflow-y: scroll;
-    background-color: rgba(0, 0, 0, 0.3);
+    background-color: rgba(0, 0, 0, 0.6);
     padding: 10px;
     max-width: 100%;
     &::-webkit-scrollbar {
